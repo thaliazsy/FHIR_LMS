@@ -1,0 +1,65 @@
+<html>
+	<head>
+		 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		 <title>醫學數位內容  - 報名網頁</title>
+		 <script src="js/sha256.js"></script>
+		 <script src="js/setting.js"></script>
+		 <link href="css/style.css" rel="stylesheet" type="text/css" media="screen" />
+	</head>
+<body>
+	<div class="center">
+		<h1 align="center">報名網頁</h1>
+		<form id="form1">
+			<table align="center" style="border: solid 2px gray;" >	
+				<tr><td>姓名 <font color="red"> *</font></td><td>:&nbsp;<input type="text" id="pName"><br></td></tr>
+				<tr><td>Email <font color="red"> *</font></td><td>:&nbsp;<input type="email" id="pEmail"><br></td></tr>
+				<tr><td>密碼 <font color="red"> *</font></td><td>:&nbsp;<input type="password" id="pPassword" onkeyup="SHA256PWD.value = sha256(this.value);"></td></tr>
+				<tr><td colspan="2" align="right"><input type="button" value="Submit" onclick="getData()"></td></tr>
+			</table>
+			<input type="hidden" id="SHA256PWD">
+		</form>
+	</div>
+	<script>
+		let userID, encPassword, organizationID= "Organization/2160798", scheduleID="Schedule/2160814", practitionerRoleID="PractitionerRole/2160800", practitionerName= "testPractitioner3";
+		
+		function checkUsername(ret){ 
+			globalName= document.getElementById('pName').value;
+			encPassword= document.getElementById('SHA256PWD').value;
+			//check FHIR Person & Patient exist or not 
+			if (ret.total > 0){			//if person exist
+				globalPatientID= ret.entry[0].resource.link[0].target.reference;
+				alert('該帳號已註冊過!');
+			}
+			else createPatient();
+		}
+		
+		function createPatient(){
+			initialize();
+			patientJSONobj.name[0].text= globalName;
+			patientJSONobj.managingOrganization.reference= organizationID;
+			patientJSONobj = JSON.stringify(patientJSONobj);
+			HTTPPostData(FHIRserver + "/Patient", patientJSONobj, "postPatient");
+		}
+		
+		function createPerson(patID){
+			globalPatientID= patID;
+			personJSONobj.identifier[0].value= userID;
+			personJSONobj.identifier[1].value= encPassword;
+			personJSONobj.name[0].text= globalName;
+			personJSONobj.telecom[0].value= userID;
+			personJSONobj.link[0].target.reference= globalPatientID;
+			personJSONobj.link[0].target.display= globalName;
+			personJSONobj = JSON.stringify(personJSONobj);
+			HTTPPostData(FHIRserver + "/Person", personJSONobj, "postPerson");
+		}
+		
+		function getData(){
+			if(checkRequiredField(3)){
+				userID= document.getElementById('pEmail').value;
+				let urlStr= FHIRserver + 'Person?identifier=UserID|' + userID;
+				HTTPGetData(urlStr, "CheckPersonUserID");
+			}
+		}
+	</script>
+</body>
+</html>
