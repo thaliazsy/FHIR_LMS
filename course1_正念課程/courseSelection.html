@@ -1,0 +1,67 @@
+<html>
+<head>
+	 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	 <title>FHIR Course Management - Course Selection</title>
+	 <script src="js/setting.js"></script>
+	 <link href="css/style.css" rel="stylesheet" type="text/css" media="screen" /> 
+</head>
+<body>
+	<!-- header -->
+	<header class="site-header">
+		<div class="clear"></div>
+			<div class="inner-wrap">
+
+				<div class="navbar-brand-wpz">
+					<a href="http://demo.wpzoom.com/foodica" title="Food Recipes Theme for WordPress">
+						<font size="10">FHIR Course Management</font>
+					</a>
+					
+				</div><!-- .navbar-brand -->
+			</div>
+		
+		<div id="mysticky-wrap" style="margin-bottom: 40px;">
+			<div id="mysticky-nav" style="top: -60px;" class="">
+				<nav class="main-navbar" role="navigation" style="">
+					<div class="inner-wrap">
+						<div id="navbar-main">
+							<div class="menu-main-container">
+								<ul id="menu-main-1" class="navbar-wpz dropdown sf-menu sf-js-enabled sf-arrows">
+									<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-106"><a onclick="linkToMyCourse()">Course List</a></li>
+									<li class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-has-children menu-item-207">
+										<a href="">Course Selection</a>
+									</li>
+								</ul>
+							</div>
+						</div><!-- #navbar-main -->
+					</div><!-- ./inner-wrap -->
+				</nav>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</header>	
+	<!-- end header -->
+	<button class="topright1" onclick="clearHistory()">Logout</button>
+	<div id="intro"></div>
+	<table id="TableCourseSelection" border="1" style="margin: 10px"></table><br>
+	
+	<script>
+		queryParam();
+		for (var i=0;i<arrOrganization2ID.length;i++){ 
+			iOrganization2++;
+			let urlStr= FHIRserver + "PractitionerRole?organization=reference|Organization/" + arrOrganization2ID[i];							
+			HTTPGetData(urlStr, "PractitionerRole2");
+		}
+		
+		function linkToMyCourse(){
+			var queryParam= 'patientID=' + globalPatientID + '&name=' +  globalName + '&personID=' +  globalPersonID;
+			window.open('index.html?' + queryParam);
+		}
+		
+		function clearHistory(){			//not Functioning
+			 var backlen = history.length;
+			 history.go(-backlen);
+			 window.location.href = "loginPerson.html";
+		}
+	</script>
+</body>
+</html>
