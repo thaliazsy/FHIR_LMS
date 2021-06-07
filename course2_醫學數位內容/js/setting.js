@@ -1,5 +1,5 @@
 //Declare variable
-let FHIRserver= 'http://hapi.fhir.org/baseR4/';
+let FHIRserver= 'http://203.64.84.213:8080/fhir/';
 //'http://hapi.fhir.org/baseR4/';
 //'http://203.64.84.213:8080/fhir/';
 let globalPatientID, globalName, globalPersonID;
@@ -90,7 +90,7 @@ function checkRequiredField(reqFieldNum){
 			var emailFormat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 			if (Total_Obj[k].value != ""){
 				if(emailFormat.test(Total_Obj[k].value)) count++;
-				else alert("Email invalid");
+				else alert("Email 格式錯誤");
 			}
 		}
 	}
@@ -141,7 +141,7 @@ function getFHIRMyCourse(jsonOBJ, type){	//我的課程
 		HTTPGetData(urlStr, "Appointment");	
 	}
 	else if (type=="Appointment"){
-		if (jsonOBJ.total == 0)	alert('data unexist');
+		if (jsonOBJ.total == 0)	alert('無資料');
 		else{
 			for (var i=0;i<((jsonOBJ.total>10)?10:jsonOBJ.total);i++){ 
 				arrTempSlot[iAppointment] = jsonOBJ.entry[i].resource.slot[0].reference;			//slotID
@@ -203,36 +203,10 @@ function getFHIRMyCourse(jsonOBJ, type){	//我的課程
 	}
 }
 
-function createTable(){
-	var table= document.getElementById("TableAppointment");
-	var cellIndex;
-	var row, noIndex=1, videoName;
-	
-	for (var index0=0;index0<=iOrganization;index0++){			//check total organization
-		table.innerHTML+= '<tr><th bgcolor="#ebebe0" colspan="2">My Course List</th></tr>';
-		for (var index1=0;index1<iSchedule;index1++){			//divide per schedule (per mata pelajaran)
-			document.getElementById("intro").innerHTML+= '<br>教授: ' + arrSchedule[index1][1] + '<br>課程期間: ' + arrSchedule[index1][2] + ' 至 ' + arrSchedule[index1][3];
-			table.innerHTML+= '<tr><th>No.</th><th>教材</th></tr>';
-			var totSlot= arrSchedule[index1][5];
-			var indexNo=1;
-			for (var index2=0;index2<totSlot;index2+=5){		//per Slot
-				row = table.insertRow(-1);
-				row.align="center";
-				row.insertCell(0).innerHTML= indexNo++ + ".";
-				elLink = document.createElement('a');
-				elLink.target= "_blank";
-				elLink.innerHTML = tableValue[index0][index1][index2][2];
-				elLink.href = tableValue[index0][index1][index2][3];
-				row.insertCell(1).appendChild(elLink);
-			}
-		}
-	}
-}
-
 function getFHIRSelectCourse(jsonOBJ, type){	//選課
 	if (type=="getAppointment"){
 		if (jsonOBJ.total == 0){
-			let urlStr= FHIRserver + "Slot?schedule=reference|" + scheduleID;
+			let urlStr= FHIRserver + "Slot?schedule=reference|" + course1.scheduleID;
 			HTTPGetData(urlStr, "getSlotOfSchedule");
 		}
 		else{
@@ -250,9 +224,9 @@ function getFHIRSelectCourse(jsonOBJ, type){	//選課
 	}
 	else if (type=="getSlotOfAppointment"){
 		var temp= jsonOBJ.schedule.reference;
-		if (temp == scheduleID)	globalScheduleExist=1;
+		if (temp == course1.scheduleID)	globalScheduleExist=1;
 		if(globalScheduleExist==0){
-			let urlStr= FHIRserver + "Slot?schedule=reference|" + scheduleID;
+			let urlStr= FHIRserver + "Slot?schedule=reference|" + course1.scheduleID;
 			HTTPGetData(urlStr, "getSlotOfSchedule");
 		}
 	}
@@ -265,8 +239,8 @@ function getFHIRSelectCourse(jsonOBJ, type){	//選課
 					appointmentJSONobj.slot[0].reference= "Slot/" + jsonOBJ.entry[i].resource.id;	//slot ID
 					appointmentJSONobj.participant[0].actor.reference= globalPatientID;				//patient ID
 					appointmentJSONobj.participant[0].actor.display= globalName;					//patient name
-					appointmentJSONobj.participant[1].actor.reference= practitionerRoleID;			//PractitionerRole ID
-					appointmentJSONobj.participant[1].actor.display= practitionerName;				//PractitionerRole name
+					appointmentJSONobj.participant[1].actor.reference= course1.practitionerRoleID;			//PractitionerRole ID
+					appointmentJSONobj.participant[1].actor.display= course1.practitionerName;				//PractitionerRole name
 					appointmentJSONobj = JSON.stringify(appointmentJSONobj);
 					HTTPPostData(FHIRserver + "/Appointment", appointmentJSONobj, jsonOBJ.entry[i].resource);
 					slotExist=1;

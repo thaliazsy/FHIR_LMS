@@ -1,5 +1,6 @@
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
+			<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 			<title>醫學數位內容 - 學習平台登入網頁</title>
 			<script src="js/sha256.js"></script>
 			<script src="js/setting.js"></script>
@@ -10,12 +11,12 @@
 		<h1 align="center">醫學數位內容<br>學習平台登入網頁</h1>
 		<form id="form1">
 			<table align="center" style="border: solid 2px gray;" >	
-				<tr><td>帳號 <font color="red"> *</font></td><td>:&nbsp;<input type="text" id="pUserID"><br></td></tr>
+				<tr><td>帳號 (Email) <font color="red"> *</font></td><td>:&nbsp;<input type="text" id="pUserID"><br></td></tr>
 				<tr><td>密碼 <font color="red"> *</font></td><td>:&nbsp;<input type="password" id="pPassword" onkeyup="SHA256PWD.value = sha256(this.value);"></td></tr>
 				<tr><td colspan="2" align="right"><input type="button" value="Submit" onclick="getData()"></td></tr>
 			</table>
 			<p align="center">
-				<a href="createPerson.html" target="_blank">Create new account</a>    &nbsp;
+				<a href="createPerson.html" target="_blank">報名請點我</a>    &nbsp;
 				<!-- &nbsp;<a align="center" style="" onclick="alert('無法登入或忘記密碼請聯絡慈大醫資龍昱璇學姊，\n電話：0965006102\n郵件：108316107@gms.tcu.edu.tw')">Forgot Password?</a> -->
 			</p>
 			<input type="hidden" id="SHA256PWD">
@@ -42,7 +43,7 @@
 			if(res.total==1 && encPassword!=retPassword)	alert('Wrong password!');		
 			else if(res.total==1 && encPassword==retPassword){
 				var queryParam= 'patientID=' + globalPatientID + '&name=' +  retName + '&personID=' +  retPersonID;
-				window.open('index.html?' + queryParam, "_blank");
+				window.open('index.html?' + queryParam,"_self");
 			}
 		}
 		
