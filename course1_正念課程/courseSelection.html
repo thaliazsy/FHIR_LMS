@@ -1,7 +1,7 @@
 <html>
 <head>
 	 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	 <title>FHIR Course Management - Course Selection</title>
+	 <title>正念課程 - 選課</title>
 	 <script src="js/setting.js"></script>
 	 <link href="css/style.css" rel="stylesheet" type="text/css" media="screen" /> 
 </head>
@@ -13,7 +13,7 @@
 
 				<div class="navbar-brand-wpz">
 					<a href="http://demo.wpzoom.com/foodica" title="Food Recipes Theme for WordPress">
-						<font size="10">FHIR Course Management</font>
+						<font size="10">正念課程 - 選課</font>
 					</a>
 					
 				</div><!-- .navbar-brand -->
@@ -43,9 +43,28 @@
 	<button class="topright1" onclick="clearHistory()">Logout</button>
 	<div id="intro"></div>
 	<table id="TableCourseSelection" border="1" style="margin: 10px"></table><br>
-	
+	<!-- <textarea id="TextArea1" name="S1"></textarea></p> -->
+  
 	<script>
 		queryParam();
+		var str = sessionStorage.getItem('selectedSchedule');
+		//alert(str);
+		if(str!=""){
+			var str1 = str.split("&");
+			for (var i = 0; i < str1.length; i++) {
+				if(str1[i]!="") arrTempSchedule.push(str1[i]);															 
+			}
+		}
+		
+		var str = sessionStorage.getItem('selectedOrganization');
+		//alert(str);
+		if(str!=""){
+			var str1 = str.split("&");
+			for (var i = 0; i < str1.length; i++) {
+				if(str1[i]!="") arrOrganizationID.push(str1[i]);															 
+			}
+		}
+		
 		for (var i=0;i<arrOrganization2ID.length;i++){ 
 			iOrganization2++;
 			let urlStr= FHIRserver + "PractitionerRole?organization=reference|Organization/" + arrOrganization2ID[i];							
@@ -53,14 +72,46 @@
 		}
 		
 		function linkToMyCourse(){
-			var queryParam= 'patientID=' + globalPatientID + '&name=' +  globalName + '&personID=' +  globalPersonID;
-			window.open('index.html?' + queryParam);
+			var queryParam= 'patientID=' + globalPatientID + '&name=' +  encodeURIComponent(globalName) + '&personID=' +  globalPersonID;
+			window.open('index.html?' + queryParam, "_self");
 		}
 		
 		function clearHistory(){			//not Functioning
 			 var backlen = history.length;
 			 history.go(-backlen);
 			 window.location.href = "loginPerson.html";
+		}
+		
+		function createTable2(){
+			var table= document.getElementById("TableCourseSelection");
+			var cellIndex;
+			var row, noIndex=1, txt;
+			for (var index0=0;index0<=iOrganization2;index0++){		//check total organization
+				table.innerHTML+= '<tr><th bgcolor="#ebebe0" colspan="5">Organization Name: ' + arrOrganization2Name[index0] + '</th></tr>';
+				table.innerHTML+= '<tr><th>No.</th><th>Course Name</th><th>Teacher</th><th>Period</th><th>Select</th></tr>';
+				noIndex=1;
+				for (var index1=0;index1<iSchedule2[index0];index1++){		//divide per schedule (per mata pelajaran)
+					//txt= '<tr><td>' + noIndex + '</td><td>' + tableValue2[index0][index1][0] + '</td><td>' + tableValue2[index0][index1][1] + '</td><td>' + tableValue2[index0][index1][2] + ' 至 ' + tableValue2[index0][index1][3] + '</td>';
+					row = table.insertRow(-1);
+					row.insertCell(0).innerHTML= noIndex;
+					row.insertCell(1).innerHTML= tableValue2[index0][index1][1];
+					row.insertCell(2).innerHTML= tableValue2[index0][index1][2];
+					row.insertCell(3).innerHTML= tableValue2[index0][index1][3] + ' 至 ' + tableValue2[index0][index1][4];
+					var x = row.insertCell(4);
+					if (tableValue2[index0][index1][5] == null){
+						x.style.color= "red";
+						x.innerHTML = "額滿";
+					}
+					else if (arrTempSchedule.includes(arrScheduleID[index0][index1])){
+						x.style.color= "red";
+						x.innerHTML = "已選過";
+					}
+					else{	
+						x.innerHTML= '<button value="' + index0 + '&' + index1 + '" onclick="checkOrganization(this)">選課</button>';
+					}
+					noIndex++;
+				}
+			}
 		}
 	</script>
 </body>
