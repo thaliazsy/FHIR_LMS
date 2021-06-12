@@ -331,7 +331,7 @@ function HTTPPutData(urlStr, dataStr) {
         if (HttpObj.readyState === 4) {
             ret = HttpObj.responseText;
 			//alert(ret);
-			alert("註冊成功，需等1～2分鐘才可以登入唷！");
+			alert("註冊成功，需等1-2分鐘才可以登入唷！");
 			//document.getElementById("btnSubmit").disabled = false;
 			window.close();
         }

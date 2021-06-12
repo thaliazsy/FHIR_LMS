@@ -35,11 +35,14 @@
 				var retPersonID= res.entry[0].resource.id;
 				var retPassword= res.entry[0].resource.identifier[1].value;
 				var retName= res.entry[0].resource.name[0].text;
-				//CHECK patient ID res.total
-				globalPatientID= res.entry[0].resource.link[0].target.reference;	//patient ID
+				//check json hasOwnProperty [patient] 
+				if(res.entry[0].resource.hasOwnProperty('link'))
+					globalPatientID= res.entry[0].resource.link[0].target.reference;	//patient ID
+				else
+					globalPatientID='-1';
 			}
 			
-			if(res.total==1 && encPassword!=retPassword)	alert('Wrong password!');		
+			if(res.total==1 && encPassword!=retPassword)	alert('密碼錯誤!');		
 			else if(res.total==1 && encPassword==retPassword){
 				var queryParam= 'patientID=' + globalPatientID + '&name=' + encodeURIComponent(retName) + '&personID=' +  retPersonID;
 				window.open('index.html?' + queryParam,"_self");
