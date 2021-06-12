@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>The input disabled attribute</h1>
+
+<form action="/action_page.php">
+  <label for="fname">First name:</label>
+  <input type="text" id="fname" name="fname"><br><br>
+  <label for="lname">Last name:</label>
+  <input type="text" id="lname" name="lname" ><br><br>
+  <input type="button" id="btnSubmit" onclick="test" alue="Submit" value="asd">
+</form>
+<script>
+function test(){
+alert("hi");
+document.getElementById("btnSubmit").disabled = false;
+}
+</script>
+</body>
+</html>
