@@ -98,7 +98,7 @@ function checkRequiredField(reqFieldNum){
 	}
 	if (reqFieldNum != count){
 		alert("表單未填寫完畢");
-		document.getElementById("btnSubmit").disabled = false;
+		//document.getElementById("btnSubmit").disabled = false;
 		return 0;
 	}
 	return 1;
@@ -301,7 +301,6 @@ function HTTPPostData(urlStr, dataStr, type) {
 			//check if error occured
 			if(jsonOBJ.resourceType == "OperationOutcome"){
 				alert('系統錯誤! 請聯絡慈大醫資龍昱璇學姊，\n電話：0965006102\n郵件：108316107@gms.tcu.edu.tw')
-				document.getElementById("btnSubmit").disabled = false;
 				return 0;
 			}
 			

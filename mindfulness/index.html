@@ -1,0 +1,115 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>正念課程 - 學習平台</title>
+	<script src="js/setting.js"></script>
+	<link href="css/style.css" rel="stylesheet" type="text/css" media="screen" /> 
+</head>
+<body>
+	<!-- header -->
+	<header class="site-header">
+		<div class="clear"></div>
+			<div class="inner-wrap">
+
+				<div class="navbar-brand-wpz">
+					<a href="http://demo.wpzoom.com/foodica" title="Food Recipes Theme for WordPress">
+						<font size="10">正念課程 - 學習平台</font>
+					</a>
+					
+				</div><!-- .navbar-brand -->
+			</div>
+		
+		<div id="mysticky-wrap" style="margin-bottom: 40px;">
+			<div id="mysticky-nav" style="top: -60px;" class="">
+				<nav class="main-navbar" role="navigation" style="">
+					<div class="inner-wrap">
+						<div id="navbar-main">
+							<div class="menu-main-container">
+								<ul id="menu-main-1" class="navbar-wpz dropdown sf-menu sf-js-enabled sf-arrows">
+									<li class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-has-children menu-item-207"><a href="">Course List</a></li>
+									<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-106">
+										<a onclick="linkToCourseSelection()">Course Selection</a>
+									</li>
+								</ul>
+							</div>
+						</div><!-- #navbar-main -->
+					</div><!-- ./inner-wrap -->
+				</nav>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</header>	
+	<!-- end header -->
+	<button class="topright1" onclick="clearHistory()">Logout</button>
+	<div style="padding-left: 60px;">
+		<div align="left" id="intro"></div>
+		<table width="30%" id="TableAppointment" border="1"></table><br>
+	</div>
+	<script>
+		queryParam();
+		if(globalPatientID==-1) alert("No selected course");
+		document.getElementById("intro").innerHTML= "Hello, " + globalName + "!";
+		let urlStr= FHIRserver + globalPatientID;
+		HTTPGetData(urlStr, "Patient");
+		
+		function linkToCourseSelection(){
+			var queryParam= 'patientID=' + globalPatientID + '&name=' +  encodeURIComponent(globalName) + '&personID=' +  globalPersonID;
+			var str="";
+			arrTempSchedule.forEach(function (item, index){
+				str+= item + "&";
+			});
+			sessionStorage.setItem("selectedSchedule", str);
+			
+			str="";
+			arrOrganizationID.forEach(function (item, index){
+				str+= item + "&";
+			});
+			sessionStorage.setItem("selectedOrganization", str);
+			
+			window.open('courseSelection.html?' + queryParam, "_self");
+		}
+		
+		function clearHistory(){			//not Functioning
+			 var backlen = history.length;
+			 history.go(-backlen);
+			 window.location.href = "loginPerson.html";
+		}
+		
+		function createTable(){
+			var table= document.getElementById("TableAppointment");
+			var cellIndex;
+			var row, noIndex=1, videoName;
+			for (var index0=0;index0<=iOrganization;index0++){			//check total organization
+				table.innerHTML+= '<tr><th bgcolor="#ebebe0" colspan="2">Organization Name: ' + arrOrganization[index0] + '<br>My Course List</th></tr>';
+				for (var index1=0;index1<iSchedule;index1++){			//divide per schedule (per mata pelajaran)
+					table.innerHTML+= '<tr><td colspan="3">課程名稱: ' + arrSchedule[index1][0] + '<br>教授: ' + arrSchedule[index1][1] + '<br>課程期間: ' + arrSchedule[index1][2] + ' 至 ' + arrSchedule[index1][3] + '<br><a href="' + arrSchedule[index1][4] + '" target="_blank" style="color: blue;">問卷 URL</a></td></tr>';
+					table.innerHTML+= '<tr><th>No.</th><th>Video</th></tr>';
+					var totSlot= arrSchedule[index1][5];
+					for (var index2=0;index2<totSlot;index2++){		//per Slot
+						var totVideo=tableValue[index0][index1][index2][2];
+						for (var index3=3;index3<(3+totVideo*2);index3+=2){	//total video
+							row = table.insertRow(-1);
+							videoName=tableValue[index0][index1][index2][index3].split("_");
+							row.insertCell(0).innerHTML= videoName[0];
+							var elLink = document.createElement('a');
+							elLink.href = tableValue[index0][index1][index2][index3+1];
+							elLink.innerHTML = videoName[1];
+							row.insertCell(1).appendChild(elLink);
+						}
+						row = table.insertRow(-1);
+						elLink = document.createElement('a');
+						elLink.target= "_blank";
+						elLink.href = tableValue[index0][index1][index2][totVideo*2+3];
+						elLink.innerHTML = "問卷 URL";
+						var x = row.insertCell(0);
+						x.appendChild(elLink);
+						x.colSpan=2;
+						x.align="center";
+					}
+				}
+			}
+		}
+
+	</script>
+</body>
+</html>
