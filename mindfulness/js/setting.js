@@ -215,8 +215,8 @@ function getFHIRMyCourse(jsonOBJ, type){	//我的課程
 	}
 	else if (type=="Schedule"){
 		var index = arrTempSchedule.indexOf("Schedule/" + jsonOBJ.id);								
-		var txt= jsonOBJ.specialty[0].coding[0].display.split('-');
-		arrSchedule[index][0] = txt[1];													//0.courseName
+		var txt;
+		arrSchedule[index][0] = jsonOBJ.specialty[0].coding[0].display;					//0.courseName
 		arrSchedule[index][1] = jsonOBJ.actor[0].reference;								//1.practitionerRoleID
 		txt= jsonOBJ.planningHorizon.start.split("T");
 		arrSchedule[index][2] = txt[0];													//2.Course start date
