@@ -173,8 +173,7 @@ function getFHIRMyCourse(jsonOBJ, type){	//我的課程
 		HTTPGetData(urlStr, "Appointment");	
 	}
 	else if (type=="Appointment"){
-		if (jsonOBJ.total == 0)	alert('No appointment');
-		else{
+		if (jsonOBJ.total != 0){
 			for (var i=0;i<((jsonOBJ.total>10)?10:jsonOBJ.total);i++){ 
 				arrTempSlot[iAppointment] = jsonOBJ.entry[i].resource.slot[0].reference;			//slotID
 				iAppointment++;
@@ -193,7 +192,7 @@ function getFHIRMyCourse(jsonOBJ, type){	//我的課程
 			iSchedule++;
 		}
 		var index = arrTempSchedule.indexOf(temp);
-		var index1= arrSchedule[index][5];
+		var index1= parseInt(jsonOBJ.appointmentType.coding[0].display.charAt(0)) - 1;//arrSchedule[index][5];
 		tableValue[iOrganization][index][index1][0] = jsonOBJ.start;											//0.Slot startTime (use to paixu)
 		tableValue[iOrganization][index][index1][1] = jsonOBJ.end;												//1.Slot endTime
 		var totVideo= jsonOBJ.appointmentType.coding.length;
@@ -331,39 +330,53 @@ function createPatient(organizationID){
 }
 
 var arrPatient= new Array(5);
+var slotExist, curTotal;
+var slotType=new Array();
 function getFHIRSelectCourse(jsonOBJ, type){	//選課
-	var slotType="";
 	if (type=="getSlotOfSchedule"){
 		slotExist=0;
 		if (jsonOBJ.total == 0)	var iiii=0;
 		else{
-			for (var i=0;i<((jsonOBJ.total>10)?10:jsonOBJ.total);i++){ 
-				if(slotType!= jsonOBJ.entry[i].resource.appointmentType.coding[0].display && jsonOBJ.entry[i].resource.status=="free"){
-					initialize();
-					appointmentJSONobj.slot[0].reference= "Slot/" + jsonOBJ.entry[i].resource.id;							//slot ID
-					appointmentJSONobj.participant[0].actor.reference= globalPatientID;										//patient ID
-					appointmentJSONobj.participant[0].actor.display= globalName;											//patient name
-					appointmentJSONobj.participant[1].actor.reference= tableValue2[globalIndex0][globalIndex1][0];			//PractitionerRole ID
-					appointmentJSONobj.participant[1].actor.display= tableValue2[globalIndex0][globalIndex1][1];			//PractitionerRole name
-					appointmentJSONobj = JSON.stringify(appointmentJSONobj);
-					HTTPPostData(FHIRserver + "Appointment", appointmentJSONobj, jsonOBJ.entry[i].resource);
-					slotExist=1;
-					slotType= jsonOBJ.entry[i].resource.appointmentType.coding[0].display;
-					//break;
-				}
-			}
-			if(slotExist==0){
-				alert("報名人數已額滿！");
-				//globalSelectedBtn.disabled = false;
-			}
-			else{
-				alert("選課完成！需等1-2分鐘才可以看到課程列表！");
-				//location.reload();
-			}
+			initTotal= jsonOBJ.total;
+			curTotal= jsonOBJ.total;
+			//for (var round=0;round<=initTotal/21;round++){
+			checkAllSlot(jsonOBJ);
 		}
 	}
 }
 
+function checkAllSlot(jsonOBJ){
+	var i=0;
+	while(i < ((curTotal>20)?20:curTotal)){
+		if(!slotType.includes(jsonOBJ.entry[i].resource.appointmentType.coding[0].display) && jsonOBJ.entry[i].resource.status=="free"){
+			slotType.push(jsonOBJ.entry[i].resource.appointmentType.coding[0].display);
+			initialize();
+			appointmentJSONobj.slot[0].reference= "Slot/" + jsonOBJ.entry[i].resource.id;							//slot ID
+			appointmentJSONobj.participant[0].actor.reference= globalPatientID;										//patient ID
+			appointmentJSONobj.participant[0].actor.display= globalName;											//patient name
+			appointmentJSONobj.participant[1].actor.reference= tableValue2[globalIndex0][globalIndex1][0];			//PractitionerRole ID
+			appointmentJSONobj.participant[1].actor.display= tableValue2[globalIndex0][globalIndex1][1];			//PractitionerRole name
+			appointmentJSONobj = JSON.stringify(appointmentJSONobj);
+			HTTPPostData(FHIRserver + "Appointment", appointmentJSONobj, jsonOBJ.entry[i].resource);
+			slotExist=1;
+			//break;
+		}
+		i++;
+	}
+	
+	curTotal-=20;
+	if(curTotal>0) HTTPGetData(jsonOBJ.link[1].url, "getNextSlot");
+	else{
+		if(slotExist==0){
+			alert("報名人數已額滿！");
+			//globalSelectedBtn.disabled = false;
+		}
+		else{
+			alert("選課完成！需等1-2分鐘才可以看到課程列表！");
+			//location.reload();
+		}
+	}
+}
 function queryParam(){
 	var url = location.href;
 	if(url.indexOf('?')!=-1)
@@ -391,6 +404,7 @@ function HTTPGetData(urlStr, type) {
 			if(type == "loginVerify")	checkUsername(jsonOBJ);
 			else if(type == "CheckPersonUserID")	checkUsername(jsonOBJ);
 			else if(type == "getSlotOfSchedule")	getFHIRSelectCourse(jsonOBJ, type);
+			else if(type == "getNextSlot")	checkAllSlot(jsonOBJ);
 			else if(type == "getPerson"){
 				ret = ret.slice(0, -1);
 				let str= ',"link":[{"target":{"reference": "' + globalPatientID + '","display": "' + globalName + '"}}]}';
@@ -455,8 +469,6 @@ function HTTPPutData(urlStr, dataStr, type) {
 				let urlStr= FHIRserver + "Slot?schedule=reference|" + arrScheduleID[globalIndex0][globalIndex1];;
 				HTTPGetData(urlStr, "getSlotOfSchedule");
 			}
-			// else if("PutSlot"){
-			// }
         }
     }
     HttpObj.send(dataStr);

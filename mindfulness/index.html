@@ -26,7 +26,7 @@
 						<div id="navbar-main">
 							<div class="menu-main-container">
 								<ul id="menu-main-1" class="navbar-wpz dropdown sf-menu sf-js-enabled sf-arrows">
-									<li class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-has-children menu-item-207"><a href="">Course List</a></li>
+									<li class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-has-children menu-item-207"><a href="">My Course</a></li>
 									<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-106">
 										<a onclick="linkToCourseSelection()">Course Selection</a>
 									</li>
@@ -47,7 +47,7 @@
 	</div>
 	<script>
 		queryParam();
-		if(globalPatientID==-1) alert("No selected course");
+		if(globalPatientID==-1) alert("無選課內容");
 		document.getElementById("intro").innerHTML= "Hello, " + globalName + "!";
 		let urlStr= FHIRserver + globalPatientID;
 		HTTPGetData(urlStr, "Patient");
@@ -80,7 +80,7 @@
 			var cellIndex;
 			var row, noIndex=1, videoName;
 			for (var index0=0;index0<=iOrganization;index0++){			//check total organization
-				table.innerHTML+= '<tr><th bgcolor="#ebebe0" colspan="2">Organization Name: ' + arrOrganization[index0] + '<br>My Course List</th></tr>';
+				table.innerHTML+= '<tr><th bgcolor="#ebebe0" colspan="2">Organization Name: ' + arrOrganization[index0] + '</th></tr>';
 				for (var index1=0;index1<iSchedule;index1++){			//divide per schedule (per mata pelajaran)
 					table.innerHTML+= '<tr><td colspan="3">課程名稱: ' + arrSchedule[index1][0] + '<br>教授: ' + arrSchedule[index1][1] + '<br>課程期間: ' + arrSchedule[index1][2] + ' 至 ' + arrSchedule[index1][3] + '<br><a href="' + arrSchedule[index1][4] + '" target="_blank" style="color: blue;">問卷 URL</a></td></tr>';
 					table.innerHTML+= '<tr><th>No.</th><th>Video</th></tr>';
