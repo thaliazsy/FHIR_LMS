@@ -303,7 +303,7 @@ function HTTPPostData(urlStr, dataStr, type) {
             ret = this.responseText;
             //alert(ret);
 			var jsonOBJ =JSON.parse(ret);
-			//check if error occured
+			//check if error occured	//DIFFERENT PART
 			if(jsonOBJ.resourceType == "OperationOutcome"){
 				alert('系統錯誤! 請聯絡慈大醫資龍昱璇學姊，\n電話：0965006102\n郵件：108316107@gms.tcu.edu.tw')
 				document.getElementById("btnSubmit").disabled = false;

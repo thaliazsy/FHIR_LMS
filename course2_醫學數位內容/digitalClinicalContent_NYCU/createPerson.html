@@ -64,7 +64,7 @@
 			document.getElementById("btnSubmit").disabled = true;
 			if(checkRequiredField(3)){
 				userID= document.getElementById('pEmail').value;
-				let urlStr= FHIRserver + 'Person?identifier=UserID|' + userID;
+				let urlStr= FHIRserver + 'Person?identifier=' + userID;
 				HTTPGetData(urlStr, "CheckPersonUserID");
 			}
 		}

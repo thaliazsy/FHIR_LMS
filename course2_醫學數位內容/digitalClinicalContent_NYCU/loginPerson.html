@@ -42,9 +42,9 @@
 					globalPatientID='-1';
 			}
 			
-			if(res.total==1 && encPassword!=retPassword)	alert('Wrong password!');		
+			if(res.total==1 && encPassword!=retPassword)	alert('密碼錯誤!');		
 			else if(res.total==1 && encPassword==retPassword){
-				var queryParam= 'patientID=' + globalPatientID + '&name=' + encodeURIComponent( retName )+ '&personID=' +  retPersonID;
+				var queryParam= 'patientID=' + globalPatientID + '&name=' + encodeURIComponent(retName) + '&personID=' +  retPersonID;
 				window.open('index.html?' + queryParam,"_self");
 			}
 			else{
@@ -55,7 +55,7 @@
 		function getData(){
 			if(checkRequiredField(2)){
 				UserID= document.getElementById('pUserID').value;
-				let urlStr= FHIRserver + 'Person?identifier=UserID|' + UserID;
+				let urlStr= FHIRserver + 'Person?identifier=' + UserID;
 				HTTPGetData(urlStr, "loginVerify");
 			}
 		}

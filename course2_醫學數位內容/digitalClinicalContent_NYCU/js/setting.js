@@ -165,8 +165,13 @@ function getFHIRMyCourse(jsonOBJ, type){	//我的課程
 		tableValue[iOrganization][index][index1][0] = jsonOBJ.start;									//0.Slot startTime (use to paixu)
 		tableValue[iOrganization][index][index1][1] = jsonOBJ.end;										//1.Slot endTime
 		var totVideo= jsonOBJ.appointmentType.coding.length;
-		tableValue[iOrganization][index][index1][2]= jsonOBJ.appointmentType.coding[0].display;			//2.courseMaterial title
-		tableValue[iOrganization][index][index1][3] = jsonOBJ.appointmentType.coding[0].code;			//3.courseMaterial URL
+		tableValue[iOrganization][index][index1][2]= totVideo;
+		var index2= 3;
+		for(var i=0; i<totVideo; i++)
+		{
+			tableValue[iOrganization][index][index1][index2++] = jsonOBJ.appointmentType.coding[i].display;		//courseMaterial title
+			tableValue[iOrganization][index][index1][index2++] = jsonOBJ.appointmentType.coding[i].code;		//courseMaterial URL
+		}
 		arrSchedule[index][5]++;
 		iSlot++;
 		
@@ -298,7 +303,7 @@ function HTTPPostData(urlStr, dataStr, type) {
             ret = this.responseText;
             //alert(ret);
 			var jsonOBJ =JSON.parse(ret);
-			//check if error occured
+			//check if error occured	//DIFFERENT PART
 			if(jsonOBJ.resourceType == "OperationOutcome"){
 				alert('系統錯誤! 請聯絡陽明交通大學 施岳勳，\n電話：0955740405 \n郵件：donaldonal71462@hotmail.com')
 				document.getElementById("btnSubmit").disabled = false;
