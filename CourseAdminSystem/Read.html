@@ -1,0 +1,180 @@
+<html>
+
+<head>
+	<style>
+		.pad10{
+			padding: 10px 100px 10px 100px
+		}
+		.pad20{
+			padding: 10px 100px 20px 100px
+		}
+	</style>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+	<title>Read - Patient's Data</title>
+	<link href="style.css" rel="stylesheet" type="text/css" media="screen" />
+</head>
+   
+<body>
+	<header class="site-header">
+		<div class="clear"></div>
+			<div class="inner-wrap">
+				<div class="navbar-brand-wpz">
+					<a href="http://demo.wpzoom.com/foodica" title="Food Recipes Theme for WordPress">
+						<font size="10">學習平台及內容管理系統</font>
+					</a>
+				</div><!-- .navbar-brand -->
+			</div>
+		
+		<div id="mysticky-wrap" style="margin-bottom: 40px;">
+			<div id="mysticky-nav" style="top: -60px;" class="">
+				<nav class="main-navbar" role="navigation" style="">
+					<div class="inner-wrap">
+						<div id="navbar-main">
+							<div class="menu-main-container">
+								<ul id="menu-main-1" class="navbar-wpz dropdown sf-menu sf-js-enabled sf-arrows">
+									<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-106"><a href="Create.html">Create</a></li>
+									<li class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-has-children menu-item-207">
+										<a href="Read.html">Read</a></li>
+									<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-163"><a href="Update.html">Update</a></li>
+									<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-163"><a href="Delete.html">Delete</a></li>
+								</ul>
+							</div>
+						</div><!-- #navbar-main -->
+					</div><!-- ./inner-wrap -->
+				</nav>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</header>	
+	
+	<table align="center">
+		<tr>
+			<td>
+			Schedule ID: <input type="text" name="identifier" id="scheduleID">  &nbsp;
+			<input type="button" value="Send" onclick="showForm()">
+			</td>
+		</tr>
+	</table>
+	
+	<table id="TabSlot" align="center" border="1"></table><br>
+	<script>
+	let tableValue, organizationID_Name;
+	tableValue= createMultiArray(tableValue, 2, 100, 5, 0, 0);	//slot id, patient id, patient name, patient organization
+	organizationID_Name= createMultiArray(tableValue, 2, 100, 2, 0, 0);
+	let iSlot=-1;
+	let arrSlotID= new Array();
+	let FHIRserver= 'http://203.64.84.213:8080/fhir/';
+	//'http://hapi.fhir.org/baseR4/';
+
+	function createMultiArray(arrName, type, n1, n2, n3, n4){
+		arrName= new Array(n1);
+		for (var i = 0; i < arrName.length; i++) {
+			arrName[i] = new Array(n2);						
+		}
+		return arrName;
+	}
+	
+	function showForm(){
+		let urlStr= FHIRserver + "Slot?schedule=Schedule/" + document.getElementById("scheduleID").value;
+		HTTPGetData(urlStr, "getSlotOfSchedule");
+	}
+	
+	var indexOrganization=0, iComplete=-1, times=1, appointmentChoosen=0;
+	function HTTPGetData(urlStr, type, curIndex) {
+		var HttpObj = new XMLHttpRequest();
+		HttpObj.onreadystatechange = function () {
+			if (this.readyState === 4) {
+				ret = this.responseText;
+				//alert(ret);
+				var jsonOBJ =JSON.parse(ret);
+				if(type == "getSlotOfSchedule"){
+					if (jsonOBJ.total == 0)	alert("no slot!");
+					else{
+						<!-- for (var i=0;i<2;i++){
+							for (var i=0;i<((jsonOBJ.total>10)?10:jsonOBJ.total);i++){ //(var i=0;i<((jsonOBJ.total>10)?10:jsonOBJ.total);i++)
+								arrSlotID.push("Slot/" + jsonOBJ.entry[i].resource.id);		
+								tableValue[i][0]= "Slot/" + jsonOBJ.entry[i].resource.id;		//slot ID
+								iSlot++;
+								let urlStr= FHIRserver + 'Appointment?slot=' + tableValue[i][0];
+								HTTPGetData(urlStr, "getAppointment", iSlot);
+								<!-- if(i==9 && times<2){ -->
+									<!-- times++; -->
+									<!-- HTTPGetData(jsonOBJ.link[1].url, "getSlotOfSchedule", iSlot); -->
+								<!-- } -->
+							}
+						//}
+					}
+				}
+				else if(type == "getAppointment"){
+					if (jsonOBJ.total == 0){
+						//alert("no appointment! Slot ID: ");
+						for (var i=1;i<=4;i++){
+							tableValue[curIndex][i]="-";
+						}
+						iComplete++;
+					}
+					else{
+						appointmentChoosen=1;
+						if(jsonOBJ.total>1)	alert("Slot ID: " + jsonOBJ.entry[0].resource.slot[0].reference + "\nTotal Appointment: " + jsonOBJ.total);
+						tableValue[curIndex][1]= "Appointment/" + jsonOBJ.entry[0].resource.id;								//appointmentID
+						tableValue[curIndex][2]= jsonOBJ.entry[0].resource.participant[0].actor.reference;	//patientID
+						tableValue[curIndex][3]= jsonOBJ.entry[0].resource.participant[0].actor.display;	//patientName
+						let urlStr= FHIRserver + tableValue[curIndex][2];
+						HTTPGetData(urlStr, "getPatient", curIndex);
+					}
+					
+					if(appointmentChoosen==0 && iComplete==iSlot){
+						alert("Loading");
+						showOutput();
+					}
+				}
+				else if(type=="getPatient"){
+					tableValue[curIndex][4]= jsonOBJ.managingOrganization.reference;
+					let urlStr= FHIRserver + jsonOBJ.managingOrganization.reference; //organizationID
+					HTTPGetData(urlStr, "getOrganization", curIndex);
+				}
+				else if(type=="getOrganization"){
+					tableValue[curIndex][4]= jsonOBJ.name;	
+					iComplete++;					
+					if(iComplete==iSlot){
+						alert("Loading");
+						showOutput();
+					}
+				}
+			}	
+		}
+		HttpObj.open("GET", urlStr, true);
+		HttpObj.send();
+	}
+		
+	function showOutput(){
+		var table= document.getElementById("TabSlot");
+		table.innerHTML= '<tr><th>No.</th><th>slot id</th><th>Appointment ID</th><th>patient id</th><th>patient Name</th><th>patient organization</th></tr>';
+		for (var index0=0;index0<=iSlot;index0++){
+			var row = table.insertRow(-1);
+			row.insertCell(0).innerHTML = index0+1;
+			for (var index1=0;index1<=4;index1++){
+				if(index1>=0 && index1<=2){
+					var elLink = document.createElement('a');
+					elLink.href = FHIRserver + tableValue[index0][index1]
+					elLink.innerHTML = tableValue[index0][index1];
+					row.insertCell(index1+1).appendChild(elLink);
+				}
+				else{
+					row.insertCell(index1+1).innerHTML = tableValue[index0][index1];
+				}
+			}
+		}
+	}
+	
+	function indexOf2dArray(array2d, itemtofind) {
+		index = [].concat.apply([], ([].concat.apply([], array2d))).indexOf(itemtofind);
+		if (index === -1) { return false; }
+		numColumns = array2d[0].length;
+		row = parseInt(index / numColumns);
+		//col = index % numColumns;
+		return [row]; 
+	}
+	</script>
+</body>
+</html>
