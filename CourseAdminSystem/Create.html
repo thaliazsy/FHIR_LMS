@@ -15,7 +15,7 @@
 		var selected = resourceID.options[resource.selectedIndex].text;
 		totalPost = document.getElementById("totalPost").value;
 		var apiURL;
-		apiURL =FHIRrootURL + '/'  + selected; 
+		apiURL =FHIRserver + '/'  + selected; 
 		//alert(apiURL);
 		if(document.getElementById("post").checked==true)
 			HTTPPostData(apiURL, dataString ); 
@@ -75,9 +75,11 @@
 	<select id="resource">
 		<option>Patient</option>
 		<option>Appointment</option>
+		<option>Consent</option>		
 		<option>Person</option>		
 		<option>Organization</option>	
 		<option>DiagnosticReport</option>
+		<option>DocumentReference</option>
 		<option>Condition</option>			
 		<option>Observation</option>	
 		<option>Encounter</option>

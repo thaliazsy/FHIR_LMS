@@ -1,6 +1,6 @@
 ﻿var ret, totalPost;
 let arrSlotID= new Array();
-var FHIRrootURL = "http://203.64.84.213:8080/fhir"; //"http://hapi.fhir.org/baseR4"; 
+var FHIRserver = 'http://203.64.84.213:8080/fhir/'; //"http://203.64.84.213:8080/fhir"; //"http://hapi.fhir.org/baseR4"; 
 //Get FHIR data
 function HTTPGetData(urlStr) {
     var HttpObj = new XMLHttpRequest();   
@@ -41,7 +41,7 @@ function HTTPPutData(urlStr, dataStr, curIndex, type) {
     HttpObj.onload = function () {
         if (HttpObj.readyState === 4) {
             ret = HttpObj.responseText;
-			//alert(ret);
+			alert(ret);
 			if(type=="updateSlot")
 			{
 				if (curIndex<arrSlotID.length){
@@ -57,4 +57,17 @@ function HTTPPutData(urlStr, dataStr, curIndex, type) {
 		}
     }
     HttpObj.send(dataStr);
+}
+
+//Delete FHIR Data
+function HTTPDeleteData(urlStr) {
+    var HttpObj = new XMLHttpRequest();   
+    HttpObj.onreadystatechange = function () {
+        if (HttpObj.readyState === 4) {
+            ret = HttpObj.responseText;
+            alert(ret);
+        }
+    }
+	HttpObj.open("DELETE", urlStr, true);
+    HttpObj.send();
 }

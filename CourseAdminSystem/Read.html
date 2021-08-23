@@ -11,6 +11,7 @@
 	</style>
 	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
 	<title>Read - Patient's Data</title>
+	<script src="HTTPRequest.js"></script>
 	<link href="style.css" rel="stylesheet" type="text/css" media="screen" />
 </head>
    
@@ -47,25 +48,26 @@
 		<div class="clear"></div>
 	</header>	
 	
-	<table align="center">
-		<tr>
-			<td>
-			Schedule ID: <input type="text" name="identifier" id="scheduleID">  &nbsp;
-			<input type="button" value="Send" onclick="showForm()">
-			</td>
-		</tr>
-	</table>
+	<center>查詢課程修課名單(目前只抓前10筆資料), 請輸入課程 ID! (e.g. 1738, 1768, 1769)<br>Schedule ID : 
+	<input type="text" name="identifier" id="scheduleID">  &nbsp;
+	<img src="search.png" onclick="showForm()" width="30" height="30"/>
+	</center>
 	
 	<table id="TabSlot" align="center" border="1"></table><br>
+	<div style="display:none;" id="loader"></div>
+	<div style="display:none;" id="myModal" class="modal">
+	
 	<script>
-	let tableValue, organizationID_Name;
-	tableValue= createMultiArray(tableValue, 2, 100, 5, 0, 0);	//slot id, patient id, patient name, patient organization
-	organizationID_Name= createMultiArray(tableValue, 2, 100, 2, 0, 0);
-	let iSlot=-1;
-	let arrSlotID= new Array();
-	let FHIRserver= 'http://203.64.84.213:8080/fhir/';
-	//'http://hapi.fhir.org/baseR4/';
-
+	let tableValue, organizationID_Name, iSlot;
+	var indexOrganization, iComplete, times, appointmentChoosen;
+	
+	function initialization(){
+		tableValue= createMultiArray(tableValue, 2, 100, 5, 0, 0);	//slot id, patient id, patient name, patient organization
+		organizationID_Name= createMultiArray(tableValue, 2, 100, 2, 0, 0);
+		iSlot=-1;
+		indexOrganization=0; iComplete=-1; times=1; appointmentChoosen=0;
+	}
+	
 	function createMultiArray(arrName, type, n1, n2, n3, n4){
 		arrName= new Array(n1);
 		for (var i = 0; i < arrName.length; i++) {
@@ -75,11 +77,13 @@
 	}
 	
 	function showForm(){
+		initialization();
+		document.getElementById("loader").style.display = "block";
+		document.getElementById("myModal").style.display = "block";
 		let urlStr= FHIRserver + "Slot?schedule=Schedule/" + document.getElementById("scheduleID").value;
 		HTTPGetData(urlStr, "getSlotOfSchedule");
 	}
 	
-	var indexOrganization=0, iComplete=-1, times=1, appointmentChoosen=0;
 	function HTTPGetData(urlStr, type, curIndex) {
 		var HttpObj = new XMLHttpRequest();
 		HttpObj.onreadystatechange = function () {
@@ -124,7 +128,6 @@
 					}
 					
 					if(appointmentChoosen==0 && iComplete==iSlot){
-						alert("Loading");
 						showOutput();
 					}
 				}
@@ -137,7 +140,6 @@
 					tableValue[curIndex][4]= jsonOBJ.name;	
 					iComplete++;					
 					if(iComplete==iSlot){
-						alert("Loading");
 						showOutput();
 					}
 				}
@@ -148,6 +150,8 @@
 	}
 		
 	function showOutput(){
+		document.getElementById("loader").style.display = "none";
+		document.getElementById("myModal").style.display = "none";
 		var table= document.getElementById("TabSlot");
 		table.innerHTML= '<tr><th>No.</th><th>slot id</th><th>Appointment ID</th><th>patient id</th><th>patient Name</th><th>patient organization</th></tr>';
 		for (var index0=0;index0<=iSlot;index0++){

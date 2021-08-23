@@ -5,45 +5,6 @@
 	<title>Update - Course Management System</title>
 	<script src="HTTPRequest.js"></script>
 	<link href="style.css" rel="stylesheet" type="text/css" media="screen" />
-	<style>
-#loader {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  z-index: 1;
-  width: 120px;
-  height: 120px;
-  margin: -76px 0 0 -76px;
-  border: 16px solid #f3f3f3;
-  border-radius: 50%;
-  border-top: 16px solid #3498db;
-  -webkit-animation: spin 2s linear infinite;
-  animation: spin 2s linear infinite;
-}
-
-@-webkit-keyframes spin {
-  0% { -webkit-transform: rotate(0deg); }
-  100% { -webkit-transform: rotate(360deg); }
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.modal {
-	position: fixed; /* Stay in place */
-	z-index: 1; /* Sit on top */
-	padding-top: 100px; /* Location of the box */
-	left: 0;
-	top: 0;
-	width: 100%; /* Full width */
-	height: 100%; /* Full height */
-	overflow: auto; /* Enable scroll if needed */
-	background-color: rgb(0,0,0); /* Fallback color */
-	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
-</style>
 </head>
    
 <body>
@@ -80,7 +41,7 @@
 		<div class="clear"></div>
 	</header>	
 	
-	<center>Schedule ID: 
+	<center>修改課程教材內容, 請輸入課程 ID! (e.g. 1738, 1768, 1769)<br>Schedule ID : 
 	<input type="text" name="identifier" id="scheduleID">  &nbsp;
 	<img src="search.png" onclick="showForm()" width="30" height="30"/>
 	</center>
@@ -107,7 +68,6 @@
 	<script>
 	let tableValue;
 	tableValue= createMultiArray(tableValue, 2, 100, 5, 0, 0);	//slot id, patient id, patient name, patient organization
-	let FHIRserver= 'http://203.64.84.213:8080/fhir/';	//'http://hapi.fhir.org/baseR4/';
 	let slotJSONobj;
 	
 	function createMultiArray(arrName, type, n1, n2, n3, n4){
