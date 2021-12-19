@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel='stylesheet' typeof='text/css' media='all' href='../Style/Reset.css' />
+    <link rel='stylesheet' typeof='text/css' media='all' href='../Style/Site.css' />
+    <link rel='stylesheet' typeof='text/css' media='all' href='../Style/Patient.css' />
+
+    <title>FHIR 病人</title>
+</head>
+<body>
+    <div id="Header">
+        <div id="Logo"><img class="Logo" src="https://www.hl7.org/fhir/assets/images/fhir-logo-www.png" /></div>
+    </div>
+    <div id="Bodyer">
+        <div id="Head"></div>
+        <div id="Left"></div>
+        <div id="Body">
+            <div id="Detail" class="Bodyer-Close">
+                <div class="Header">
+                    <div class="Title">病人資料</div>
+                    <div class="Tool">
+                        <ul class="L1s">
+                            <li class="L1 i1">
+                                <div class="Btn Toggle Detail"></div>
+                            </li>
+                            <li class="L1 i2">
+                                <div class="Btn Edit">修改資料</div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="Bodyer">
+                    <ul class="L1s">
+                        <li class="L1 i1 Name">
+                            <div class="Name">病人姓名:</div>
+                            <div class="Value"></div>
+                            <div class="Message"></div>
+                            <div class="Clear"></div>
+                        </li>
+                        <li class="L1 i2 Gender">
+                            <div class="Name">病人性別:</div>
+                            <div class="Value"></div>
+                            <div class="Message"></div>
+                            <div class="Clear"></div>
+                        </li>
+                        <li class="L1 i3 BirthDate">
+                            <div class="Name">病人生日:</div>
+                            <div class="Value"></div>
+                            <div class="Message"></div>
+                            <div class="Clear"></div>
+                        </li>
+                        <li class="L1 i4 Address">
+                            <div class="Name">病人住址:</div>
+                            <div class="Value"></div>
+                            <div class="Clear"></div>
+                        </li>
+                        <li class="L1 i5 Phone">
+                            <div class="Name">聯絡電話:</div>
+                            <div class="Value"></div>
+                            <div class="Message"></div>
+                            <div class="Clear"></div>
+                        </li>
+                        <li class="L1 i6 Organization">
+                            <div class="Name">所屬組織:</div>
+                            <div class="Value"></div>
+                            <div class="Message"></div>
+                            <div class="Clear"></div>
+                        </li>
+                        <li class="L1 i7 Status">
+                            <div class="Name">是否啟用:</div>
+                            <div class="Value"></div>
+                            <div class="Message"></div>
+                            <div class="Clear"></div>
+                        </li>
+                    </ul>
+                    <div class="Clear"></div>
+                </div>
+                <div class="Footer">
+                    <!-- <div class="Tool">
+                        <ul class="L1s">
+                            <li class="L1 i1"><div class="Btn Edit">修改資料</div></li>
+                            <li class="L1 i2"><div class="Btn Back">返回</div></li>
+                        </ul>
+                    </div> -->
+                    <div class="Clear"></div>
+                </div>
+            </div>
+            <div id="List">
+                <!--<div class="Header">
+                    <div class="Title">子組織列表</div>
+                </div>
+                <div class="Bodyer">
+                    <ul class="L1s">
+                        <li class="L1 i0">
+                            <div class="Num">序號</div>
+                            <div class="Id">編號</div>
+                            <div class="Name">名稱</div>
+                            <div class="City">縣市</div>
+                            <div class="Addr">地址</div>
+                            <div class="Phone">電話</div>
+                            <div class="Status">狀態</div>
+                            <div class="Tool">
+                                <div class="Title">功能</div>
+                            </div>
+                            <div class="Clear"></div>
+                        </li>
+                    </ul>
+                </div>-->
+                <div class="Footer">
+                </div>
+            </div>
+
+        </div>
+        <div id="Right"></div>
+        <div id="Foot"></div>
+    </div>
+    <div id="Footer">
+        <div id="CopyRight">Copyright © 2019 Department of Medical Informatics, Tzu Chi University All rights reserved</div>
+    </div>
+</body>
+
+<script type='text/javascript' src='../Script/Site.js'></script>
+<script type='text/javascript' src='../Script/getQueryString.js'></script>
+<script type='text/javascript' src='../Script/getResource.js'></script>
+<script type='text/javascript' src='../Script/Resource/Patient/detailPatient.js'></script>
+
+</html>

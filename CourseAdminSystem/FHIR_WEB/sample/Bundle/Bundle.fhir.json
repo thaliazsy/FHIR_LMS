@@ -1,0 +1,524 @@
+{
+    "resourceType": "Bundle",
+    "id": "760",
+    "meta": {
+      "versionId": "1",
+      "lastUpdated": "2021-05-24T19:51:53.854+00:00",
+      "source": "#HWiy6DDERK68oB8o"
+    },
+    "type": "document",
+    "timestamp": "2013-05-28T22:12:21Z",
+    "entry": [ {
+      "fullUrl": "https://faithhapifhir.ddns.net/fhir/Composition/759",
+      "resource": {
+        "resourceType": "Composition",
+        "id": "759",
+        "status": "preliminary",
+        "type": {
+          "coding": [ {
+            "system": "http://loinc.org",
+            "code": "51969-4"
+          } ],
+          "text": "Genetic analysis report"
+        },
+        "subject": {
+          "reference": "Patient/4"
+        },
+        "date": "2018-06-28T12:30:02+01:00",
+        "author": [ {
+          "reference": "Practitioner/758",
+          "display": "wet/dry lab"
+        } ],
+        "title": "Genetic analysis",
+        "section": [ {
+          "entry": [ {
+            "reference": "Specimen/752"
+          }, {
+            "reference": "DiagnosticReport/757"
+          }, {
+            "reference": "Observation/755"
+          }, {
+            "reference": "Observation/756"
+          }, {
+            "reference": "MolecularSequence/753"
+          }, {
+            "reference": "MolecularSequence/754"
+          } ]
+        } ]
+      }
+    }, {
+      "fullUrl": "https://faithhapifhir.ddns.net/fhir/Patient/4",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "4",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div class=\"hapiHeaderText\">雅文 <b>王 </b></div><table class=\"hapiPropertyTable\"><tbody><tr><td>Identifier</td><td>Y280369064</td></tr><tr><td>Address</td><td><span>育英巷1號 </span><br/><span>內埔鄉 </span><span>臺灣省 </span></td></tr><tr><td>Date of birth</td><td><span>03 April 1975</span></td></tr></tbody></table></div>"
+        },
+        "identifier": [ {
+          "system": "https://www.dicom.org.tw/cs/identityCardNumber_tw",
+          "value": "Y280369064"
+        } ],
+        "active": true,
+        "name": [ {
+          "text": "王雅文",
+          "family": "王",
+          "given": [ "雅文" ]
+        } ],
+        "telecom": [ {
+          "system": "email",
+          "value": "weigang@hotmail.com"
+        }, {
+          "system": "phone",
+          "value": "09766808",
+          "use": "mobile"
+        }, {
+          "system": "url",
+          "value": "https://line.me/ti/p/ur91Z803km"
+        } ],
+        "gender": "female",
+        "birthDate": "1975-04-03",
+        "address": [ {
+          "text": "912 臺灣省屏東縣內埔鄉育英巷1號",
+          "line": [ "育英巷1號" ],
+          "city": "內埔鄉",
+          "district": "屏東縣",
+          "postalCode": "912",
+          "country": "臺灣省"
+        } ],
+        "contact": [ {
+          "relationship": [ {
+            "coding": [ {
+              "system": "http://hl7.org/fhir/ValueSet/patient-contactrelationship",
+              "code": "E"
+            } ],
+            "text": "Employer"
+          } ],
+          "name": {
+            "text": "趙心怡",
+            "family": "趙",
+            "given": [ "心怡" ]
+          },
+          "telecom": [ {
+            "system": "email",
+            "value": "houming@hotmail.com"
+          }, {
+            "system": "phone",
+            "value": "0948078195",
+            "use": "mobile"
+          }, {
+            "system": "url",
+            "value": "https://line.me/ti/p/3xoOp7P5vN"
+          } ],
+          "address": {
+            "text": "830 臺灣省高雄市鳳山區小碧潭路7段926號",
+            "line": [ "小碧潭路7段926號" ],
+            "city": "鳳山區",
+            "district": "高雄市",
+            "postalCode": "830",
+            "country": "臺灣省"
+          },
+          "gender": "other"
+        }, {
+          "relationship": [ {
+            "coding": [ {
+              "system": "http://hl7.org/fhir/ValueSet/patient-contactrelationship",
+              "code": "I"
+            } ],
+            "text": "Insurance Company"
+          } ],
+          "name": {
+            "text": "鐘美琪",
+            "family": "鐘",
+            "given": [ "美琪" ]
+          },
+          "telecom": [ {
+            "system": "email",
+            "value": "wei90@hotmail.com"
+          }, {
+            "system": "phone",
+            "value": "0925906098",
+            "use": "mobile"
+          }, {
+            "system": "url",
+            "value": "https://line.me/ti/p/C3I4BkEl9A"
+          } ],
+          "address": {
+            "text": "815 臺灣省高雄市大社區文化巷518號",
+            "line": [ "文化巷518號" ],
+            "city": "大社區",
+            "district": "高雄市",
+            "postalCode": "815",
+            "country": "臺灣省"
+          },
+          "gender": "female"
+        } ]
+      }
+    }, {
+      "fullUrl": "https://faithhapifhir.ddns.net/fhir/Practitioner/758",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "758",
+        "active": true,
+        "name": [ {
+          "family": "Howell947",
+          "given": [ "Jonas187" ],
+          "prefix": [ "Dr." ]
+        } ],
+        "telecom": [ {
+          "extension": [ {
+            "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-direct",
+            "valueBoolean": true
+          } ],
+          "system": "email",
+          "value": "Jonas187.Howell947@example.com",
+          "use": "work"
+        } ],
+        "address": [ {
+          "line": [ "18525 S WESTERN AVE" ],
+          "city": "GARDENIA",
+          "state": "CA",
+          "postalCode": "90248-3830",
+          "country": "US"
+        } ],
+        "gender": "male"
+      }
+    }, {
+      "fullUrl": "https://faithhapifhir.ddns.net/fhir/Specimen/752",
+      "resource": {
+        "resourceType": "Specimen",
+        "id": "752",
+        "status": "available",
+        "type": {
+          "coding": [ {
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0487",
+            "code": "TISS"
+          } ]
+        },
+        "subject": {
+          "reference": "Patient/4"
+        },
+        "collection": {
+          "bodySite": {
+            "coding": [ {
+              "system": "http://snomed.info/sct",
+              "code": "41224006"
+            } ]
+          }
+        },
+        "processing": [ {
+          "timeDateTime": "2019-03-20"
+        } ]
+      }
+    }, {
+      "fullUrl": "https://faithhapifhir.ddns.net/fhir/DiagnosticReport/757",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "757",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><div class=\"hapiHeaderText\"> Untitled Diagnostic Report </div><table class=\"hapiPropertyTable\"><tbody><tr><td>Status</td><td>FINAL</td></tr><tr><td>Issued</td><td> 01 April 2019 00:45:33 </td></tr></tbody></table></div>"
+        },
+        "status": "final",
+        "category": [ {
+          "coding": [ {
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+            "code": "LAB"
+          } ]
+        }, {
+          "coding": [ {
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+            "code": "GE"
+          } ]
+        } ],
+        "code": {
+          "coding": [ {
+            "system": "http://loinc.org",
+            "code": "81247-9"
+          } ]
+        },
+        "subject": {
+          "reference": "Patient/4"
+        },
+        "effectiveDateTime": "2019-04-01",
+        "issued": "2019-04-01T11:45:33+11:00",
+        "specimen": [ {
+          "reference": "Specimen/752"
+        } ],
+        "result": [ {
+          "reference": "Observation/755"
+        }, {
+          "reference": "Observation/756"
+        } ]
+      }
+    }, {
+      "fullUrl": "https://faithhapifhir.ddns.net/fhir/Observation/755",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "755",
+        "subject": {
+          "reference": "Patient/4",
+          "type": "Patient"
+        },
+        "specimen": {
+          "reference": "Specimen/752",
+          "type": "Specimen"
+        },
+        "derivedFrom": [ {
+          "reference": "MolecularSequence/753",
+          "type": "MolecularSequence"
+        } ],
+        "component": [ {
+          "code": {
+            "coding": [ {
+              "system": "http://loinc.org/",
+              "version": "2.58",
+              "code": "48018-6",
+              "display": "Gene identifier"
+            } ]
+          },
+          "valueCodeableConcept": {
+            "coding": [ {
+              "system": "http://www.genenames.org",
+              "version": "1692101491124338700",
+              "code": "HGNC:14825",
+              "display": "OR4F5"
+            } ]
+          }
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://loinc.org/",
+              "version": "2.64",
+              "code": "48004-6",
+              "display": "DNA change"
+            } ]
+          },
+          "valueCodeableConcept": {
+            "coding": [ {
+              "system": "https://varnomen.hgvs.org/",
+              "code": "NM_001005484.1:c.180A>G"
+            } ]
+          }
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://loinc.org/",
+              "version": "2.64",
+              "code": "48019-4",
+              "display": "DNA change type"
+            } ]
+          },
+          "valueCodeableConcept": {
+            "coding": [ {
+              "system": "https://loinc.org/",
+              "code": "LA6690-7",
+              "display": "Substitution"
+            } ]
+          }
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://loinc.org/",
+              "version": "2.58",
+              "code": "48005-3",
+              "display": "Amino acid change"
+            } ]
+          },
+          "valueCodeableConcept": {
+            "coding": [ {
+              "system": "https://varnomen.hgvs.org/",
+              "code": "NM_001005484.1:p.(Ser60=)"
+            } ]
+          }
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://loinc.org/",
+              "version": "2.56",
+              "code": "48002-0",
+              "display": "Genomic source class"
+            } ]
+          },
+          "valueCodeableConcept": {
+            "coding": [ {
+              "system": "https://loinc.org/",
+              "code": "LA6683-2",
+              "display": "Germline"
+            } ]
+          }
+        } ]
+      }
+    }, {
+      "fullUrl": "https://faithhapifhir.ddns.net/fhir/Observation/756",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "756",
+        "subject": {
+          "reference": "Patient/4",
+          "type": "Patient"
+        },
+        "specimen": {
+          "reference": "Specimen/752",
+          "type": "Specimen"
+        },
+        "derivedFrom": [ {
+          "reference": "MolecularSequence/754",
+          "type": "MolecularSequence"
+        } ],
+        "component": [ {
+          "code": {
+            "coding": [ {
+              "system": "http://loinc.org/",
+              "version": "2.58",
+              "code": "48018-6",
+              "display": "Gene identifier"
+            } ]
+          },
+          "valueCodeableConcept": {
+            "coding": [ {
+              "system": "http://www.genenames.org",
+              "version": "1692101491124338700",
+              "code": "HGNC:24517",
+              "display": "NOC2L"
+            } ]
+          }
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://loinc.org/",
+              "version": "2.64",
+              "code": "48004-6",
+              "display": "DNA change"
+            } ]
+          },
+          "valueCodeableConcept": {
+            "coding": [ {
+              "system": "https://varnomen.hgvs.org/",
+              "code": "XM_005244739.1:c.918A>G"
+            } ]
+          }
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://loinc.org/",
+              "version": "2.64",
+              "code": "48019-4",
+              "display": "DNA change type"
+            } ]
+          },
+          "valueCodeableConcept": {
+            "coding": [ {
+              "system": "https://loinc.org/",
+              "code": "LA6690-7",
+              "display": "Substitution"
+            } ]
+          }
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://loinc.org/",
+              "version": "2.58",
+              "code": "48005-3",
+              "display": "Amino acid change"
+            } ]
+          },
+          "valueCodeableConcept": {
+            "coding": [ {
+              "system": "https://varnomen.hgvs.org/",
+              "code": "XM_005244739.1:p.(Glu306=)"
+            } ]
+          }
+        }, {
+          "code": {
+            "coding": [ {
+              "system": "http://loinc.org/",
+              "version": "2.56",
+              "code": "48002-0",
+              "display": "Genomic source class"
+            } ]
+          },
+          "valueCodeableConcept": {
+            "coding": [ {
+              "system": "https://loinc.org/",
+              "code": "LA6683-2",
+              "display": "Germline"
+            } ]
+          }
+        } ]
+      }
+    }, {
+      "fullUrl": "https://faithhapifhir.ddns.net/fhir/MolecularSequence/753",
+      "resource": {
+        "resourceType": "MolecularSequence",
+        "id": "753",
+        "type": "dna",
+        "coordinateSystem": 1,
+        "patient": {
+          "reference": "Patient/4",
+          "type": "Patient"
+        },
+        "specimen": {
+          "reference": "Specimen/752",
+          "type": "Specimen"
+        },
+        "referenceSeq": {
+          "chromosome": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/chromosome-human",
+              "version": "4.0.1",
+              "code": "1",
+              "display": "chromosome 1"
+            } ]
+          },
+          "genomeBuild": "hg19",
+          "strand": "watson",
+          "windowStart": 69260,
+          "windowEnd": 69280
+        },
+        "variant": [ {
+          "start": 69270,
+          "end": 69270,
+          "observedAllele": "G",
+          "referenceAllele": "A"
+        } ],
+        "observedSeq": "CCAACCTCTCGCTCATTGATC"
+      }
+    }, {
+      "fullUrl": "https://faithhapifhir.ddns.net/fhir/MolecularSequence/754",
+      "resource": {
+        "resourceType": "MolecularSequence",
+        "id": "754",
+        "type": "dna",
+        "coordinateSystem": 1,
+        "patient": {
+          "reference": "Patient/4",
+          "type": "Patient"
+        },
+        "specimen": {
+          "reference": "Specimen/752",
+          "type": "Specimen"
+        },
+        "referenceSeq": {
+          "chromosome": {
+            "coding": [ {
+              "system": "http://terminology.hl7.org/CodeSystem/chromosome-human",
+              "version": "4.0.1",
+              "code": "2",
+              "display": "chromosome 2"
+            } ]
+          },
+          "genomeBuild": "hg19",
+          "strand": "watson",
+          "windowStart": 22260,
+          "windowEnd": 22280
+        },
+        "variant": [ {
+          "start": 22270,
+          "end": 22270,
+          "observedAllele": "T",
+          "referenceAllele": "C"
+        } ]
+      }
+    } ]
+  }

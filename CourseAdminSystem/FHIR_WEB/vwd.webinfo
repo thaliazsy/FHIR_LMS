@@ -1,0 +1,14 @@
+﻿<?xml version="1.0"?>
+<!-- 
+  Visual Studio global web project settings.
+-->
+<VisualWebDeveloper>
+
+  <Globals>
+    
+  
+    
+  
+    <UserProperties sample_4bundle_4bundle_1json__JsonSchema="..\fhir.schema.json"/>
+  </Globals>
+</VisualWebDeveloper>

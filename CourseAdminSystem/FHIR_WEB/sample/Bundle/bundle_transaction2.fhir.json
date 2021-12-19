@@ -1,0 +1,46 @@
+{
+    "resourceType":"Bundle",
+    "type":"transaction",
+    "entry":[
+      {
+          "fullUrl":"urn:uuid:testpatient",
+          "resource":{
+              "resourceType":"Patient",
+              "name":[
+                  {
+                      "given":[
+                          "testPatient"
+                      ]
+                  }
+              ]
+          },
+          "request":{
+              "method":"PUT",
+              "url":"Patient?name=testPatient"
+          }
+      },
+      {
+          "resource":{
+              "resourceType":"Observation",
+              "code":{
+                  "coding":[
+                      {
+                          "code":"testObservation",
+                          "system":"testCodesystem",
+                          "display":"Test Observation for testPatient."
+                      }
+                  ]
+              },
+              "subect":{
+                  "type":"Patient",
+                  "reference":"urn:uuid:testpatient"
+              },
+              "valueInteger":11
+          },
+          "request":{
+              "method":"POST"
+          }
+      }
+    ]
+  
+  }

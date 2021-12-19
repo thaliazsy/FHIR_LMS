@@ -1,0 +1,17 @@
+﻿.Clear{clear:both;width:100%;height:1px;}
+a,a:hover,a:visited{color:#343b4e;text-decoration:none;}
+
+#Header{position:relative;top:0px;left:0px;width:100%;height:30px;background:#222;}
+
+#Bodyer{margin:0;padding:0;width:100%;min-height:880px;flex: 1 0 auto;}
+body::-webkit-scrollbar-track{-webkit-box-shadow:inset 0 0 5px rgba(0,0,0,0.3);background-color:rgba(255,255,255,0.5);}
+body::-webkit-scrollbar{width:5px;background-color:rgba(255,255,255,0.5);}
+body::-webkit-scrollbar-thumb{border-radius:30px;background-color:rgba(0,0,0,0.5);}
+
+#Head{position:relative;top:200px;left:0px;width:100%;height:100px;}
+#Logo{margin:0 auto;width:20%;height:100%;text-align:center;}
+#Logo img{margin:10px auto;width:100%;}
+
+#Footer{clear:both;padding:15px 0 10px;width:100%;height:35px;background:#ededed;flex-shrink:0;}
+#CopyRight{margin:auto;width:100%;text-align:center;color:#343b4e;font-size:13px;line-height:30px;}
+

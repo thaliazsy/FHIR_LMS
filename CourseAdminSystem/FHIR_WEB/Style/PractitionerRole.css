@@ -1,0 +1,85 @@
+.Btn{cursor:pointer;padding:5px;color:#fff;background:#999;}
+.Clear{clear:both;width:100%;height:1px;background:none;}
+
+#Logo{padding:40px 0;}
+/*#Head{position: relative;margin:-100px 300px auto;width:1500px;}*/
+#Head{position: relative;margin:-100px 50px 200px auto;width:1500px;}
+#Right {position:fixed;bottom:80px;right:10px;}
+#Right .Add{width:50px;height:50px;border-radius:50px;background:#aaa;text-align: center;line-height: 50px;overflow: hidden;}
+
+/*#Body{position: relative;margin:0 auto;padding:20px 0 0;width:1500px;height:500px;top:180px;overflow: scroll;}*/
+#Body{position: relative;width:1500px;height:700px;overflow: scroll;margin:180px auto 10px auto;}
+#Search{clear:both;height:100px;}
+#Search .Header{}
+#Search .Bodyer{}
+#Search .Bodyer .L1s{padding:15px;}
+#Search .Bodyer .L1s .L1{float:left;margin:5px 0;padding:10px;}
+#Search .Bodyer .L1s .L1 select{width:100px;height:40px;}
+#Search .Bodyer .L1s .L1 input{padding:10px;width:875px;}
+#Search .Bodyer .L1s .L1 .Btn{width:100px;line-height:27px;text-align:center;}
+#Search .Footer{}
+
+#List{clear:both;}
+#List .Header{margin:10px auto;padding:15px 25px;border-left:6px solid #1c6dd9;}
+#List .Bodyer{}
+#List .Bodyer .L1s{}
+#List .Bodyer .L1s .L1{cursor:pointer;clear:both;padding:20px 0px 5px;}
+#List .Bodyer .L1s .L1:hover{background:#ddd;}
+#List .Bodyer .L1s .L1 > div{margin:5px;padding:5px 10px;text-align:center;}
+#List .Bodyer .L1s .L1 .Num{float:left;width:50px;}
+#List .Bodyer .L1s .L1 .Id{float:left;width:50px;}
+#List .Bodyer .L1s .L1 .Name{float:left;width:200px;}
+#List .Bodyer .L1s .L1 .Gender{float:left;width:50px;}
+#List .Bodyer .L1s .L1 .Address{float:left;width:250px;}
+#List .Bodyer .L1s .L1 .Phone{float:left;width:150px;}
+#List .Bodyer .L1s .L1 .Status{/*display:none;*/float:left;width:100px;}
+#List .Bodyer .L1s .L1 .Tool{float:left;padding:0 10px;width:200px;}
+#List .Bodyer .L1s .L1 .Tool .L2s .L2{float:left;margin:0 0 10px;width:50%;}
+#List .Bodyer .L1s .L1 .Tool .L2s .L2 .Btn{margin:0 auto;width:80%;text-align:center;border:1px solid #999;}
+#List .Bodyer .L1s .L1 .Tool .L2s .L2 .Btn:hover{color:#999;background:#fff;}
+#List .Footer{}
+
+
+#Page{display:none;clear:both;margin:10px auto;padding:10px 0;width:45%;}
+#Page .L1s{}
+#Page .L1s .L1{cursor:pointer;float:left;margin:5px 10px;padding:5px 10px;}
+#Page .L1s .L1.Active{color:#fff;Background:#ccc;}
+
+td{width: 100px;}
+#Add{margin:20px auto;width:100%;}
+#Add .Header{margin:10px auto;padding:15px 25px;border-left:6px solid #1c6dd9;}
+#Add .Bodyer{margin:10px auto;width:95%;}
+#Add .Bodyer .L1s .L1{margin:0 0 10px;}
+#Add .Bodyer .L1s .L1>div{float:left;margin:5px 10px 5px 0;padding:5px;line-height:35px;}
+#Add .Bodyer .L1s .L1 input[type="text"]{padding:10px;width:900px;border:none;border-bottom:2px solid #ddd;}
+#Add .Bodyer .L1s .L1 .Message{color:#f00;}
+#Add .Footer{margin:10px auto;width:100%;}
+#Add .Footer .Tool .L1s .L1{float:left;margin:0 0 10px;width:50%;}
+#Add .Footer .Tool .L1s .L1 .Btn{margin:0 auto;padding:20px 10px;width:85%;text-align:center;border:1px solid #999;}
+#Add .Footer .Tool .L1s .L1 .Btn:hover{color:#999;background:none;}
+
+#Edit{margin:20px auto;width:100%;}
+#Edit .Header{margin:10px auto;padding:15px 25px;border-left:6px solid #1c6dd9;}
+#Edit .Bodyer{margin:10px auto;width:95%;}
+#Edit .Bodyer .L1s .L1{margin:0 0 10px;}
+#Edit .Bodyer .L1s .L1>div{float:left;margin:5px 10px 5px 0;padding:5px;line-height:35px;}
+#Edit .Bodyer .L1s .L1 input{padding:10px;width:900px;border:none;border-bottom:2px solid #ddd;}
+#Edit .Bodyer .L1s .L1 .Message{color:#f00;}
+#Edit .Footer{margin:10px auto;width:100%;}
+#Edit .Footer .Tool .L1s .L1{float:left;margin:0 0 10px;width:50%;}
+#Edit .Footer .Tool .L1s .L1 .Btn{margin:0 auto;padding:20px 10px;width:85%;text-align:center;border:1px solid #999;}
+#Edit .Footer .Tool .L1s .L1 .Btn:hover{color:#999;background:none;}
+
+
+#Detail{margin:20px auto;width:100%;}
+#Detail .Header{margin:10px auto;padding:15px 25px;border-left:6px solid #1c6dd9;}
+#Detail .Bodyer{margin:10px auto;width:95%;}
+#Detail .Bodyer .L1s .L1{margin:0 0 10px;}
+#Detail .Bodyer .L1s .L1>div{float:left;margin:5px 10px 5px 0;padding:5px;line-height:35px;}
+#Detail .Bodyer .L1s .L1 input{padding:10px;width:900px;border:none;border-bottom:2px solid #ddd;}
+#Detail .Bodyer .L1s .L1 .Message{color:#f00;}
+#Detail .Footer{margin:10px auto;width:100%;}
+#Detail .Footer .Tool .L1s .L1{float:left;margin:0 0 10px;width:50%;}
+#Detail .Footer .Tool .L1s .L1 .Btn{margin:0 auto;padding:20px 10px;width:85%;text-align:center;border:1px solid #999;}
+#Detail .Footer .Tool .L1s .L1 .Btn:hover{color:#999;background:none;}
+

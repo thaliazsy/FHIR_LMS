@@ -1,0 +1,98 @@
+{
+    "resourceType":"Bundle",
+    "type":"transaction",
+    "entry":[
+     {
+      "fullUrl":"urn:uuid:testslot",
+          "resource":{
+            "resourceType": "Slot",
+            "meta": {
+              "versionId": "1"
+            },
+            "serviceCategory": [
+              {
+                "coding": [
+                  {
+                    "code": "100000",
+                    "display": "學程"
+                  }
+                ]
+              }
+            ],
+            "serviceType": [
+              {
+                "coding": [
+                  {
+                    "code": "100000100",
+                    "display": "教育學程"
+                  }
+                ]
+              }
+            ],
+            "specialty": [
+              {
+                "coding": [
+                  {
+                    "code": "100000100102",
+                    "display": "教育學程-醫學數位內容"
+                  }
+                ]
+              }
+            ],
+            "appointmentType": {
+              "coding": [
+                {
+                  "system": "courseMaterial",
+                  "code": "https://mos2718.github.io/MICexp/basicDataProcess/Index.html",
+                  "display": "資料讀取與分析"
+                }
+              ]
+            },
+            "schedule": {
+              "reference": "Schedule/1738"
+            },
+            "status": "busy",
+            "start": "2021-05-31T09:00:00Z",
+            "end": "2021-05-31T12:00:00Z",
+            "comment": "醫學數位內容學程（schedule）-附加課堂(slot1_bundle upload)"
+          },
+          "request":{
+              "method":"POST"
+          }
+      },
+      {
+        "fullUrl":"urn:uuid:testAppointment",
+        "resource":{
+        "resourceType": "Appointment",
+        "meta": {
+          "versionId": "1"
+        },
+        "status": "booked",
+        "slot": [
+          {
+            "reference": "urn:uuid:testslot"
+          }
+        ],
+        "participant": [
+          {
+            "actor": {
+              "reference": "Patient/1998",
+              "display": "莊承勳"
+            }
+          },
+          {
+            "actor": {
+              "reference": "PractitionerRole/1737",
+              "display": "蕭嘉宏"
+            }
+          }
+        ]
+      },
+      "request":{
+        "method":"POST"
+    }
+      }
+      
+    ]
+  
+  }

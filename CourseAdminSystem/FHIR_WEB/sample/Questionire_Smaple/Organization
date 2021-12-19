@@ -1,0 +1,18 @@
+{
+  "resourceType": "Organization",
+  "id": "2",
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">\n      \n      <p>Tzu Chi Hospital</p>\n    \n    </div>"
+  },
+  "identifier": [
+    {
+      "system": "urn:oid:2.16.886.101.20003.20065.20022",
+      "value": "1145010010"
+    }
+  ],
+  "name": "Tzu Chi Hospital",
+  "alias": [
+    "TCH Insurance"
+  ]
+}

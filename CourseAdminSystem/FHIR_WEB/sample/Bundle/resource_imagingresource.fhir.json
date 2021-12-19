@@ -1,0 +1,71 @@
+{
+    "resourceType": "ImagingStudy",
+    "id": "example",
+    "text": {
+      "status": "generated",
+      "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">MR.  BUXTON^STEVEN. Permission Uploaded: 2021-06-04. 1 series, 1 images.</div>"
+    },
+    "identifier": [
+      {
+        "system": "urn:dicom:uid",
+        "value": "urn:oid:1.2.840.113674.950809132641097.100"
+      }
+    ],
+    "status": "available",
+    "subject": {
+      "reference": "Patient/dicom"
+    },
+    "started": "2021-06-04T11:01:20+03:00",
+    "endpoint": [
+        {
+          "reference": "Endpoint/faithorthanc"
+        }
+      ],
+    "numberOfSeries": 1,
+    "numberOfInstances": 1,
+    "series": [
+      {
+        "uid": "1.2.840.113674.1118.54.179.300",
+        "number": 3,
+        "modality": {
+          "system": "http://dicom.nema.org/resources/ontology/DCM",
+          "code": "MR"
+        },
+        "numberOfInstances": 1,
+        "instance": [
+          {
+            "uid": "1.2.840.113674.950809132641097.100",
+            "sopClass": {
+              "system": "urn:ietf:rfc:3986",
+              "code": "urn:oid:1.2.840.10008.5.1.4.1.1.4"
+            },
+            "number": 1
+          },
+          {
+            "uid": "1.2.840.113674.950809132642110.100",
+            "sopClass": {
+              "system": "urn:ietf:rfc:3986",
+              "code": "urn:oid:1.2.840.10008.5.1.4.1.1.4"
+            },
+            "number": 2
+          },
+          {
+            "uid": "1.2.840.113674.950809132644128.100",
+            "sopClass": {
+              "system": "urn:ietf:rfc:3986",
+              "code": "urn:oid:1.2.840.10008.5.1.4.1.1.4"
+            },
+            "number": 3
+          },
+          {
+            "uid": "1.2.840.113674.950809132645138.100",
+            "sopClass": {
+              "system": "urn:ietf:rfc:3986",
+              "code": "urn:oid:1.2.840.10008.5.1.4.1.1.4"
+            },
+            "number": 4
+          }
+        ]
+      }
+    ]
+  }
