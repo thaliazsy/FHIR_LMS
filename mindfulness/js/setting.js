@@ -1,7 +1,7 @@
 //Declare variable
-let FHIRserver= 'http://203.64.84.213:8080/fhir/';
-//'http://hapi.fhir.org/baseR4/';
-//'http://203.64.84.213:8080/fhir/';
+let FHIRURL= 'http://203.64.84.213:8080/fhir/'; //'http://hapi.fhir.org/baseR4/'; //'http://203.64.84.213:8080/fhir/';
+let FHIRResponseType= 'json';
+
 let globalPatientID, globalName, globalPersonID, globalIndex0, globalIndex1;
 let globalSelectedBtn;	//selected schedule in course list
 let index=0, iOrganization=-1, iAppointment=0, iSlot=0, iSchedule=0,  i3=0, i4=0;
@@ -28,23 +28,30 @@ let personJSONobj, patientJSONobj, appointmentJSONobj;
 function initialize(){
 	personJSONobj = {
             "resourceType": "Person",
-            "identifier": [ {
-				"system": "UserID",
-				"value": "test1"
-			}, {
-				"system": "Password",
-				"value": ""
-			} ],
-			"name": [ {
-				"text": "testPerson1"
-			} ],
-			"telecom": [
-				{
-				  "system": "email",
-				  "value": "Jim@example.org"
-				}
-			]
-        };
+		"active": "true",
+		"identifier": [ {
+			"system": "UserID",
+			"value": "test1"
+		}, {
+			"system": "Password",
+			"value": "MWI0ZjBlOTg1MTk3MTk5OGU3MzIwNzg1NDRjOTZiMzZjM2QwMWNlZGY3Y2FhMzMyMzU5ZDZmMWQ4MzU2NzAxNA=="
+		} ],
+		"name": [ {
+			"text": "testPerson1"
+		} ],
+		"telecom": [
+			{
+			  "system": "email",
+			  "value": "Jim@example.org"
+			}
+		]
+	};
+	// "link": [ {
+		// "target": {
+			// "reference": "patient/2138343",
+			// "display": "testpatient1"
+		// }
+	// } ]
 		
 	personJSONobj2 = {
             "resourceType": "Person",
@@ -74,6 +81,7 @@ function initialize(){
 	
 	patientJSONobj = {
 		"resourceType": "Patient",
+		"active": "true",
 		"name": [ {
 			"text": "testPatient1"
 		} ],
@@ -158,18 +166,197 @@ function createMultiArray(arrName, type, n1, n2, n3, n4){
 	return arrName;
 }
 
+
+class CPerson{
+	constructor() {
+		this.id="";
+		this.name="";
+		this.username="";
+	}
+}
+
+class CPatient{
+	constructor(id, OID) {
+		this.patientID=id;
+		this.organizationID= OID;
+		this.organizationName='';
+	}
+}
+
+class CAppointment{
+	constructor(AID, SID) {
+		this.appointmentID= AID;
+		this.slotID= SID;
+	}
+}
+
+class CSchedule{
+	constructor() {
+		this.scheduleID= '';
+		this.appointment=[];
+	}
+	newAppointment(p){
+		this.appointment.push(p)
+		return p;
+	}
+}
+
+class CPatients {
+	constructor(){
+		this.patient = [];
+		this.course= [];
+	}
+	// create a new patient and save it in the collection
+	newMember(p){
+		this.patient.push(p);
+		return p;
+	}
+	newCourse(p){
+		this.course.push(p);
+		return p;
+	}
+	get allMember(){
+		return this.patient;
+	}
+	
+	// get someCourse(scheduleID){
+		// return this.course.filter;
+	// }
+	
+	courseIsExist(pScheduleID, pSlotID){
+		this.course.forEach(item => { 
+			let scheduleID= item.scheduleID;
+			item.appointment.forEach(item2 => { 
+				let slotID= item2.slotID;
+				if(slotID == pSlotID){
+					if(item.scheduleID == "")  item.scheduleID=pScheduleID;
+					return 
+				}
+			});
+		});
+		//return this.course.filter(x => x.scheduleID == scheduleID)
+	}
+	
+	// get indexMember(){
+		// return this.patient.forEach(item => {
+			// item.
+		// });
+	// }
+	// get total patient
+	get numberOfMember(){
+		return this.patient.length;
+	}
+}
+
+let groupMember= new CPatients();
+
+function getPatient(obj){
+	let patientID = (obj.id) ? obj.id : '';
+	let organizationID =(obj.managingOrganization.reference) ? obj.managingOrganization.reference.split('/')[1] : '';
+	let p = new CPatient(patientID, organizationID)
+	groupMember.newMember(p);
+	getResource(FHIRURL, 'Organization', '/' + organizationID, FHIRResponseType, 'getOrganization');
+}
+
+function getOrganization(obj){
+	let organizationID = (obj.id) ? obj.id : '';
+	let organizationName = (obj.name) ? obj.name : '';
+	groupMember.patient.filter(x => x.organizationID == organizationID && x.organizationName == '')[0].organizationName = organizationName; //must only return 1 row
+	let patientID= groupMember.patient.filter(x => x.organizationID == organizationID)[0].patientID; 
+	document.getElementById("titleDiv").innerHTML= organizationName + " - 學習平台";					//organizationName
+	getResource(FHIRURL, 'Appointment', '?actor=Patient/' + patientID, FHIRResponseType, 'getAppointment');
+}
+
+function getAppointment(obj){
+	if (obj.total == 0)	alert('無資料');
+	else{
+		obj.entry.map((entry, i) => {
+			let appointmentID = (entry.resource.id) ? entry.resource.id : '';
+			let slotID= (entry.resource.slot) ? entry.resource.slot[0].reference.split('/')[1] : '';
+			let appointment = new CAppointment(appointmentID, slotID);
+			let schedule = new CSchedule();
+			schedule.newAppointment(appointment);
+			groupMember.newCourse(schedule);
+			getResource(FHIRURL, 'Slot', '/' + slotID, FHIRResponseType, 'getSlot');
+		});
+	}
+}
+
+function getSlot(obj){
+	let slotID= (obj.id) ? obj.id : '';
+	let scheduleID= (obj.schedule) ? obj.schedule.reference.split('/')[1] : '';
+	let planDefinitionID= (obj.schedule) ? obj.schedule.reference.split('/')[1] : '';
+	
+	//let item= groupMember.courseIsExist(scheduleID);
+	groupMember.course.forEach(item => { 
+		item.appointment.forEach(item2 => { 
+			let retslotID= item2.slotID;
+			let retcomment= item2.comment;
+			if(retslotID == slotID){
+				if(item.scheduleID == "")  item.scheduleID=scheduleID;
+			}
+		});
+	});
+	//check course yg contain scheduleID	
+	// if(!groupMember.course){
+		// groupMember.course.filter(x => x.scheduleID == '').forEach(item => {
+			// let appointment= item.appointment.contains(slotID);
+			// let x=1;
+		// });
+	// }
+	// var temp= jsonOBJ.schedule.reference;
+	// if (!arrTempSchedule.includes(temp)){
+		// arrTempSchedule.push(temp);
+		// arrSchedule[iSchedule][5]=0;	//total slot
+		// iSchedule++;
+	// }
+	// var index = arrTempSchedule.indexOf(temp);
+	// var index1= arrSchedule[index][5];
+	// tableValue[iOrganization][index][index1][0] = jsonOBJ.start;									//0.Slot startTime (use to paixu)
+	// tableValue[iOrganization][index][index1][1] = jsonOBJ.end;										//1.Slot endTime
+	// var totVideo= jsonOBJ.appointmentType.coding.length;
+	// tableValue[iOrganization][index][index1][2]= totVideo;
+	// var index2= 3;
+	// for(var i=0; i<totVideo; i++)
+	// {
+		// let url= jsonOBJ.appointmentType.coding[i].code;
+		// tableValue[iOrganization][index][index1][index2++] = jsonOBJ.appointmentType.coding[i].display;		//courseMaterial title
+		// if(jsonOBJ.appointmentType.coding[i].system == "questionnaire")
+			// url+= '?patientID=' + globalPatientID + '&subjectID=' + jsonOBJ.schedule.reference;
+		// tableValue[iOrganization][index][index1][index2++] = url;		//courseMaterial URL
+	// }
+	// arrSchedule[index][5]++;
+	// iSlot++;
+	
+	// if(iAppointment==iSlot){
+		// for (var i=0;i<iSchedule;i++){ 
+			// let urlStr= FHIRURL + arrTempSchedule[i];
+			// HTTPGetData(urlStr, "Schedule");
+		// }
+	// }
+}
+
+function getSchedule(obj){
+	let schedule = CSchedule();
+		
+}
+
+function getPractitionerRole(obj){
+	
+}
+
 function getFHIRMyCourse(jsonOBJ, type){	//我的課程
 	if (type=="Patient"){
 		iOrganization++;
 		curUserID= jsonOBJ.id;
 		curOrganizationID = jsonOBJ.managingOrganization.reference;
 		arrOrganizationID.push(curOrganizationID);
-		let urlStr= FHIRserver + curOrganizationID;
+		let urlStr= FHIRURL + curOrganizationID;
 		HTTPGetData(urlStr, "Organization");
 	}
 	else if (type=="Organization"){
 		arrOrganization[iOrganization]= jsonOBJ.name;								//organizationName
-		let urlStr= FHIRserver + 'Appointment?actor=reference|Patient/' + curUserID;
+		let urlStr= FHIRURL + 'Appointment?actor=reference|Patient/' + curUserID;
 		HTTPGetData(urlStr, "Appointment");	
 	}
 	else if (type=="Appointment"){
@@ -179,7 +366,7 @@ function getFHIRMyCourse(jsonOBJ, type){	//我的課程
 				iAppointment++;
 			}
 			for (var i=0;i<iAppointment;i++){ 
-				let urlStr= FHIRserver + arrTempSlot[i];
+				let urlStr= FHIRURL + arrTempSlot[i];
 				HTTPGetData(urlStr, "Slot");
 			}
 		}
@@ -208,7 +395,7 @@ function getFHIRMyCourse(jsonOBJ, type){	//我的課程
 		
 		if(iAppointment==iSlot){
 			for (var i=0;i<iSchedule;i++){ 
-				let urlStr= FHIRserver + arrTempSchedule[i];
+				let urlStr= FHIRURL + arrTempSchedule[i];
 				HTTPGetData(urlStr, "Schedule");
 			}
 		}
@@ -227,7 +414,7 @@ function getFHIRMyCourse(jsonOBJ, type){	//我的課程
 		
 		if(iSchedule==i3){
 			for (var i=0;i<iSchedule;i++){ 
-				let urlStr= FHIRserver + arrSchedule[i][1];							
+				let urlStr= FHIRURL + arrSchedule[i][1];							
 				HTTPGetData(urlStr, "PractitionerRole");
 			}
 		}
@@ -253,7 +440,7 @@ function getFHIRCourseList(jsonOBJ, type){	//課程清單
 			}
 			
 			for (var i=0;i<arrTeacherID.length;i++){ 
-				let urlStr= FHIRserver + "Schedule?actor=reference|" + arrTeacherID[i];
+				let urlStr= FHIRURL + "Schedule?actor=reference|" + arrTeacherID[i];
 				HTTPGetData(urlStr, "Schedule2");
 			}
 		}
@@ -277,7 +464,7 @@ function getFHIRCourseList(jsonOBJ, type){	//課程清單
 				locIndex++;
 			}
 			for (var i=0;i<locIndex;i++){ 
-				let urlStr= FHIRserver + "Slot?schedule=reference|Schedule/" + arrSchedule2[i][0];
+				let urlStr= FHIRURL + "Slot?schedule=reference|Schedule/" + arrSchedule2[i][0];
 				HTTPGetData(urlStr, "Slot2");
 			}
 		}
@@ -316,7 +503,7 @@ function checkOrganization(field){
 	
 	if(existOrganization==0)	createPatient(temp);
 	else{
-		let urlStr= FHIRserver + "Slot?schedule=reference|" + arrScheduleID[globalIndex0][globalIndex1];
+		let urlStr= FHIRURL + "Slot?schedule=reference|" + arrScheduleID[globalIndex0][globalIndex1];
 		HTTPGetData(urlStr, "getSlotOfSchedule");
 	}
 }
@@ -326,7 +513,7 @@ function createPatient(organizationID){
 	patientJSONobj.name[0].text= globalName;
 	patientJSONobj.managingOrganization.reference= organizationID;
 	patientJSONobj = JSON.stringify(patientJSONobj);
-	HTTPPostData(FHIRserver + "Patient", patientJSONobj, "postPatient");
+	HTTPPostData(FHIRURL + "Patient", patientJSONobj, "postPatient");
 }
 
 var arrPatient= new Array(5);
@@ -357,7 +544,7 @@ function checkAllSlot(jsonOBJ){
 			appointmentJSONobj.participant[1].actor.reference= tableValue2[globalIndex0][globalIndex1][0];			//PractitionerRole ID
 			appointmentJSONobj.participant[1].actor.display= tableValue2[globalIndex0][globalIndex1][1];			//PractitionerRole name
 			appointmentJSONobj = JSON.stringify(appointmentJSONobj);
-			HTTPPostData(FHIRserver + "Appointment", appointmentJSONobj, jsonOBJ.entry[i].resource);
+			HTTPPostData(FHIRURL + "Appointment", appointmentJSONobj, jsonOBJ.entry[i].resource);
 			slotExist=1;
 			//break;
 		}
@@ -409,7 +596,7 @@ function HTTPGetData(urlStr, type) {
 				ret = ret.slice(0, -1);
 				let str= ',"link":[{"target":{"reference": "' + globalPatientID + '","display": "' + globalName + '"}}]}';
 				ret += str;
-				let urlStr= FHIRserver + 'Person/' + globalPersonID;
+				let urlStr= FHIRURL + 'Person/' + globalPersonID;
 				HTTPPutData(urlStr, ret, "putPerson");
 			}
 			else if(type=="PractitionerRole2" || type=="Schedule2" || type=="Slot2") getFHIRCourseList(jsonOBJ, type);
@@ -441,13 +628,13 @@ function HTTPPostData(urlStr, dataStr, type) {
 			if(type == "postPatient"){	
 				globalPatientID= "Patient/" + jsonOBJ.id;	
 				//get person
-				let urlStr= FHIRserver + "Person/" + globalPersonID;
+				let urlStr= FHIRURL + "Person/" + globalPersonID;
 				HTTPGetData(urlStr, "getPerson");
 			}
 			else{
 				let slotID= type.id;
 				type.status="busy";
-				let urlStr= FHIRserver + 'Slot/' + slotID;
+				let urlStr= FHIRURL + 'Slot/' + slotID;
 				type = JSON.stringify(type);
 				HTTPPutData(urlStr, type, "PutSlot");
 			}
@@ -466,7 +653,7 @@ function HTTPPutData(urlStr, dataStr, type) {
             ret = HttpObj.responseText;
 			//alert(ret);
 			if(type=="putPerson"){
-				let urlStr= FHIRserver + "Slot?schedule=reference|" + arrScheduleID[globalIndex0][globalIndex1];;
+				let urlStr= FHIRURL + "Slot?schedule=reference|" + arrScheduleID[globalIndex0][globalIndex1];;
 				HTTPGetData(urlStr, "getSlotOfSchedule");
 			}
         }
