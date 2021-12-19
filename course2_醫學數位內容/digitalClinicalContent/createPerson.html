@@ -20,7 +20,7 @@
 		</form>
 	</div>
 	<script>
-		let userID, encPassword;
+		let user;
 		let course1={
 			organizationID: "Organization/1735",
 			practitionerRoleID: "PractitionerRole/1737", 
@@ -29,8 +29,8 @@
 		};
 		
 		function checkUsername(ret){ 
-			globalName= document.getElementById('pName').value;
-			encPassword= document.getElementById('SHA256PWD').value;
+			user.name= document.getElementById('pName').value;
+			user.pwd= document.getElementById('SHA256PWD').value;
 			//check FHIR Person & Patient exist or not 
 			if (ret.total > 0){			//if person exist
 				globalPatientID= ret.entry[0].resource.link[0].target.reference;
@@ -42,7 +42,7 @@
 		
 		function createPatient(){
 			initialize();
-			patientJSONobj.name[0].text= globalName;
+			patientJSONobj.name[0].text= user.name;
 			patientJSONobj.managingOrganization.reference= course1.organizationID;
 			patientJSONobj = JSON.stringify(patientJSONobj);
 			HTTPPostData(FHIRserver + "/Patient", patientJSONobj, "postPatient");
@@ -50,21 +50,23 @@
 		
 		function createPerson(patID){
 			globalPatientID= patID;
-			personJSONobj.identifier[0].value= userID;
-			personJSONobj.identifier[1].value= encPassword;
-			personJSONobj.name[0].text= globalName;
-			personJSONobj.telecom[0].value= userID;
+			personJSONobj.identifier[0].value= user.id;
+			personJSONobj.identifier[1].value= user.pwd;
+			personJSONobj.name[0].text= user.name;
+			personJSONobj.telecom[0].value= user.id;
 			personJSONobj.link[0].target.reference= globalPatientID;
-			personJSONobj.link[0].target.display= globalName;
+			personJSONobj.link[0].target.display= user.name;
 			personJSONobj = JSON.stringify(personJSONobj);
 			HTTPPostData(FHIRserver + "/Person", personJSONobj, "postPerson");
 		}
 		
 		function getData(){
+			//Prevent user double click the submit button, since loading need times
 			document.getElementById("btnSubmit").disabled = true;
+			//Validate mandatory field
 			if(checkRequiredField(3)){
-				userID= document.getElementById('pEmail').value;
-				let urlStr= FHIRserver + 'Person?identifier=' + userID;
+				user.id= document.getElementById('pEmail').value;
+				let urlStr= FHIRserver + 'Person?identifier=' + user.id;
 				HTTPGetData(urlStr, "CheckPersonUserID");
 			}
 		}
