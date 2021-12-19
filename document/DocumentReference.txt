@@ -1,0 +1,58 @@
+
+{
+  "resourceType": "DocumentReference",
+  "status": "current",
+  "type": {
+    "coding": [
+      {
+        "system": "http://loinc.org",
+        "code": "34108-1",
+        "display": "Course Material"
+      }
+    ]
+  },
+  "date": "2021-12-04T09:43:41+11:00",
+  "author": [
+    {
+      "reference": "PractitionerRole/1764"
+    }
+  ],
+  "description": "XX Course Chapter 1",
+  "content": [
+    {
+      "attachment": {
+        "contentType": "video",
+        "language": "ch-TW",
+        "url": "https://drive.google.com/file/d/1VelCu8fxYb2AQtyA6QCZJ4cLkeNh-jst/view?usp=sharing",
+        "title": "2-1_注意力分散，常出錯"
+      }
+	},
+	{
+	  "attachment": {
+        "contentType": "video",
+        "language": "ch-TW",
+        "url": "https://drive.google.com/file/d/1rR1dOZqNYel7dYBjzEB0QKdnfhkkh8vf/view?usp=sharing",
+        "title": "2-2_定錨:心不亂跑"
+      }
+	},
+	{
+	"attachment": {
+        "contentType": "video",
+        "language": "ch-TW",
+        "url": "https://drive.google.com/file/d/1Bcc3hHMsbQhypSyJOLU1f8KIfmWy0QTK/view?usp=sharing",
+        "title": "2-3_定錨力"
+      }
+    }
+  ],
+  "context": {
+    "related": [
+      {
+        "reference": "Schedule/2481",
+        "identifier": {
+          "system": "SCH001",
+          "value": "CHAPTER01"
+        }
+      }
+    ]
+  }
+}
