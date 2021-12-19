@@ -67,7 +67,7 @@
 		
 		for (var i=0;i<arrOrganization2ID.length;i++){ 
 			iOrganization2++;
-			let urlStr= FHIRserver + "PractitionerRole?organization=reference|Organization/" + arrOrganization2ID[i];							
+			let urlStr= FHIRURL + "PractitionerRole?organization=reference|Organization/" + arrOrganization2ID[i];							
 			HTTPGetData(urlStr, "PractitionerRole2");
 		}
 		
@@ -79,7 +79,7 @@
 		function clearHistory(){			//not Functioning
 			 var backlen = history.length;
 			 history.go(-backlen);
-			 window.location.href = "loginPerson.html";
+			 window.location.href = "login.html";
 		}
 		
 		function createTable2(){
