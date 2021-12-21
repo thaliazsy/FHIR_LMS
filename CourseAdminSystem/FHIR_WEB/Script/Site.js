@@ -25,7 +25,7 @@ function showResource(str) {
     說明：點擊"Logo"後，返回主頁
 */
 document.getElementById('Logo').onclick = function () {
-    location.href = './Schedule/index.html';
+    location.href = './Schedule/index2.html';
 }
 
 function getTodayDate() {
