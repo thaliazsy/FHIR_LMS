@@ -4,7 +4,7 @@ let user = new CPerson();
 let course1={
 	organizationID: "Organization/2220",	//organizationID used for create new FHIR Patient
 	practitionerRoleID: "PractitionerRole/1737", 
-	scheduleID: "Schedule/2851",
+	scheduleID: "Schedule/1738",
 	practitionerName: "蕭嘉宏"
 };
 

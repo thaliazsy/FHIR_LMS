@@ -1,13 +1,13 @@
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>慈濟大學 - 學習平台</title>
-	<script src="js/setting.js"></script>
-	<link href="css/style.css" rel="stylesheet" type="text/css" media="screen" /> 
-	<META Http-Equiv="Cache-Control" Content="no-cache"/>
-<META Http-Equiv="Pragma" Content="no-cache"/>
-<META Http-Equiv="Expires" Content="0"/>
-</head>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>慈濟大學 - 學習平台</title>
+		<script src="js/setting.js"></script>
+		<script src="js/session.js"></script>
+		<script src="js/jquery.min.js"></script>
+		<script src="js/HTTPRequest.js"></script>
+		<link href="css/style.css" rel="stylesheet" type="text/css" media="screen" /> 
+	</head>
 <body>
 	<!-- header -->
 	<header class="site-header">
@@ -17,26 +17,45 @@
 			</div>
 	</header>	
 	<!-- end header -->
-	<button class="topright1" onclick="clearHistory()">Logout</button>
+	<button class="topright1" onclick="logOut()">Logout</button>
 	<div style="padding: 60px;">
 		<div align="left" id="intro"></div>
 		<table width="30%" id="TableAppointment" border="1"></table><br>
 	</div>
 	<script>
-		queryParam();
-		document.getElementById("intro").innerHTML= "Hello, " + globalName + "!";
-		let urlStr= FHIRserver + globalPatientID;
-		HTTPGetData(urlStr, "Patient");
+		let user = new CPerson();
+	
+		$(document).ready(function(){
+			let ret= sessionGet("loginAccount");
+			if(ret==null) {
+				//redirect users to login page
+				window.location.href = "loginPerson.html";
+			} 
+			else {
+				//init page
+				user.id = ret.userLogin.id;
+				user.name = ret.userLogin.name;
+				user.username = ret.userLogin.username;
+				$("#intro").html("Hello, " + user.name + "!");
+				
+				let arr= ret.patientID;
+				for(item in arr) {
+					globalPatientID=arr[item].split('/')[1];
+					let urlStr= FHIRURL + "Patient/" + globalPatientID;
+					HTTPGetData(urlStr, "Patient");
+					//getResource(FHIRURL, 'Patient', '/' + patientID, FHIRResponseType, 'getPatientByID');
+				};
+			}
+		});
 		
-		function linkToCourseSelection(){
-			var queryParam= 'personID=' + globalPersonID;
-			window.open('courseSelection.html?' + queryParam, "_blank");
-		}
+		<!-- function linkToCourseSelection(){ -->
+			<!-- var queryParam= 'personID=' + globalPersonID; -->
+			<!-- window.open('courseSelection.html?' + queryParam, "_blank"); -->
+		<!-- } -->
 		
-		function clearHistory(){			//not Functioning
-			 var backlen = history.length;
-			 history.go(-backlen);
-			 window.location.href = "loginPerson.html";
+		function logOut(){			//not Functioning
+			 window.sessionStorage.removeItem("loginAccount");
+			 window.location.href = "login.html";
 		}
 		
 		function createTable(){
