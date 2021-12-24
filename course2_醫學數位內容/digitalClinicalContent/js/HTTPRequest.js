@@ -84,7 +84,7 @@ function getResource(URL, ResourceName, Parameter, ResponseType, AfterFun){
         AfterFun：資料取得後欲執行的函式
         RequestData：向Server傳送的參數
 */
-function postResource(URL, ResourceName, Parameter, ResponseType, callback, RequestData){
+function postResource(URL, ResourceName, Parameter, ResponseType, AfterFun, RequestData){
     //組欲向FHIR Server索取資料的路徑
     var url = URL + ResourceName + Parameter;
     //建立與伺服器互動元件
@@ -135,7 +135,7 @@ function postResource(URL, ResourceName, Parameter, ResponseType, callback, Requ
                 eval(string)
                 說明：將字串轉為JavaScript Code執行
             */
-            eval(callback)(str);
+            eval(AfterFun)(str);
             return str;
         }else{
             if(this.readyState == 4 && this.status != 201)

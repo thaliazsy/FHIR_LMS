@@ -1,17 +1,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 			<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-			<title>慈濟大學 - 醫學數位內容 - 學習平台登入網頁</title>
-			<script src="js/sha256.js"></script>
-			<script src="js/setting.js"></script>
-			<script src="js/session.js"></script>
-			<script src="js/htmlJS/login.js"></script>
-			<script src="js/HTTPRequest.js"></script>
+			<title></title>
 			<link href="css/style.css" rel="stylesheet" type="text/css" media="screen" />
 	</head>
 	<body>
 		<div class="center">
-			<h1 align="center">慈濟大學-醫學數位內容<br>學習平台登入網頁</h1>
+			<h1 align="center" id="header"></h1>
 			<form id="form1">
 				<table align="center" style="border: solid 2px gray;" >	
 					<tr><td>帳號 (Email) <font color="red"> *</font></td><td>:&nbsp;<input type="text" id="userID"><br></td></tr>
@@ -22,9 +17,14 @@
 					<a href="signUp.html" target="_blank">報名請點我</a>    &nbsp;
 				</p>
 				<input type="hidden" id="SHA256PWD">
-				
-				<div align="left" style="margin-top: 30px">無法登入或忘記密碼請聯絡慈大醫資龍昱璇學姊<br>電話：0965006102<br>郵件：108316107@gms.tcu.edu.tw'</div>
+				<div id="cp" align="left" style="margin-top: 30px"></div>
 			</form>
 		</div>
 	</body>
+	<script src="js/sha256.js"></script>
+	<script src="js/setting.js"></script>
+	<script src="js/site.js"></script>
+	<script src="js/session.js"></script>
+	<script src="js/htmlJS/login.js"></script>
+	<script src="js/HTTPRequest.js"></script>
 </html>

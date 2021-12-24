@@ -1,14 +1,12 @@
+//Show Page Title and Header
+info.pageName= "報名網頁";
+document.title= info.universityName + " - " + info.courseName + " - " + info.pageName;
+document.getElementById("header").innerHTML= info.universityName + " - " + info.courseName + "<br>" + info.pageName;
+
 //Initialize Fhir Person class
 let user = new CPerson();
 //local variable for store temporary json obj
 let personJSON, slotJSON;
-//Set course related information
-let course1={
-	organizationID: "Organization/2220",	//organizationID used for create new FHIR Patient
-	practitionerRoleID: "PractitionerRole/1737", 
-	scheduleID: "Schedule/2851",
-	practitionerName: "蕭嘉宏"
-};
 
 //Validate data input by user
 function dataValidation(){

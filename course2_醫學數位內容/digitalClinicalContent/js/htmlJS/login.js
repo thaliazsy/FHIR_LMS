@@ -1,3 +1,9 @@
+//Show Page Title and Header
+	info.pageName= "學習平台登入網頁";
+	document.title= info.universityName + " - " + info.courseName + " - " + info.pageName;
+	document.getElementById("header").innerHTML= info.universityName + " - " + info.courseName + "<br>" + info.pageName;
+	document.getElementById("cp").innerHTML= "無法登入或忘記密碼" + message.contactPerson;
+
 //Validate data input by user
 function dataValidation(){
 	if(checkRequiredField(2)){
