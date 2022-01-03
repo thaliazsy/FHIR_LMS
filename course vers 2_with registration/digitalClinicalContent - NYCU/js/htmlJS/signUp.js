@@ -20,13 +20,28 @@ function dataValidation(){
 //Verify FHIR Person & Patient exist or not 
 function verifyUser(ret){ 
 	//if person exist -> alert "user exist"
-	if (ret.total > 0){			
+	if (ret.total > 0)
+	{			
 		user.id = ret.entry[0].resource.link ? ret.entry[0].resource.link[0].target.reference : "";
 		alert(message.accountExist);
 		document.getElementById("loader").style.display = "none";
 	}
-	//if person unexist -> create new Person ->  create new Patient
-	else createPerson();
+	//if person unexist -> check slot availability -> create new Person ->  create new Patient
+	else 
+	{
+		getResource(FHIRURL, 'Slot', '?schedule=' + course1.scheduleID + "&status=free", FHIRResponseType, 'checkSlotAvailability');
+	}
+}
+
+//Check slot availability 
+function checkSlotAvailability(obj){ 
+	if (obj.total == 0){
+		alert("Course full slot!");
+		document.getElementById("loader").style.display = "none";
+	}
+	else{
+		createPerson();
+	}
 }
 
 //Create new FHIR Person
@@ -107,6 +122,7 @@ function getSlotByApptID(obj){
 }
 
 function createAppointment(obj){
+	//Check slot availability again for certainty
 	if (obj.total == 0){
 		alert("Course full slot!");
 		document.getElementById("loader").style.display = "none";
