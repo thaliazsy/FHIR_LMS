@@ -1,18 +1,69 @@
-//Show Page Title and Header
-info.pageName= "報名網頁";
+//Set table field
+let field= {
+	//field code	
+	code: ["Name", "Email", "HighestEduDegree", "Institution", "Password"],
+	//field placeholder	
+	placeholder: ["", "", "e.g. Senior High School", "e.g. BINUS University IT Department", ""],
+	//field name
+	desc: [],
+	//field required or not
+	isRequired: [1,1,1,1,1],		
+	//field type e.g. text, number, password
+	type: ["text", "email", "text", "text", "password"]			
+};
+
+if(web_language=="CH")
+{
+	field.desc= ["姓名", "Email", "最高學歷", "就讀機構", "密碼"];
+	info.pageName= "註冊網頁";
+}
+else if(web_language=="EN")
+{
+	field.desc= ["Name", "Email", "Highest Educational Degree", "Educational/Working Institution", "Password"];
+	info.pageName= "Sign Up";
+}
+
+let temp="";
+//Show Registration Form field
+$(document).ready(function(){
+	for(let i=0; i<field.desc.length;i++){
+		temp += '<tr><td>' + field.desc[i];
+		if(field.isRequired[i])			
+			temp += '<font color="red"> *</font>';
+		
+		temp += '</td><td>:</td><td>&nbsp;<input class="width250" type="' + field.type[i] + '" id="p' + field.code[i] + '" ';
+		
+		if(field.placeholder[i] != "")
+			temp += 'placeholder="' + field.placeholder[i] + '" ';
+		
+		if(field.code[i] == "Password")
+			temp += 'onkeyup="SHA256PWD.value = sha256(this.value);" ';
+			
+		if(field.isRequired[i])			
+			temp += 'required';
+			
+		temp += '><br></td></tr>';
+	}
+	temp+= '<tr><td colspan="3" align="right"><input id="btnSubmit" type="button" value="Submit" onclick="dataValidation()"></td></tr>';
+	document.getElementById('mainTable').innerHTML= temp;
+});
+
+//Show Page Title and Header (need to initialize info.pageName beforehand)
 document.title= info.universityName + " - " + info.courseName + " - " + info.pageName;
 document.getElementById("header").innerHTML= info.universityName + " - " + info.courseName + "<br>" + info.pageName;
 
 //Initialize Fhir Person class
 let user = new CPerson();
 //local variable for store temporary json obj
-let personJSON, slotJSON;
+let personJSON, slotJSON=[];
 
 //Validate data input by user
 function dataValidation(){
-	document.getElementById("loader").style.display = "block";
-	if(checkRequiredField(3)){
-		user.username= document.getElementById('pEmail').value;
+	if(checkRequiredField(field)){
+		document.getElementById("loadingPage").style.display = "block";
+		user.username= $("#pEmail").val();
+		user.highestEduDegree= $("#pHighestEduDegree").val();
+		user.institution= $("#pInstitution").val();
 		getResource(FHIRURL, 'Person', '?identifier=' + user.username, FHIRResponseType, 'verifyUser');
 	}
 }
@@ -24,21 +75,20 @@ function verifyUser(ret){
 	{			
 		user.id = ret.entry[0].resource.link ? ret.entry[0].resource.link[0].target.reference : "";
 		alert(message.accountExist);
-		document.getElementById("loader").style.display = "none";
+		document.getElementById("loadingPage").style.display = "none";
 	}
 	//if person unexist -> check slot availability -> create new Person ->  create new Patient
 	else 
 	{
 		getResource(FHIRURL, 'Slot', '?schedule=' + course1.scheduleID + "&status=free", FHIRResponseType, 'checkSlotAvailability');
 	}
-	
 }
 
 //Check slot availability 
 function checkSlotAvailability(obj){ 
 	if (obj.total == 0){
 		alert("Course full slot!");
-		document.getElementById("loader").style.display = "none";
+		document.getElementById("loadingPage").style.display = "none";
 	}
 	else{
 		createPerson();
@@ -53,6 +103,8 @@ function createPerson(){
 	
 	personJSONobj.identifier[0].value= user.username;
 	personJSONobj.identifier[1].value= encPassword;
+	personJSONobj.identifier[2].value= user.highestEduDegree;
+	personJSONobj.identifier[3].value= user.institution;
 	personJSONobj.name[0].text= user.name;
 	personJSONobj.telecom[0].value= user.username;
 	personJSONobj = JSON.stringify(personJSONobj);
@@ -90,6 +142,7 @@ function updatePerson(obj){
 			};
 		}
 		personJSON = JSON.stringify(mergedObject);
+		//putResource(FHIRURL, 'Person', '/' + user.id, FHIRResponseType, "signUpResult", personJSON)
 		putResource(FHIRURL, 'Person', '/' + user.id, FHIRResponseType, "getAppointmentByPatientID", personJSON)
 	}
 }
@@ -106,7 +159,9 @@ function getAppointmentByPatientID(obj){
 function getSlotByApptID(obj){
 	//If patient doesn't have appointment -> check free Slot -> create new appointment
 	if (obj.total == 0){
-		getResource(FHIRURL, 'Slot', '?schedule=' + course1.scheduleID + "&status=free", FHIRResponseType, 'createAppointment');
+		for(let i=101; i<= 100+course1.totalSlotSession ; i++){
+			getResource(FHIRURL, 'Slot', '?identifier=' + course1.scheduleCode + i + "&status=free&_count=102&_sort:asc=_lastUpdated", FHIRResponseType, 'createAppointment');
+		}
 	}
 	// else{
 		// for (var i=0;i<((jsonOBJ.total>10)?10:jsonOBJ.total);i++){ 
@@ -126,10 +181,11 @@ function createAppointment(obj){
 	//Check slot availability again for certainty
 	if (obj.total == 0){
 		alert("Course full slot!");
-		document.getElementById("loader").style.display = "none";
+		document.getElementById("loadingPage").style.display = "none";
 	}
 	else{
-		slotJSON= obj.entry[0].resource;
+		initializeAppt();
+		slotJSON.push(obj.entry[0].resource);
 		appointmentJSONobj.slot[0].reference= "Slot/" + obj.entry[0].resource.id;				//slot ID
 		appointmentJSONobj.participant[0].actor.reference= "Patient/" + globalPatientID;						//patient ID
 		appointmentJSONobj.participant[0].actor.display= user.name;								//patient name
@@ -143,15 +199,17 @@ function createAppointment(obj){
 function updateSlot(obj){
 	if (!isError(obj.resourceType, "Error in create FHIR Appointment. " + message.contactPerson))
 	{
-		slotJSON.status="busy";
-		let slotSTR = JSON.stringify(slotJSON);
-		putResource(FHIRURL, 'Slot', '/' + slotJSON.id, FHIRResponseType, "signUpResult", slotSTR)
+		let slotTemp= slotJSON.filter(x => x.id == obj.slot[0].reference.split("/")[1])[0];
+		slotTemp.status="busy";
+		let slotSTR = JSON.stringify(slotTemp);
+		putResource(FHIRURL, 'Slot', '/' + slotTemp.id, FHIRResponseType, "signUpResult", slotSTR)
 	}
 }
 
 function signUpResult(obj){
 	if (!isError(obj.resourceType, message.signUpFail + message.contactPerson))
 	{
+		document.getElementById("loadingPage").style.display = "none";
 		alert(message.signUpOK);
 		window.close();
 	}
@@ -160,7 +218,7 @@ function signUpResult(obj){
 function isError(resourceType, msg){
 	if(resourceType=="OperationOutcome")
 	{
-		document.getElementById("loader").style.display = "none";
+		document.getElementById("loadingPage").style.display = "none";
 		alert(msg);
 		return 1;
 	}

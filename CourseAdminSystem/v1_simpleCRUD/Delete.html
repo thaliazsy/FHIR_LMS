@@ -1,0 +1,88 @@
+<html>
+
+<head>
+	<style>
+		.pad10{
+			padding: 10px 100px 10px 100px
+		}
+		.pad20{
+			padding: 10px 100px 20px 100px
+		}
+	</style>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
+	<title>Read - Patient's Data</title>
+	<script src="HTTPRequest.js"></script>
+	<link href="style.css" rel="stylesheet" type="text/css" media="screen" />
+</head>
+   
+<body>
+	<header class="site-header">
+		<div class="clear"></div>
+			<div class="inner-wrap">
+				<div class="navbar-brand-wpz">
+					<a href="http://demo.wpzoom.com/foodica" title="Food Recipes Theme for WordPress">
+						<font size="10">學習平台及內容管理系統</font>
+					</a>
+				</div><!-- .navbar-brand -->
+			</div>
+		
+		<div id="mysticky-wrap" style="margin-bottom: 40px;">
+			<div id="mysticky-nav" style="top: -60px;" class="">
+				<nav class="main-navbar" role="navigation" style="">
+					<div class="inner-wrap">
+						<div id="navbar-main">
+							<div class="menu-main-container">
+								<ul id="menu-main-1" class="navbar-wpz dropdown sf-menu sf-js-enabled sf-arrows">
+									<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-106"><a href="Create.html">Create</a></li>
+									<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-163"><a href="Read.html">Read</a></li>
+									<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-163"><a href="Update.html">Update</a></li>
+									<li class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-has-children menu-item-207">
+										<a href="Delete.html">Delete</a>
+									</li>
+								</ul>
+							</div>
+						</div><!-- #navbar-main -->
+					</div><!-- ./inner-wrap -->
+				</nav>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</header>	
+	
+	<center>
+	Resource :
+	<select id="resource">
+		<option>Patient</option>
+		<option>Appointment</option>
+		<option>Consent</option>		
+		<option>Person</option>		
+		<option>Organization</option>	
+		<option>DiagnosticReport</option>
+		<option>DocumentReference</option>
+		<option>Condition</option>			
+		<option>Observation</option>	
+		<option>Encounter</option>
+		<option>PlanDefinition</option>	
+		<option>Practitioner</option>		
+		<option>PractitionerRole</option>	
+		<option>Location</option>	
+		<option>Schedule</option>	
+		<option>ServiceRequest</option>	
+		<option>Slot</option>
+		<option>ImagingStudy</option>		
+	</select><br>
+	ID :  <input type="text" name="identifier" id="resourceID">  &nbsp;
+	<img src="search.png" onclick="deleteData()" width="30" height="30"/>
+	</center>
+	
+	<script>
+	function deleteData(){
+		var resourceID = document.getElementById("resource");
+		var selected = resourceID.options[resource.selectedIndex].text;
+		var apiURL;
+		apiURL= FHIRserver  + selected; 
+		HTTPDeleteData(apiURL + "/" + document.getElementById("resourceID").value);
+	}
+	</script>
+</body>
+</html>

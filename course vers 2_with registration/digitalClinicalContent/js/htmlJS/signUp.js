@@ -31,7 +31,6 @@ function verifyUser(ret){
 	{
 		getResource(FHIRURL, 'Slot', '?schedule=' + course1.scheduleID + "&status=free", FHIRResponseType, 'checkSlotAvailability');
 	}
-	
 }
 
 //Check slot availability 

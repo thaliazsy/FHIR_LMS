@@ -1,0 +1,131 @@
+{
+  "resourceType": "PlanDefinition",
+  "id": "5600",
+  "meta": {
+    "versionId": "23",
+    "lastUpdated": "2022-01-22T18:25:08.814+00:00",
+    "source": "#ZroLoPvxkSy5MfIx"
+  },
+  "identifier": [
+    {
+      "use": "official"
+    }
+  ],
+  "version": "1.0.0",
+  "name": "ScheduleSlotDocumentReference",
+  "title": "IT MI Course Material Instruction",
+  "status": "active",
+  "date": "2021-12-19",
+  "publisher": "TCU",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "phone",
+          "value": "415-362-4007",
+          "use": "work"
+        },
+        {
+          "system": "email",
+          "value": "info@motivemi.com",
+          "use": "work"
+        }
+      ]
+    }
+  ],
+  "description": "IT MI Course - Teaching Plan",
+  "purpose": "This plan shows the instructions for the student who participates in the course.",
+  "approvalDate": "2021-12-19",
+  "lastReviewDate": "2021-12-19",
+  "effectivePeriod": {
+    "start": "2022-01-15",
+    "end": "2022-02-15"
+  },
+  "author": [
+    {
+      "name": "Prof. Hsiao",
+      "telecom": [
+        {
+          "system": "phone",
+          "value": "415-362-4007",
+          "use": "work"
+        },
+        {
+          "system": "email",
+          "value": "info@motivemi.com",
+          "use": "work"
+        }
+      ]
+    }
+  ],
+  "relatedArtifact": [
+    {
+      "type": "composed-of",
+      "display": "schedule1-teaching material",
+      "resource": "Schedule/5592"
+    },
+    {
+      "type": "composed-of",
+      "label": "2022-01-15",
+      "display": "slot1-ppt-FHIR Introduction",
+      "url": "http://203.64.84.150:51888/user4/course/FHIRbeginner_IT/courseMaterial/FHIR%20Introduction_20220115.pptx"
+    },
+    {
+      "type": "composed-of",
+      "label": "2022-01-22",
+      "display": "slot2-ppt-FHIR JSON Format Data",
+      "url": "http://203.64.84.150:51888/user4/course/FHIRbeginner_IT/courseMaterial/FHIR%20Beginner%20JSON_20220122.pptx"
+    },
+    {
+      "type": "composed-of",
+      "label": "2022-01-29",
+      "display": "slot3-ppt-FHIR Observation and Questionnaire",
+      "url": "http://203.64.84.150:51888/user4/course/FHIRbeginner_IT/courseMaterial/FHIR%20Questionaire%20API_20220129.pptx"
+    }
+  ],
+  "action": [
+    {
+      "title": "SA MI Course Introduction",
+      "documentation": [
+        {
+          "type": "composed-of",
+          "display": "schedule1-FHIR Beginner IDN",
+          "resource": "Schedule/5592"
+        }
+      ],
+      "action": [
+        {
+          "title": "課程slot1",
+          "documentation": [
+            {
+              "type": "composed-of",
+              "display": "slot1-ppt-FHIR Introduction"
+            }
+          ],
+          "action": [
+            {
+              "title": "課程slot2",
+              "documentation": [
+                {
+                  "type": "composed-of",
+                  "display": "slot2-ppt-FHIR JSON Format Data"
+                }
+              ],
+              "action": [
+                {
+                  "title": "課程slot3",
+                  "documentation": [
+                    {
+                      "type": "composed-of",
+                      "display": "slot3-ppt-FHIR Observation and Questionnaire"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

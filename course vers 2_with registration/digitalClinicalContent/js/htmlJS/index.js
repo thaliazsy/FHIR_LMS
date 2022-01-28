@@ -21,8 +21,8 @@ $(document).ready(function(){
 		for(item in arr) {
 			globalPatientID=arr[item].split('/')[1];
 			let urlStr= FHIRURL + "Patient/" + globalPatientID;
-			HTTPGetData(urlStr, "Patient");
-			//getResource(FHIRURL, 'Patient', '/' + patientID, FHIRResponseType, 'getPatientByID');
+			//HTTPGetData(urlStr, "Patient");
+			getResource(FHIRURL, 'Patient', '/' + globalPatientID, FHIRResponseType, 'getPatientByID');
 		};
 	}
 });

@@ -1,0 +1,200 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel='stylesheet' typeof='text/css' media='all' href='../Style/Reset.css' />
+    <link rel='stylesheet' typeof='text/css' media='all' href='../Style/Site.css' />
+    <link rel="stylesheet" typeof="text/css" href="../Style/Slot.css">
+    <title>FHIR Slot</title>
+</head>
+
+<body>
+    <div id="Header">
+		<a href="../Organization/index.html"><img src="../Script/assets/images/pngs/home.png" class="topleft"/></a>
+		<button class="topright" onclick="logOut()">Logout</button>
+        <div id="Logo">
+			<font color="red">FHIR</font> Slot
+		</div>
+	</div>
+    <div id="Bodyer">
+        <!-- <div id="Head"></div> -->
+        <!-- <div id="Left"></div> -->
+        <div id="Body">
+			<div id="Detail" class="Bodyer-Close">
+                <div class="Header">
+                    <div class="Title">Slot Table</div>
+                    <div class="Tool">
+                        <ul class="L1s">
+                            <li class="L1 i1">
+                                <div class="Btn Toggle Detail">Edit Course</div>
+                            </li>
+                            <!-- <li class="L1 i2"> -->
+                                <!-- <div class="Btn Edit">修改資料</div> -->
+                            <!-- </li> -->
+                        </ul>
+                    </div>
+                </div>
+                <div class="Bodyer">
+					<div id="CourseMaterialDetail" align="center">
+						<table id="TableCourseMaterial" align="center" border="1"></table>
+						<button class="btnaddParameter" onclick="addParameter('','','','')">+</button><br>
+						<button onclick="updateSlot()">Update</button><br>
+					</div>
+                    <!-- <ul class="L1s"> -->
+                        <!-- <li class="L1 i1 Name"> -->
+                            <!-- <div class="Name">病人姓名:</div> -->
+                            <!-- <div class="Value"></div> -->
+                            <!-- <div class="Message"></div> -->
+                            <!-- <div class="Clear"></div> -->
+                        <!-- </li> -->
+                        <!-- <li class="L1 i2 Gender"> -->
+                            <!-- <div class="Name">病人性別:</div> -->
+                            <!-- <div class="Value"></div> -->
+                            <!-- <div class="Message"></div> -->
+                            <!-- <div class="Clear"></div> -->
+                        <!-- </li> -->
+                        <!-- <li class="L1 i3 BirthDate"> -->
+                            <!-- <div class="Name">病人生日:</div> -->
+                            <!-- <div class="Value"></div> -->
+                            <!-- <div class="Message"></div> -->
+                            <!-- <div class="Clear"></div> -->
+                        <!-- </li> -->
+                        <!-- <li class="L1 i4 Address"> -->
+                            <!-- <div class="Name">病人住址:</div> -->
+                            <!-- <div class="Value"></div> -->
+                            <!-- <div class="Clear"></div> -->
+                        <!-- </li> -->
+                        <!-- <li class="L1 i5 Phone"> -->
+                            <!-- <div class="Name">聯絡電話:</div> -->
+                            <!-- <div class="Value"></div> -->
+                            <!-- <div class="Message"></div> -->
+                            <!-- <div class="Clear"></div> -->
+                        <!-- </li> -->
+                        <!-- <li class="L1 i6 Organization"> -->
+                            <!-- <div class="Name">所屬組織:</div> -->
+                            <!-- <div class="Value"></div> -->
+                            <!-- <div class="Message"></div> -->
+                            <!-- <div class="Clear"></div> -->
+                        <!-- </li> -->
+                        <!-- <li class="L1 i7 Status"> -->
+                            <!-- <div class="Name">是否啟用:</div> -->
+                            <!-- <div class="Value"></div> -->
+                            <!-- <div class="Message"></div> -->
+                            <!-- <div class="Clear"></div> -->
+                        <!-- </li> -->
+                    <!-- </ul> -->
+                    <div class="Clear"></div>
+                </div>
+                <div class="Footer">
+                    <!-- <div class="Tool">
+                        <ul class="L1s">
+                            <li class="L1 i1"><div class="Btn Edit">修改資料</div></li>
+                            <li class="L1 i2"><div class="Btn Back">返回</div></li>
+                        </ul>
+                    </div> -->
+                    <div class="Clear"></div>
+                </div>
+            </div>
+            <div id="List">
+                <div class="List-Slot Bodyer-Open">
+                    <!-- <div class="Header"> -->
+                        <!-- <div class="Title">Slot Table</div> -->
+                        <!-- <div class="Tool"> -->
+                            <!-- <ul class="L1s"> -->
+                                <!-- <!-- <li class="L1 i1"> --> 
+                                    <!-- <!-- <div class="Btn Toggle List"></div> --> 
+                                <!-- <!-- </li> --> 
+								<!-- <li class="L1 i1"> -->
+                                    <!-- <div class="Btn Toggle Detail">Edit Course</div> -->
+									<!-- <div id="CourseMaterialDetail" style="border-style: 1px solid black; margin:20px;">Course Material:  -->
+										<!-- <table id="TableCourseMaterial" align="center" border="1"></table> -->
+										<!-- <center><button onclick="addParameter('','','')" style="margin:5px; border-radius: 50%; font-size:20px; width:30px; height: 30px">+</button> -->
+										<!-- <center><button onclick="updateSlot()">Submit</button><br></center> -->
+									<!-- </div> -->
+                                <!-- </li> -->
+                                <!-- <!-- <li class="L1 i2"> --> 
+                                    <!-- <!-- <div class="Btn Add Slot">Add new Slot</div> --> 
+                                <!-- <!-- </li> --> 
+                            <!-- </ul> -->
+                        <!-- </div> -->
+                    <!-- </div> -->
+                    <div class="Bodyer">
+                        <ul class="L1s" id="parent-List-Slot">
+                            <li class="L1 header i0">
+                                <div class="Num">No.</div>
+                                <div class="Id">Id</div>
+                                <div class="ScheduleCode">Slot Code</div>
+                                <div class="StartDate">Start Date</div>
+								<div class="EndDate">End Date</div>
+                                <div class="Tool">Tool</div>
+                                <div class="Clear"></div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="Footer">
+                        <div class="Tool">
+                            <div id="Page">
+                                <ul class="L1s">
+                                    <li class="L1 i1">
+                                        <div class="Title">1</div>
+                                    </li>
+                                    <li class="L1 i2">
+                                        <div class="Title">2</div>
+                                    </li>
+                                    <li class="L1 i3">
+                                        <div class="Title">3</div>
+                                    </li>
+                                    <li class="L1 i4">
+                                        <div class="Title">4</div>
+                                    </li>
+                                    <li class="L1 i5 Active">
+                                        <div class="Title">5</div>
+                                    </li>
+                                    <li class="L1 i6">
+                                        <div class="Title">6</div>
+                                    </li>
+                                    <li class="L1 i7">
+                                        <div class="Title">7</div>
+                                    </li>
+                                    <li class="L1 i8">
+                                        <div class="Title">8</div>
+                                    </li>
+                                    <li class="L1 i9">
+                                        <div class="Title">9</div>
+                                    </li>
+                                    <li class="L1 i10">
+                                        <div class="Title">10</div>
+                                    </li>
+                                </ul>
+                                <div class="Clear"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="Right"></div>
+        <div id="Foot"></div>
+    </div>
+    <div id="Footer">
+        <div id="CopyRight">
+            Copyright © 2019 Department of Medical Informatics, Tzu Chi University All rights reserved
+        </div>
+    </div>
+</body>
+
+<!-- JQUERY JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+<script type='text/javascript' src='../Script/site.js'></script>
+<script type='text/javascript' src="../Script/session.js"></script>
+<script type='text/javascript' src='../Script/getQueryString.js'></script>
+<script type='text/javascript' src='../Script/HTTPRequest.js'></script>
+<!-- <script type='text/javascript' src='../Script/Resource/Schedule/listSchedule.js'></script> -->
+<script type="text/javascript" src="../Script/Resource/Slot/listSlot.js"></script>
+
+</html>

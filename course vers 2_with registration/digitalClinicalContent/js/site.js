@@ -6,6 +6,14 @@ let message= {
 	accountExist: "該帳號已註冊過!"
 }
 
+// let message= {
+	// contactPerson: "please contact " + info.universityName + " " + info.universityDept +
+				   // " " + info.cpName + "<br>Phone No.：" + info.cpPhone + "<br>Email：" + info.cpEmail,
+	// signUpFail: "Registration failed!",
+	// signUpOK: "Registration completed, please wait 1-2 minutes for sign in！",	
+	// accountExist: "This user account has been registered!"
+//}
+
 //Declare variable
 let globalPatientID, globalName, globalPersonID;
 let globalScheduleExist;
@@ -46,13 +54,28 @@ class CAppointment{
 }
 
 class CSchedule{
-	constructor() {
-		this.scheduleID= '';
+	constructor(p1, p2, p3, p4, p5) {
+		this.scheduleID= p1;
+		this.courseName= p2;
+		this.courseStartDate= p3;
+		this.courseEndDate= p4;
+		this.practitionerRoleID= p5;
 		this.appointment=[];
+		this.material=[];
 	}
 	newAppointment(p){
 		this.appointment.push(p)
 		return p;
+	}
+	newSchedule(id){
+		this.scheduleID= id;
+	}
+}
+
+class CMaterial{
+	constructor(ptitle, purl) {
+		this.title= ptitle;
+		this.url= purl;
 	}
 }
 
@@ -78,17 +101,28 @@ class CPatients {
 		// return this.course.filter;
 	// }
 	
-	courseIsExist(pScheduleID, pSlotID){
+	courseIsExist(pScheduleID){
+		var exist=false;
 		this.course.forEach(item => { 
 			let scheduleID= item.scheduleID;
-			item.appointment.forEach(item2 => { 
-				let slotID= item2.slotID;
-				if(slotID == pSlotID){
-					if(item.scheduleID == "")  item.scheduleID=pScheduleID;
-					return 
-				}
-			});
+			if(pScheduleID == scheduleID)
+			{
+				exist=true;
+			}
+			// item.appointment.forEach(item2 => { 
+				// let slotID= item2.slotID;
+				// if(slotID == pSlotID){
+					// if(item.scheduleID == "")  item.scheduleID=pScheduleID;
+					// return 
+				// }
+			// });
 		});
+		return exist;
+		// if(!exist){
+			// let schedule = new CSchedule();
+			// schedule.newSchedule(pScheduleID);
+			// groupMember.newCourse(schedule);
+		// }
 		//return this.course.filter(x => x.scheduleID == scheduleID)
 	}
 	
@@ -237,36 +271,41 @@ function getOrganizationByID(obj){
 	getResource(FHIRURL, 'Appointment', '?actor=Patient/' + patientID, FHIRResponseType, 'getAppointmentByPatientID');
 }
 
+//Retrieve: Slot ID
 function getAppointmentByPatientID(obj){
 	if (obj.total == 0)	alert('無資料');
 	else{
 		obj.entry.map((entry, i) => {
 			let appointmentID = (entry.resource.id) ? entry.resource.id : '';
 			let slotID= (entry.resource.slot) ? entry.resource.slot[0].reference.split('/')[1] : '';
-			let appointment = new CAppointment(appointmentID, slotID);
-			let schedule = new CSchedule();
-			schedule.newAppointment(appointment);
-			groupMember.newCourse(schedule);
+			//Jangan include appointment dan slot id ke dalam CSchedule, only include scheduleID dan material
+			// let appointment = new CAppointment(appointmentID, slotID);
+			// let schedule = new CSchedule();
+			// schedule.newAppointment(appointment);
+			// groupMember.newCourse(schedule);
 			getResource(FHIRURL, 'Slot', '/' + slotID, FHIRResponseType, 'getSlotByID');
 		});
 	}
 }
 
+//Retrieve: Schedule ID
 function getSlotByID(obj){
 	let slotID= (obj.id) ? obj.id : '';
 	let scheduleID= (obj.schedule) ? obj.schedule.reference.split('/')[1] : '';
-	let planDefinitionID= (obj.schedule) ? obj.schedule.reference.split('/')[1] : '';
+	//groupMember.courseIsExist(scheduleID);
+	getResource(FHIRURL, 'Schedule', '/' + scheduleID, FHIRResponseType, 'getSchedule');	//http://203.64.84.213:8080/fhir/PlanDefinition?composed-of=Schedule/1738
 	
+	//let planDefinitionID= (obj.schedule) ? obj.schedule.reference.split('/')[1] : '';
 	//let item= groupMember.courseIsExist(scheduleID);
-	groupMember.course.forEach(item => { 
-		item.appointment.forEach(item2 => { 
-			let retslotID= item2.slotID;
-			let retcomment= item2.comment;
-			if(retslotID == slotID){
-				if(item.scheduleID == "")  item.scheduleID=scheduleID;
-			}
-		});
-	});
+	// groupMember.course.forEach(item => { 
+		// item.appointment.forEach(item2 => { 
+			// let retslotID= item2.slotID;
+			// let retcomment= item2.comment;
+			// if(retslotID == slotID){
+				// if(item.scheduleID == "")  item.scheduleID=scheduleID;
+			// }
+		// });
+	// });
 	//check course yg contain scheduleID	
 	// if(!groupMember.course){
 		// groupMember.course.filter(x => x.scheduleID == '').forEach(item => {
@@ -307,8 +346,38 @@ function getSlotByID(obj){
 }
 
 function getSchedule(obj){
-	let schedule = CSchedule();
-		
+	let scheduleID = (obj.id) ? obj.id : '';
+	let courseName = (obj.specialty) ? obj.specialty[0].coding[0].display : '';
+	let practitionerRoleID = (obj.actor) ? obj.actor[0].reference : '';				
+	let courseStartDate= (obj.planningHorizon.start) ? obj.planningHorizon.start.split("T")[0] : '';
+	let courseEndDate= (obj.planningHorizon.end) ? obj.planningHorizon.end.split("T")[0] : '';
+	
+	if(!groupMember.courseIsExist(scheduleID))
+	{
+		let schedule = new CSchedule(scheduleID, courseName, courseStartDate, courseEndDate, practitionerRoleID);
+		groupMember.newCourse(schedule);
+	}
+	getResource(FHIRURL, 'PlanDefinition', '?composed-of=Schedule/' + scheduleID, FHIRResponseType, 'getMaterialByScheduleID');	//http://203.64.84.213:8080/fhir/PlanDefinition?composed-of=Schedule/1738
+}
+
+function getMaterialByScheduleID(obj){
+	if (obj.total == 0)	alert('無資料');
+	else{
+		obj.entry.map((entry, i) => {
+			var index=1;	//since relatedArtifact[0] store Schedule information instead of material 
+			let scheduleID= entry.resource.relatedArtifact ? entry.resource.relatedArtifact[0].resource.split("/")[1] : "";
+			let relatedArtifactLen= entry.resource.relatedArtifact ? entry.resource.relatedArtifact.length : 0;
+			while(index < relatedArtifactLen)
+			{
+				let title= entry.resource.relatedArtifact[index].display;
+				let url= entry.resource.relatedArtifact[index].url;
+				let material= new CMaterial(title, url);
+				groupMember.course.filter(x => x.scheduleID == scheduleID)[0].material.push(material); //must only return 1 row
+				index++;
+			}
+		});
+	}
+	showMyCourse();
 }
 
 function getPractitionerRole(obj){
@@ -549,4 +618,34 @@ function HTTPPutData(urlStr, dataStr) {
         }
     }
     HttpObj.send(dataStr);
+}
+
+
+function showMyCourse(){
+	var table= document.getElementById("TableAppointment");
+	var cellIndex;
+	var row, noIndex=1, videoName;
+	
+	//check per organization
+	for (var index0=0;index0<groupMember.patient.length;index0++){											
+		table.innerHTML+= '<tr><th bgcolor="#ebebe0" colspan="2">My Course List</th></tr>';
+		//check per schedule
+		let namaDosen='';
+		groupMember.course.forEach(item => {
+			document.getElementById("intro").innerHTML+= '<br>教授: ' + item.practitionerRoleID + '<br>課程期間: ' + item.courseStartDate + ' 至 ' + item.courseEndDate;
+			table.innerHTML+= '<tr><th>No.</th><th>教材</th></tr>';
+			var indexNo=1;
+			//check per slot
+			item.material.forEach(item2 => {		//per Slot
+				row = table.insertRow(-1);
+				row.align="center";
+				row.insertCell(0).innerHTML= indexNo++ + ".";
+				elLink = document.createElement('a');
+				elLink.target= "_blank";
+				elLink.innerHTML = item2.title;
+				elLink.href = item2.url;
+				row.insertCell(1).appendChild(elLink);
+			});
+		});
+	}
 }

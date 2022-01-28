@@ -1,0 +1,195 @@
+<html>
+
+<head>
+    <title id="title" value="Questionnaire_Basic_Medical_Image_System_Development" >調查問卷_醫學影像系統開發入門</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+</head>
+
+<body>
+    <form id="patient" name="patient" style="text-align: left">
+        <h1>調查問卷</h1>
+        <h3>醫學影像系統開發入門</h3>
+        <table style="border: 1px solid black;">
+            <tr>
+                <td>
+                    1. ASCII 碼英文全名是什麼?<p style="color:red;display: inline;">*</p>
+                </td>
+                <td>
+                    ：<input type="text" name="Q_1" id="Q_1" value="" /><br>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    2. 字母 A 對應到 ASCII 碼十進制數值為?<p style="color:red;display: inline;">*</p>
+                </td>
+                <td>
+                    ：<input type="text" name="Q_2" id="Q_2" value="" /><br>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    3. 2's complement signed integer( 2 bytes, 16 bits) 最大值為何?<p style="color:red;display: inline;">*</p>
+                </td>
+                <td>
+                    ：<input type="text" name="Q_3" id="Q_3" value="" /><br>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    4. 醫學影像資料儲存及傳輸的標準為何?<p style="color:red;display: inline;">*</p>
+                </td>
+                <td>
+                    ：<input type="text" name="Q_4" id="Q_4" value="" /><br>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    5. 下列何者在醫學影像資料儲存及傳輸標準 data element 當中沒有定義<p style="color:red;display: inline;">*</p>
+                </td>
+                <td>
+                    ：<input type="radio" name="Q_5" id="Q_5_a" value="a" />a.TAG
+                    <input type="radio" name="Q_5" id="Q_5_b" value="b" />b.data length
+                    <input type="radio" name="Q_5" id="Q_5_c" value="c" />c.value field
+                    <input type="radio" name="Q_5" id="Q_5_d" value="d" />d.canvas
+                    <br>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align: center">
+                    <input type="button" value="確定" id="Questionnaire" onclick="check(this)" />
+                </td>
+            </tr>
+        </table>  
+        
+    </form>
+    
+    <script>
+		queryParam();
+        //Fhir 問卷的json物件
+        var Fhir_Questionnaire_Json = {
+            "resourceType" : "QuestionnaireResponse",
+            "status": "completed",
+            "subject": {
+				"reference": ""
+			},
+            "authored": "",
+            "source": {
+                "reference": "Patient/2565"
+            },
+            "item": [
+                {
+                    "linkId": "Q_1",
+                    "text": "ASCII 碼英文全名",
+                    "answer" : [{
+                        "valueString" : ""
+                    }]
+                },
+                {
+                    "linkId": "Q_2",
+                    "text": "字母 A 對應到 ASCII 碼十進制數值",
+                    "answer" : [{
+                        "valueString" : ""
+                    }]
+                },
+                {
+                    "linkId": "Q_3",
+                    "text": "2's complement signed integer( 2 bytes, 16 bits) 最大值",
+                    "answer" : [{
+                        "valueString" : ""
+                    }]
+                },
+                {
+                    "linkId": "Q_4",
+                    "text": "醫學影像資料儲存及傳輸的標準",
+                    "answer" : [{
+                        "valueString" : ""
+                    }]
+                },
+                {
+                    "linkId": "Q_5",
+                    "text": "在醫學影像資料儲存及傳輸標準 data element 當中沒有定義",
+                    "answer" : [{
+                        "valueString" : ""
+                    }]
+                }
+            ]
+        }
+        //Fhir伺服器的連結
+        var fhir = {
+            "url": "http://203.64.84.213:8080/fhir/"
+        }
+		var patientID, subjectID;
+		
+        //上傳json物件到fhir server的涵式
+        function HTTPPostData(resourceType, jsonOBJ) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.open("POST", fhir.url + resourceType, true); //做上傳資料(POST的動作)到線上fhir資料庫(透過fhir伺服器url/資料表)
+            xhttp.setRequestHeader("Content-type", 'application/json');
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4) {
+                    //alert(this.responseText);
+					if(jsonOBJ.resourceType == "OperationOutcome")
+					{
+						alert('系統錯誤!');
+						document.getElementById("btnSubmit").disabled = false;
+						return 0;
+					}
+					else
+					{
+						//alert(this.responseText);
+						alert('問卷已送出！');
+					}
+                }
+            };
+            xhttp.send(jsonOBJ);
+        }
+		
+		//取 query string 參數
+		function queryParam(){
+		var url = location.href;
+			if(url.indexOf('?')!=-1)
+			{
+				var ary = url.split('?')[1].split('&');
+				for(i=0;i<=ary.length-1;i++)
+				{
+					if(ary[i].split('=')[0] == 'patientID')
+						patientID = ary[i].split('=')[1];
+					else if(ary[i].split('=')[0] == 'subjectID')
+						subjectID = ary[i].split('=')[1];
+				}
+			}
+		}
+		
+        //檢查和設json物件的涵式
+        function check(p) {
+            //取得調查問卷輸入的直
+            var answer = [];
+            answer[0] = document.getElementById("Q_1").value.trim();
+            answer[1] = document.getElementById("Q_2").value.trim();
+            answer[2] = document.getElementById("Q_3").value.trim();
+            answer[3] = document.getElementById("Q_4").value.trim();
+            answer[4] = document.querySelector('input[name="Q_5"]:checked');
+
+            //檢查是否標單都填完畢
+            if (answer[0] != "" && answer[1] != "" && answer[2] != "" && answer[3] != "" && answer[4]  != null) {
+                //把表單裡的直輸入到json物件
+                answer[4]=answer[4].value;
+                Fhir_Questionnaire_Json.title = document.getElementById("title").value;
+                Fhir_Questionnaire_Json.authored = new Date();
+				Fhir_Questionnaire_Json.subject.reference = subjectID; 
+				Fhir_Questionnaire_Json.source.reference =  patientID;
+                for(var i=0;i<Fhir_Questionnaire_Json.item.length;i++)
+                {
+                    Fhir_Questionnaire_Json.item[i].answer[0].valueString = answer[i];
+                }
+                var jsonstr = JSON.stringify(Fhir_Questionnaire_Json, undefined, 4);
+
+                //上傳json物件到fhir server
+                HTTPPostData("QuestionnaireResponse", jsonstr);
+            }
+            else { alert(p.id + "未勾選完畢"); }
+        }
+        
+    </script>
+</body>
+</html>
