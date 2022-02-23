@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>FHIR Upload & Update</title>
+    <script src="HTTPRequest.js"></script>
+    <script>
+	var txt= 'A. Upload FHIR data\n1. Check "Post" radiobutton\n2. Insert total amount of data you want to upload\n3. Insert FHIR data you want to upload in the provided textarea\n4. Click Submit\n\n' + 
+				'B. Update FHIR data\n1. Check "Put" radiobutton\n2. Insert ID of FHIR data you want to update\n3. Insert FHIR data you want to update in the provided textarea\n4. Click Submit';
+	//alert(txt);
+	let FHIRserver ='http://203.64.84.213:8080/fhir/';
+	var patientIDList=[ "6930","6320","6962","6465","7004","6455","6778","6713","6500","6234",
+					"6450","6385","6605","6460","6940","6723","6758","6773","6990","7018",
+					"6289","6718","6166","6788","7008","6203","6445","6743","6985","6161",
+					"6952","6555","6229","6530","6510","6969","6340","6945","6960","6249",
+					"6980","6076","6505","6239","6224","6783","6435","6151","6520","6873",
+					"6738","6405","6798"];
+	var uuid= ["799154f6-900d-11ec-b909-0242ac120002",
+		"79915988-900d-11ec-b909-0242ac120002",
+		"79915b54-900d-11ec-b909-0242ac120002",
+		"79915d20-900d-11ec-b909-0242ac120002",
+		"79916036-900d-11ec-b909-0242ac120002",
+		"799161da-900d-11ec-b909-0242ac120002",
+		"799163f6-900d-11ec-b909-0242ac120002",
+		"799165b8-900d-11ec-b909-0242ac120002",
+		"79916824-900d-11ec-b909-0242ac120002",
+		"79916a72-900d-11ec-b909-0242ac120002",
+		"79916c98-900d-11ec-b909-0242ac120002",
+		"79916e1e-900d-11ec-b909-0242ac120002",
+		"799171b6-900d-11ec-b909-0242ac120002",
+		"79917382-900d-11ec-b909-0242ac120002",
+		"799178d2-900d-11ec-b909-0242ac120002",
+		"79917ada-900d-11ec-b909-0242ac120002",
+		"79917c7e-900d-11ec-b909-0242ac120002",
+		"79917f4e-900d-11ec-b909-0242ac120002",
+		"79918142-900d-11ec-b909-0242ac120002",
+		"799184c6-900d-11ec-b909-0242ac120002",
+		"799186ec-900d-11ec-b909-0242ac120002",
+		"7991889a-900d-11ec-b909-0242ac120002",
+		"79918b88-900d-11ec-b909-0242ac120002",
+		"79918da4-900d-11ec-b909-0242ac120002",
+		"79919074-900d-11ec-b909-0242ac120002",
+		"79919218-900d-11ec-b909-0242ac120002",
+		"79919592-900d-11ec-b909-0242ac120002",
+		"7991975e-900d-11ec-b909-0242ac120002",
+		"7991990c-900d-11ec-b909-0242ac120002",
+		"79919aba-900d-11ec-b909-0242ac120002",
+		"79919c5e-900d-11ec-b909-0242ac120002",
+		"79919e16-900d-11ec-b909-0242ac120002",
+		"7991a154-900d-11ec-b909-0242ac120002",
+		"7991a316-900d-11ec-b909-0242ac120002",
+		"7991a4b0-900d-11ec-b909-0242ac120002",
+		"7991a92e-900d-11ec-b909-0242ac120002",
+		"7991ab36-900d-11ec-b909-0242ac120002",
+		"7991ace4-900d-11ec-b909-0242ac120002",
+		"7991ae92-900d-11ec-b909-0242ac120002",
+		"7991b13a-900d-11ec-b909-0242ac120002",
+		"7991b2d4-900d-11ec-b909-0242ac120002",
+		"7991b4dc-900d-11ec-b909-0242ac120002",
+		"7991b6bc-900d-11ec-b909-0242ac120002",
+		"7991b996-900d-11ec-b909-0242ac120002",
+		"7991bb80-900d-11ec-b909-0242ac120002",
+		"7991bd24-900d-11ec-b909-0242ac120002",
+		"7991bec8-900d-11ec-b909-0242ac120002",
+		"7991c184-900d-11ec-b909-0242ac120002",
+		"7991c8be-900d-11ec-b909-0242ac120002",
+		"7991cabc-900d-11ec-b909-0242ac120002",
+		"7991ce40-900d-11ec-b909-0242ac120002",
+		"7991d016-900d-11ec-b909-0242ac120002",
+		"7991d1f6-900d-11ec-b909-0242ac120002"];
+		
+	function postData() {
+		for(var i=50;i<53;i++)	//uuid.length
+		{
+			getResource(FHIRserver, "Composition", "/" + uuid[i], "json", updateValue);
+		}
+		alert("fhinix");
+	}
+	
+	function updateValue(str){
+		let obj= JSON.parse(str);
+		let patID= obj.subject.reference.split('/')[1];
+		var curindex=patientIDList.indexOf(patID)+1;
+		var formattedNumber = ("0" + curindex).slice(-2);
+		let certID= 'IDTW.CC.1030' + formattedNumber;
+		let temp= ',"identifier": {"system": "https://www.dicom.org.tw/","value": "' + certID + '"}}';
+		str= str.slice(0, -1).replace("Certifaction","Certificate");
+		str+= temp;
+		//document.getElementById("TextArea1").value= str;
+		//alert(str);
+		
+		//str = JSON.stringify(str);
+		HTTPPutData(FHIRserver + "Composition/" + obj.id, str, 0, "updateBasedOnID");
+		//putResource(FHIRserver, 'Composition', '/' + obj.id,"json", "complete", str);
+	}
+	
+	function HTTPPutData(urlStr, dataStr, curIndex, type) {
+	 var HttpObj = new XMLHttpRequest();
+		HttpObj.open("PUT", urlStr, true);
+		HttpObj.setRequestHeader("Content-type", "application/json+fhir");
+		HttpObj.onload = function () {
+			if (HttpObj.readyState === 4) {
+				ret = HttpObj.responseText;
+				alert(ret);
+				
+			}
+    }
+    HttpObj.send(dataStr);
+	}
+	
+	function complete(obj){
+		document.getElementById("TextArea1").value+= obj.resourceType;
+	}
+
+	function showField(t){
+		if(t.id == "post"){
+			document.getElementById("fieldPost").style.visibility= "visible";
+			document.getElementById("fieldPut").style.visibility= "hidden";
+		}
+		else if(t.id == "put"){
+			document.getElementById("fieldPut").style.visibility= "visible";
+			document.getElementById("fieldPost").style.visibility= "hidden";
+		}
+	}
+	</script>	
+	<link href="style.css" rel="stylesheet" type="text/css" media="screen" />
+</head>
+
+<body style="height: 780px">
+	<header class="site-header">
+		<div class="clear"></div>
+			<div class="inner-wrap">
+				<div class="navbar-brand-wpz">
+					<a href="http://demo.wpzoom.com/foodica" title="Food Recipes Theme for WordPress">
+						<font size="10">學習平台及內容管理系統</font>
+					</a>
+				</div><!-- .navbar-brand
+			</div>
+		
+		<div id="mysticky-wrap" style="margin-bottom: 40px;">
+			<div id="mysticky-nav" style="top: -60px;" class="">
+				<nav class="main-navbar" role="navigation" style="">
+					<div class="inner-wrap">
+						<div id="navbar-main">
+							<div class="menu-main-container">
+								<ul id="menu-main-1" class="navbar-wpz dropdown sf-menu sf-js-enabled sf-arrows">
+									<li class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-has-children menu-item-207">
+										<a href="Create.html">Create</a>
+									</li>
+									<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-106"><a href="Read.html">Read</a></li>
+									<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-163"><a href="Update.html">Update</a></li>
+									<li class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-163"><a href="Delete.html">Delete</a></li>
+								</ul>
+							</div>
+						</div><!-- #navbar-main -->
+					</div><!-- ./inner-wrap -->
+				</nav>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</header>	
+	
+	Resource :
+	<select id="resource">
+		<option>Patient</option>
+		<option>Appointment</option>
+		<option>Bundle</option>
+		<option>Composition</option>	
+		<option>Consent</option>		
+		<option>Person</option>		
+		<option>Organization</option>	
+		<option>DiagnosticReport</option>
+		<option>DocumentReference</option>
+		<option>Condition</option>			
+		<option>Observation</option>	
+		<option>Encounter</option>
+		<option>PlanDefinition</option>		
+		<option>Practitioner</option>		
+		<option>PractitionerRole</option>	
+		<option>Location</option>	
+		<option>Schedule</option>	
+		<option>ServiceRequest</option>	
+		<option>Slot</option>
+		<option>ImagingStudy</option>
+		<option>MessageHeader</option>		
+	</select><br>
+	<input type="radio" name="method" id="post" onchange="showField(this);" onselect="true" checked> Post 
+	<input type="radio" name="method" id="put" onchange="showField(this);"> Put<br>
+	<div id="fieldPost">Total: <input type="number" id="totalPost"></div>
+	<div id="fieldPut" style="visibility: hidden">ID: <input type="text" id="resourceID"></div><br>
+	
+	<input onclick="postData()"  type="button" value="submit" /><br>
+    <textarea id="TextArea1" name="S1" style="height:600px; width:700px"></textarea>
+</body>
+</html>

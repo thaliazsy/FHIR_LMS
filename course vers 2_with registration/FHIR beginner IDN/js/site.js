@@ -60,8 +60,9 @@ class CPerson{
 }
 
 class CPatient{
-	constructor(id, OID) {
+	constructor(id, name, OID) {
 		this.patientID=id;
+		this.patientName=name;
 		this.organizationID= OID;
 		this.organizationName='';
 	}

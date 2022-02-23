@@ -39,8 +39,9 @@ $(document).ready(function(){
 
 function getPatientByID(obj){
 	let patientID = (obj.id) ? obj.id : '';
+	let patientName = (obj.name[0]) ? obj.name[0].text : '';
 	let organizationID =(obj.managingOrganization.reference) ? obj.managingOrganization.reference.split('/')[1] : '';
-	let p = new CPatient(patientID, organizationID)
+	let p = new CPatient(patientID, patientName, organizationID)
 	groupMember.newMember(p);
 	getResource(FHIRURL, 'Organization', '/' + organizationID, FHIRResponseType, 'getOrganizationByID');
 }
@@ -113,7 +114,7 @@ function getMaterialByScheduleID(obj){
 			}
 		});
 	}
-	showMyCourse();
+	getResource(FHIRURL, 'Composition', '?title=IDTW%20FHIR%20Beginner%20Course%20Certificate&subject=Patient/' + globalPatientID, FHIRResponseType, 'certificateAuth');								
 }
 
 function getPractitionerRole(obj){
@@ -133,7 +134,7 @@ function showMyCourse(){
 		//check per schedule
 		let namaDosen='';
 		groupMember.course.forEach(item => {
-			document.getElementById("intro").innerHTML+= '<br>Patient ID: ' + groupMember.patient[0].patientID;
+			document.getElementById("intro").innerHTML+= '<br>Student ID: ' + groupMember.patient[0].patientID;
 			document.getElementById("intro").innerHTML+= '<br>Course Period: ' + item.courseStartDate + ' until ' + item.courseEndDate;
 			table.innerHTML+= '<tr><th>No.</th><th>Course Material</th></tr>';
 			var indexNo=1;
@@ -152,7 +153,17 @@ function showMyCourse(){
 					elLink = document.createElement('a');
 					elLink.target= "_blank";
 					elLink.innerHTML = item2.title;
-					elLink.href = item2.url;
+					if (item2.title=="Certificate")
+					{
+						if(globalCertID=="def")
+							elLink.onclick =function () { alert("Certificate with student ID: " + globalPatientID + " is not exist, " + message.contactPerson)};
+						else 
+							elLink.href = item2.url + groupMember.patient[0].patientName + "_" + globalCertID + ".pdf";
+					}
+					else
+					{
+						elLink.href = item2.url;
+					}
 					row.insertCell(1).appendChild(elLink);
 				}
 			});
@@ -160,6 +171,14 @@ function showMyCourse(){
 	}
 }
 
+let globalCertID="def";
+function certificateAuth(obj){
+	if(obj.total!=0) 
+	{
+		globalCertID= obj.entry[0].resource.identifier.value;
+	}
+	showMyCourse();
+}
 // <!-- function linkToCourseSelection(){ -->
 	// <!-- var queryParam= 'personID=' + globalPersonID; -->
 	// <!-- window.open('courseSelection.html?' + queryParam, "_blank"); -->

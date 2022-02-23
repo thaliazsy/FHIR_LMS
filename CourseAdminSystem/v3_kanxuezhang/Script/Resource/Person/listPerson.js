@@ -92,50 +92,51 @@ function getAppointmentBySlotID(obj){
 let index=0, str="";
 function getPersonByID(obj) {
     let template = [];
-	// if (obj.total == 0)	{
-		// alert('無資料 '+ obj.id);
-	// }
-	
-    obj.entry.map((entry, i) => {
-        let id = (entry.resource.id) ? entry.resource.id : '';
-		//let comment = (entry.resource.comment && entry.resource.comment.length) ? entry.resource.comment : '';
-		let name = (entry.resource.name) ? entry.resource.name[0].text : '';
-		let email = (entry.resource.identifier[0] && entry.resource.identifier[0].system == "UserID")? entry.resource.identifier[0].value : '';
-		let highestEduDegree = (entry.resource.identifier[2] && entry.resource.identifier[2].system == "HighestEduDegree")? entry.resource.identifier[2].value : '';
-		let institution = (entry.resource.identifier[3] && entry.resource.identifier[3].system == "Institution")? entry.resource.identifier[3].value : '';
-		let patientID = (entry.resource.link[0].target) ? entry.resource.link[0].target.reference : '';
-		let lastUpdatedDate = (entry.resource.meta.lastUpdated) ? entry.resource.meta.lastUpdated.split("+")[0] : '';
-		lastUpdatedDate= lastUpdatedDate.replace(/T/g,' ').substring(0, lastUpdatedDate.length - 4);
-		let status = (entry.resource.active || entry.resource.active =="true") ? "active" : 'not active';
-		
-		
-		// insert participant data into 2d Array (used to generate CSV file)
-		participantArr.push( [] );
-		participantArr[participantArr.length-1].push(index + 1, id, name, email, highestEduDegree, institution, patientID, lastUpdatedDate); 
-		template.push(`
-		<li class="L1 child i${index + 1} ${id}">
-			<div class="Num">${index + 1}</div>
-			<div class="Id">${id}</div>
+	if (obj.total == 0)	{
+		alert('無資料 '+ obj.link[0].url);
+	}
+	else{
+		obj.entry.map((entry, i) => {
+			let id = (entry.resource.id) ? entry.resource.id : '';
+			//let comment = (entry.resource.comment && entry.resource.comment.length) ? entry.resource.comment : '';
+			let name = (entry.resource.name) ? entry.resource.name[0].text : '';
+			let email = (entry.resource.identifier[0] && entry.resource.identifier[0].system == "UserID")? entry.resource.identifier[0].value : '';
+			let highestEduDegree = (entry.resource.identifier[2] && entry.resource.identifier[2].system == "HighestEduDegree")? entry.resource.identifier[2].value : '';
+			let institution = (entry.resource.identifier[3] && entry.resource.identifier[3].system == "Institution")? entry.resource.identifier[3].value : '';
+			let patientID = (entry.resource.link[0].target) ? entry.resource.link[0].target.reference : '';
+			let lastUpdatedDate = (entry.resource.meta.lastUpdated) ? entry.resource.meta.lastUpdated.split("+")[0] : '';
+			lastUpdatedDate= lastUpdatedDate.replace(/T/g,' ').substring(0, lastUpdatedDate.length - 4);
+			let status = (entry.resource.active || entry.resource.active =="true") ? "active" : 'not active';
 			
-			<div class="Name">${name}</div>
-			<div class="Email">${email}</div>
-			<div class="HighestEduDegree">${highestEduDegree}</div>
-			<div class="Institution">${institution}</div>
-			<div class="PatientID">${patientID}</div>
-			<div class="CreatedDate">${lastUpdatedDate}</div>
 			
-			<div class="Clear"></div>
-		</li>`);
-		
-		// <div class="Tool">
-				// <ul class="L2s">
-					// <li class="L2 i1">
-						// <div class="${id} Btn Edit Title">修改</div>
-					// </li>
-				// </ul>
-			// </div>
-		
-    })
+			// insert participant data into 2d Array (used to generate CSV file)
+			participantArr.push( [] );
+			participantArr[participantArr.length-1].push(index + 1, id, name, email, highestEduDegree, institution, patientID, lastUpdatedDate); 
+			template.push(`
+			<li class="L1 child i${index + 1} ${id}">
+				<div class="Num">${index + 1}</div>
+				<div class="Id">${id}</div>
+				
+				<div class="Name">${name}</div>
+				<div class="Email">${email}</div>
+				<div class="HighestEduDegree">${highestEduDegree}</div>
+				<div class="Institution">${institution}</div>
+				<div class="PatientID">${patientID}</div>
+				<div class="CreatedDate">${lastUpdatedDate}</div>
+				
+				<div class="Clear"></div>
+			</li>`);
+			
+			// <div class="Tool">
+					// <ul class="L2s">
+						// <li class="L2 i1">
+							// <div class="${id} Btn Edit Title">修改</div>
+						// </li>
+					// </ul>
+				// </div>
+			
+		})
+	}
 	index++;
 	str+= template.join('');
     if(index==globalTotalParticipant){
