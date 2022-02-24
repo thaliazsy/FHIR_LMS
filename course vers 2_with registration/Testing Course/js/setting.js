@@ -9,9 +9,9 @@ let info={
 	universityDept: "",
 	courseName: "FHIR Beginner Course",
 	pageName: "",
-	cpName: "林書伃",
-	cpPhone: "0961409380",
-	cpEmail: "coco2popo520@gmail.com"
+	cpName: "Victoria",
+	cpPhone: "0812345678",
+	cpEmail: "victoriatjiaa@gmail.com"
 }
 		
 //Set course related information
