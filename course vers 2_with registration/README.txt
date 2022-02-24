@@ -7,8 +7,12 @@ A. Sign Up
 
 B. Login
 	1. Input Person email and password
+	   Example: Username= test99@gmail.com & Password= test99
 
 C. Index
-	1. Check Person 
-	2. Check Patient
-	3. List all appointment
+	1. Read Person 
+	2. Read Patient
+	3. Read all appointment
+	4. Read Slot
+	5. Read Schedule
+	5. Read PlanDefinition by Schedule ID
