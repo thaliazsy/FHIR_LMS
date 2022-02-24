@@ -1,0 +1,13 @@
+,課程名稱：範例,,,,,,
+,題目,答案,選項1,選項2 ,選項3 ,選項4,"難易度
+(難3、中2、易1)"
+1,下列何者不在 FHIR API HTTP operation 當中,2,POST,SEARCH,PUT,DELETE,2
+2,以下對 JSON 的描述何者有誤 ,2,是一種資料結構,有定義小括號()結構,有定義中括號[]結構,有定義大括號{}結構,2
+3,若要紀錄檢驗值，用那個 resource 紀錄較合適,4,LabData,TestData,ExamData,Observation,1
+4,紀錄病人主觀陳述的問題，用那個 resource 描述較合適,4,Problem,Complain,Observation,Condition,1
+5,影像發現用那個 resource 紀錄較合適,3,Finding,ExamResulet,Observation,ImageFinding,1
+6,體溫用那個 resource 紀錄較合適,2,BodyTempature,Observation,Condition,Tempature,1
+7,JSON 中大括號{} 內含,1,Name value pair ,Interger,array,string,1
+8,各專業醫護部門需求及其資料規格由誰提出較恰當,1,醫護人員,院內資訊人員,廠商,衛服部,1
+9,MI-TW connectathon 是什麼?,2,台灣的 FHIR 組織,聯測機制,台灣醫資標準,國際醫資標準,1
+10,以下那個 FHIR Patietnt.birthday 格式正確,3,2000/11/11,20001111,2000/11/11,11/11 2000,1
