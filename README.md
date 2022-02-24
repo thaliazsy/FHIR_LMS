@@ -1,5 +1,4 @@
-# FHIRCourseManagement
-FHIR 課程管理系統
+# FHIR Learning Management System (LMS)
 
 Step:
 1. User Login (loginPerson.html)
