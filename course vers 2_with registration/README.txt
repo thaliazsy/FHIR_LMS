@@ -1,4 +1,4 @@
-Course Name: digitalClinicalContent
+Course Name: Testing Course
 Step:
 A. Sign Up
 	1. Create Person
