@@ -25,7 +25,7 @@ function HTTPPostData(urlStr, dataStr) {
     HttpObj.onreadystatechange = function () {
         if (HttpObj.readyState === 4) {
             ret = HttpObj.responseText;
-            //alert(ret);
+            alert(ret);
 			totalPost--;
 			if (totalPost>0) HTTPPostData(urlStr, dataStr ); 
 			else if (totalPost==0) alert("Finished!");
