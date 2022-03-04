@@ -1,7 +1,7 @@
 //Set table field
 let field= {
 	//field cod
-	code: ["Username", "Password"],
+	code: ["username", "Password"],
 	//field name
 	desc: [],
 	//field required or not
@@ -25,14 +25,35 @@ else if(web_language=="EN")
 }
 
 let temp="";
+// $(document).ready(function(){
+	// for(let i=0; i<field.desc.length;i++){
+		// temp += '<tr><td>' + field.desc[i];
+		// if(field.isRequired[i])			
+			// temp += '<font color="red"> *</font>';
+		
+		// temp += '</td><td>:&nbsp;<input type="' + field.type[i] + '" id="p' + field.code[i] + '" ';
+		
+		// if(field.code[i] == "Password")
+			// temp += 'onkeyup="SHA256PWD.value = sha256(this.value);" ';
+			
+		// if(field.isRequired[i])			
+			// temp += 'required';
+			
+		// temp += '><br></td></tr>';
+	// }
+	// temp+= '<tr><td colspan="2" align="right"><input id="btnSubmit" type="button" value="Submit" onclick="dataValidation()"></td></tr>';
+	// document.getElementById('mainTable').innerHTML= temp;
+	// document.getElementById('linkToSignUpPage').innerHTML= field.signUpPage;
+// });
+
 //Show Login Form field
 $(document).ready(function(){
 	for(let i=0; i<field.desc.length;i++){
-		temp += '<tr><td>' + field.desc[i];
+		temp += field.desc[i];
 		if(field.isRequired[i])			
 			temp += '<font color="red"> *</font>';
 		
-		temp += '</td><td>:&nbsp;<input type="' + field.type[i] + '" id="p' + field.code[i] + '" ';
+		temp += ':&nbsp;<input type="' + field.type[i] + '" id="p' + field.code[i] + '" name="' + field.code[i] + '"';
 		
 		if(field.code[i] == "Password")
 			temp += 'onkeyup="SHA256PWD.value = sha256(this.value);" ';
@@ -40,10 +61,10 @@ $(document).ready(function(){
 		if(field.isRequired[i])			
 			temp += 'required';
 			
-		temp += '><br></td></tr>';
+		temp += '><br>';
 	}
-	temp+= '<tr><td colspan="2" align="right"><input id="btnSubmit" type="button" value="Submit" onclick="dataValidation()"></td></tr>';
-	document.getElementById('mainTable').innerHTML= temp;
+	temp+= '<input id="btnSubmit" type="button" value="Submit" onclick="dataValidation()">';
+	document.getElementById('loginForm').innerHTML+= temp;
 	document.getElementById('linkToSignUpPage').innerHTML= field.signUpPage;
 });
 
@@ -55,8 +76,8 @@ document.getElementById("cp").innerHTML= message.signInFail + message.contactPer
 //Validate data input by user
 function dataValidation(){
 	if(checkRequiredField(field)){
-		let id= $("#pUsername").val();
-		getResource(FHIRURL, 'Person', '?identifier=' + id, FHIRResponseType, 'verifyUser');
+		var formData = new FormData(document.getElementById("loginForm"));
+		postResource(FHIRURL.replace('fhir/', ''), 'rest/login', '', FHIRResponseType, 'verifyUser', formData);
 	}
 }
 
@@ -66,13 +87,15 @@ function verifyUser(obj){
 	let retID="", retName="", retUsername="", retPassword="", patientID="";
 	let arrPatientID= new Array();
 	
-	if (obj.total == 0) alert(message.accountUnexist);
-	else if (obj.total == 1){
-		retID = (obj.entry[0].resource.id) ? obj.entry[0].resource.id : '';
-		retName = (obj.entry[0].resource.name) ? obj.entry[0].resource.name[0].text : '';
-		retUsername= (obj.entry[0].resource.identifier[0])? obj.entry[0].resource.identifier[0].value : '';
-		retPassword= (obj.entry[0].resource.identifier[1])? obj.entry[0].resource.identifier[1].value : '';
-		patientID = (obj.entry[0].resource.link) ? obj.entry[0].resource.link[0].target.reference:'';
+	//code 401 means account is not exist
+	if (obj.code == 401) alert(message.accountUnexist);
+	else
+	{
+		retID = (obj.id) ? obj.id : '';
+		retName = (obj.name) ? obj.name[0].text : '';
+		retUsername= (obj.identifier[0])? obj.identifier[0].value : '';
+		retPassword= (obj.identifier[1])? obj.identifier[1].value : '';
+		patientID = (obj.link) ? obj.link[0].target.reference:'';
 		arrPatientID.push(patientID);
 		if(encPassword!=retPassword)	alert(message.passwordWrong);		
 		else {
@@ -80,7 +103,7 @@ function verifyUser(obj){
 			window.open('index.html',"_self");
 		}
 	}
-	else{
-		alert("This user has more than 1 account.\n" + message.contactPerson);
-	}
+	// else{
+		// alert("This user has more than 1 account.\n" + message.contactPerson);
+	// }
 }

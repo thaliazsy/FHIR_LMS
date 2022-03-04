@@ -95,7 +95,8 @@ class CSchedule{
 }
 
 class CMaterial{
-	constructor(ptitle, purl) {
+	constructor(ptype, ptitle, purl) {
+		this.type= ptype;
 		this.title= ptitle;
 		this.url= purl;
 	}

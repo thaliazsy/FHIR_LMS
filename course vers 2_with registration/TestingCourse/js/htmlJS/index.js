@@ -105,9 +105,13 @@ function getMaterialByScheduleID(obj){
 			let relatedArtifactLen= entry.resource.relatedArtifact ? entry.resource.relatedArtifact.length : 0;
 			while(index < relatedArtifactLen)
 			{
-				let title= entry.resource.relatedArtifact[index].display.split("-")[2];
-				let url= entry.resource.relatedArtifact[index].url? entry.resource.relatedArtifact[index].url : '';
-				let material= new CMaterial(title, url);
+				let temp= entry.resource.relatedArtifact[index];
+				let type= temp.display.split("-")[1];
+				let title= temp.display.split("-")[2];
+				let url= temp.url? temp.url : '';
+				if(type=='questionnaire')
+					url+= '?studentID=' + groupMember.patient[0].patientID + '&subjectID=' + course1.scheduleID.split('/')[1];
+				let material= new CMaterial(type, title, url);
 				groupMember.course.filter(x => x.scheduleID == scheduleID)[0].material.push(material); //must only return 1 row
 				index++;
 			}
@@ -115,11 +119,6 @@ function getMaterialByScheduleID(obj){
 	}
 	showMyCourse();
 }
-
-function getPractitionerRole(obj){
-	
-}
-
 
 function showMyCourse(){
 	var table= document.getElementById("TableAppointment");
@@ -133,7 +132,7 @@ function showMyCourse(){
 		//check per schedule
 		let namaDosen='';
 		groupMember.course.forEach(item => {
-			document.getElementById("intro").innerHTML+= '<br>Patient ID: ' + groupMember.patient[0].patientID;
+			document.getElementById("intro").innerHTML+= '<br>Student ID: ' + groupMember.patient[0].patientID;
 			document.getElementById("intro").innerHTML+= '<br>Course Period: ' + item.courseStartDate + ' until ' + item.courseEndDate;
 			table.innerHTML+= '<tr><th>No.</th><th>Course Material</th></tr>';
 			var indexNo=1;
