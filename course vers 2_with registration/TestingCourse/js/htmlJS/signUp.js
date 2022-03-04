@@ -1,17 +1,13 @@
-//Set table field
+//Sets the field property of a sign up form
 let field= {
-	//field code	
-	code: ["Name", "Email", "Password", "HighestEduDegree", "Institution"],
-	//field placeholder	
-	placeholder: ["", "", "", "e.g. Bachelor", "e.g. Harvard University"],
-	//field name
-	desc: [],
-	//field required or not
-	isRequired: [1,1,1,1,1],		
-	//field type e.g. text, number, password
-	type: ["text", "email", "password", "text", "text"]			
+	code		: ["Name", "Email", "Password", "HighestEduDegree", "Institution"],
+	placeholder	: ["", "", "", "e.g. Bachelor", "e.g. Harvard University"],
+	desc		: [],
+	isRequired	: [1,1,1,1,1],		
+	type		: ["text", "email", "password", "text", "text"]			
 };
 
+//Sets page name and field name based on choosen language
 if(web_language=="CH")
 {
 	field.desc= ["姓名", "Email", "密碼", "最高學歷", "就讀機構"];
@@ -23,8 +19,31 @@ else if(web_language=="EN")
 	info.pageName= "Sign Up";
 }
 
+//Show Page Title and Header (need to initialize info.pageName beforehand)
+document.title= info.courseName + "-" + info.pageName;
+document.getElementById("header").innerHTML= info.courseName + "<br>" + info.pageName;
+
+
+let user = new CPerson();		//Initialize Fhir Person class
+let personJSON, slotJSON=[];	//local variable for store temporary json obj
+
 let temp="";
-//Show Registration Form field
+/**
+ * Creates a sign up form
+ *
+ * @desc 3.0.0
+ * @category Array
+ * @param {Array} array The array to process.
+ * @param {number} [size=1] The length of each chunk
+ * @returns {Array} Returns the new array of chunks.
+ * @example
+ *
+ * chunk(['a', 'b', 'c', 'd'], 2)
+ * // => [['a', 'b'], ['c', 'd']]
+ *
+ * chunk(['a', 'b', 'c', 'd'], 3)
+ * // => [['a', 'b', 'c'], ['d']]
+ */
 $(document).ready(function(){
 	for(let i=0; i<field.desc.length;i++){
 		temp += '<tr><td>' + field.desc[i];
@@ -47,15 +66,6 @@ $(document).ready(function(){
 	temp+= '<tr><td colspan="3" align="right"><input id="btnSubmit" type="button" value="Submit" onclick="dataValidation()"></td></tr>';
 	document.getElementById('mainTable').innerHTML= temp;
 });
-
-//Show Page Title and Header (need to initialize info.pageName beforehand)
-document.title= info.courseName + "-" + info.pageName;
-document.getElementById("header").innerHTML= info.courseName + "<br>" + info.pageName;
-
-//Initialize Fhir Person class
-let user = new CPerson();
-//local variable for store temporary json obj
-let personJSON, slotJSON=[];
 
 //Validate data input by user
 function dataValidation(){
