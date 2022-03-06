@@ -23,11 +23,10 @@ else if(web_language=="EN")
 document.title= info.courseName + "-" + info.pageName;
 document.getElementById("header").innerHTML= info.courseName + "<br>" + info.pageName;
 
-
-let user = new CPerson();		//Initialize Fhir Person class
-let personJSON, slotJSON=[];	//local variable for store temporary json obj
-
+let user = new CPerson();		//Initialize Fhir Person class to store user information
+let personJSON, slotJSON=[];	//local variable to store temporary JSON object
 let temp="";
+
 /**
  * Creates a sign up form
  *
@@ -36,15 +35,9 @@ let temp="";
  * @param {Array} array The array to process.
  * @param {number} [size=1] The length of each chunk
  * @returns {Array} Returns the new array of chunks.
- * @example
- *
- * chunk(['a', 'b', 'c', 'd'], 2)
- * // => [['a', 'b'], ['c', 'd']]
- *
- * chunk(['a', 'b', 'c', 'd'], 3)
- * // => [['a', 'b', 'c'], ['d']]
  */
 $(document).ready(function(){
+	//Dynamically list all fields of a sign up form
 	for(let i=0; i<field.desc.length;i++){
 		temp += '<tr><td>' + field.desc[i];
 		if(field.isRequired[i])			
