@@ -108,7 +108,7 @@ function postResource(URL, ResourceName, Parameter, ResponseType, AfterFun, Requ
             header：標頭名稱
             value：標頭的值
     */
-    //xhttp.setRequestHeader("Content-type", 'text/' + ResponseType);
+    xhttp.setRequestHeader("Content-type", 'text/' + ResponseType);
     /*
         xhttp.onreadystatechange = callback;
         說明：建立當readyState狀態改變時執行的部分
