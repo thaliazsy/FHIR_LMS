@@ -61,13 +61,10 @@ function getResource(URL, ResourceName, Parameter, ResponseType, AfterFun){
             */
             eval(AfterFun)(str);
             return str;
-        }else{
-            if(this.readyState == 4 && this.status != 200)
-			{
-				let msg= "資料取得錯誤。錯誤原因：" + this.readyState + ":" + this.status;
-			}  
-			//alert('資料取得錯誤。錯誤原因：'+this.readyState+':'+this.status)
         }
+		else if(this.readyState == 4 && this.status != 200){
+			let msg= "資料取得錯誤。錯誤原因：" + this.readyState + ":" + this.status;
+		}  
     };
     /*
         xhttp.send()
@@ -108,7 +105,8 @@ function postResource(URL, ResourceName, Parameter, ResponseType, AfterFun, Requ
             header：標頭名稱
             value：標頭的值
     */
-    xhttp.setRequestHeader("Content-type", 'text/' + ResponseType);
+    if (ResponseType!="")
+		xhttp.setRequestHeader("Content-type", 'text/' + ResponseType);
     /*
         xhttp.onreadystatechange = callback;
         說明：建立當readyState狀態改變時執行的部分
@@ -131,7 +129,7 @@ function postResource(URL, ResourceName, Parameter, ResponseType, AfterFun, Requ
                 0：UNSENT or OPENED
                 200：LOADING or DONE
         */
-        if (this.readyState == 4 ) {	//&& this.status == 201
+        if (this.readyState == 4 && this.status == 200) {	
 			var str = this.response;
             str= JSON.parse(str);
             /*
@@ -140,13 +138,10 @@ function postResource(URL, ResourceName, Parameter, ResponseType, AfterFun, Requ
             */
             eval(AfterFun)(str);
             return str;
-        }else{
-            if(this.readyState == 4 && this.status != 200)
-			{
-				let msg= "資料取得錯誤。錯誤原因：" + this.readyState + ":" + this.status;
-			}
-			//alert('資料取得錯誤。錯誤原因：'+this.readyState+':'+this.status)
         }
+		else if(this.readyState == 4 && this.status != 200){
+			let msg= "資料取得錯誤。錯誤原因：" + this.readyState + ":" + this.status;
+		}
     };
     /*
         xhttp.send()
@@ -218,13 +213,10 @@ function putResource(URL, ResourceName, Parameter, ResponseType, AfterFun, Reque
             */
             eval(AfterFun)(str);
             return str;
-        }else{
-            if(this.readyState == 4 && this.status != 200)
-			{
-				let msg= "資料取得錯誤。錯誤原因：" + this.readyState + ":" + this.status;
-			}
-			//alert('資料取得錯誤。錯誤原因：'+this.readyState+':'+this.status)
         }
+		else if(this.readyState == 4 && this.status != 200){
+			let msg= "資料取得錯誤。錯誤原因：" + this.readyState + ":" + this.status;
+		}
     };
     /*
         xhttp.send()

@@ -77,7 +77,7 @@ document.getElementById("cp").innerHTML= message.signInFail + message.contactPer
 function dataValidation(){
 	if(checkRequiredField(field)){
 		var formData = new FormData(document.getElementById("loginForm"));
-		postResource(FHIRURL.replace('fhir/', ''), 'rest/login', '', FHIRResponseType, 'verifyUser', formData);
+		postResource(FHIRURL.replace('fhir/', ''), 'rest/login', '', '', 'verifyUser', formData);
 	}
 }
 
