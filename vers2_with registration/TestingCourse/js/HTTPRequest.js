@@ -130,6 +130,8 @@ function postResource(URL, ResourceName, Parameter, ResponseType, AfterFun, Requ
                 200：LOADING or DONE
         */
         if (this.readyState == 4 && this.status == 200) {	
+			if(xhttp.getResponseHeader('Authorization'))
+				sessionStorage.setItem('token', xhttp.getResponseHeader('Authorization'));
 			var str = this.response;
             str= JSON.parse(str);
             /*

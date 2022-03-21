@@ -1,16 +1,13 @@
-//Set table field
+//Set form field attribute
 let field= {
-	//field cod
 	code: ["username", "Password"],
-	//field name
 	desc: [],
-	//field required or not
 	isRequired: [1,1],		
-	//field type e.g. text, number, password
 	type: ["text", "password"],
 	signUpPage: ""
 };
 
+//Set form field name based on selected language
 if(web_language=="CH")
 {
 	field.desc= ["帳號 (Email)", "密碼"];
@@ -24,30 +21,14 @@ else if(web_language=="EN")
 	field.signUpPage= "Click here to sign up";
 }
 
-let temp="";
-// $(document).ready(function(){
-	// for(let i=0; i<field.desc.length;i++){
-		// temp += '<tr><td>' + field.desc[i];
-		// if(field.isRequired[i])			
-			// temp += '<font color="red"> *</font>';
-		
-		// temp += '</td><td>:&nbsp;<input type="' + field.type[i] + '" id="p' + field.code[i] + '" ';
-		
-		// if(field.code[i] == "Password")
-			// temp += 'onkeyup="SHA256PWD.value = sha256(this.value);" ';
-			
-		// if(field.isRequired[i])			
-			// temp += 'required';
-			
-		// temp += '><br></td></tr>';
-	// }
-	// temp+= '<tr><td colspan="2" align="right"><input id="btnSubmit" type="button" value="Submit" onclick="dataValidation()"></td></tr>';
-	// document.getElementById('mainTable').innerHTML= temp;
-	// document.getElementById('linkToSignUpPage').innerHTML= field.signUpPage;
-// });
+//Show Page Title and Header (need to initialize info.pageName beforehand)
+document.title= info.courseName + "-" + info.pageName;
+document.getElementById("header").innerHTML= info.courseName + "<br>" + info.pageName;
+document.getElementById("cp").innerHTML= message.signInFail + message.contactPerson;	
 
-//Show Login Form field
+//Show login form field
 $(document).ready(function(){
+	let temp="";
 	for(let i=0; i<field.desc.length;i++){
 		temp += field.desc[i];
 		if(field.isRequired[i])			
@@ -59,19 +40,14 @@ $(document).ready(function(){
 			temp += 'onkeyup="SHA256PWD.value = sha256(this.value);" ';
 			
 		if(field.isRequired[i])			
-			temp += 'required';
+			temp += ' required';
 			
 		temp += '><br>';
 	}
 	temp+= '<input id="btnSubmit" type="button" value="Submit" onclick="dataValidation()">';
-	document.getElementById('loginForm').innerHTML+= temp;
-	document.getElementById('linkToSignUpPage').innerHTML= field.signUpPage;
+	$('#loginForm').append(temp);
+	$('#linkToSignUpPage').html(field.signUpPage);
 });
-
-//Show Page Title and Header (need to initialize info.pageName beforehand)
-document.title= info.courseName + "-" + info.pageName;
-document.getElementById("header").innerHTML= info.courseName + "<br>" + info.pageName;
-document.getElementById("cp").innerHTML= message.signInFail + message.contactPerson;	
 
 //Validate data input by user
 function dataValidation(){
@@ -83,11 +59,10 @@ function dataValidation(){
 
 //Verify login account username and password
 function verifyUser(obj){ 
-	let encPassword= document.getElementById('SHA256PWD').value;
 	let retID="", retName="", retUsername="", retPassword="", patientID="";
 	let arrPatientID= new Array();
 	
-	//code 401 means account is not exist
+	//code 401 means account is not exist or password is wrong
 	if (obj.code == 401) alert(message.accountUnexist);
 	else
 	{
@@ -97,11 +72,8 @@ function verifyUser(obj){
 		retPassword= (obj.identifier[1])? obj.identifier[1].value : '';
 		patientID = (obj.link) ? obj.link[0].target.reference:'';
 		arrPatientID.push(patientID);
-		if(encPassword!=retPassword)	alert(message.passwordWrong);		
-		else {
-			sessionSet("loginAccount", retID, retName, retUsername, arrPatientID);
-			window.open('index.html',"_self");
-		}
+		sessionSet("loginAccount", retID, retName, retUsername, arrPatientID);
+		window.open('index.html',"_self");
 	}
 	// else{
 		// alert("This user has more than 1 account.\n" + message.contactPerson);
