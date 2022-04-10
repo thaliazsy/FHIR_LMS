@@ -3868,7 +3868,6 @@ div[class^=gr_custom_container]{border:1px solid gray;border-radius:10px;padding
 	background-color: rgb(0,0,0); /* Fallback color */
 	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
-/*END Loader modal*/
 
 #overlay {
   position: fixed; /* Sit on top of the page content */
@@ -3883,6 +3882,7 @@ div[class^=gr_custom_container]{border:1px solid gray;border-radius:10px;padding
   z-index: 1; /* Specify a stack order in case you're using a different order for other elements */
   cursor: pointer; /* Add a pointer on hover */
 }
+/*END Loader modal*/
 
 ::-webkit-input-placeholder {
    font-style: italic;

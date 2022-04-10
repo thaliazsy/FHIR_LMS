@@ -1,5 +1,5 @@
 //Set FHIR Server URL and response type (json or xml)
-let FHIRURL= 'https://59.126.145.136:53443/binus/fhir/';
+let FHIRURL= 'https://tzfhir.ml/fhir/';	//'https://59.126.145.136:53443/binus/fhir/';
 let FHIRResponseType= 'json';
 let web_language= "EN";
 		
@@ -16,11 +16,11 @@ let info={
 		
 //Set course related information
 let course1={
-	organizationID: "Organization/17",	//organizationID used for create new FHIR Patient
-	practitionerRoleID: "PractitionerRole/20", 
-	scheduleID: "Schedule/21",
+	organizationID: "Organization/7",	//organizationID used for create new FHIR Patient
+	practitionerRoleID: "PractitionerRole/10", 
+	scheduleID: "Schedule/11",
 	scheduleCode: "100000100105",
 	totalSlotSession: 1,
-	courseMaterialID: "http://203.64.84.213:8080/fhir/PlanDefinition?composed-of=Schedule/21",
+	courseMaterialID: "https://tzfhir.ml/fhir/PlanDefinition?composed-of=Schedule/11",
 	practitionerName: "蕭嘉宏"
 };

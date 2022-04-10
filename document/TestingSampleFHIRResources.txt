@@ -1,0 +1,17 @@
+https://203.64.84.213:52883/binus/fhir/Organization/12
+
+Teacher:
+Person/112
+Practitioner/113
+PractitionerRole/114
+Schedule/16
+Slot/115
+
+
+Patient:
+Person/4
+Patient/3
+Appointment/10
+Slot/115
+
+PlanDefinition/27
