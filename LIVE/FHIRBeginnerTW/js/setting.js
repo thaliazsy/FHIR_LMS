@@ -1,12 +1,12 @@
 //Set FHIR Server URL and response type (json or xml)
-//let FHIRURL= 'https://tzfhir.ml/fhir/';		//default FHIR Server API 
-let FHIRURL= 'https://59.126.145.136:53443/binus/fhir/';
+let FHIRURL= 'https://tzfhir.ml/fhir/';		//default FHIR Server API 
+//let FHIRURL= 'https://59.126.145.136:53443/binus/fhir/';
 let FHIRResponseType= 'json';				//Requested data type returned by the server
 
 //Define required FHIR resources
 let DB={
-	organization: "17",//"7",
-	schedule: "21" //"11"
+	organization: "7",//"7",
+	schedule: "11" //"11"
 };
 
 // let course1={
