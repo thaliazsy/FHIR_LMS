@@ -1,3 +1,10 @@
+/*
+    Public variable area
+*/
+var partOfid = '';
+var web_language= "EN";
+var pageName='';
+
 let message= {
 	contactPerson: "",
 	signUpFail: "",
@@ -14,8 +21,8 @@ let message= {
 
 if(web_language=="CH")
 {
-	message.contactPerson= "請聯絡" + info.universityName + " " + info.universityDept +
-				   " " + info.cpName + "<br>電話：" + info.cpPhone + "<br>郵件：" + info.cpEmail;
+	// message.contactPerson= "請聯絡" + info.universityName + " " + info.universityDept +
+				   // " " + info.cpName + "<br>電話：" + info.cpPhone + "<br>郵件：" + info.cpEmail;
 	message.signUpFail= "註冊失敗!";
 	message.signUpOK= "註冊成功";	//, 需等1-2分鐘才可以登入唷！";
 	message.signInFail= "無法登入或忘記密碼";
@@ -29,7 +36,7 @@ if(web_language=="CH")
 }
 else if(web_language=="EN")
 {
-	message.contactPerson= "please contact " + info.cpName + "<br>Phone No.：" + info.cpPhone + "<br>Email：" + info.cpEmail;
+	message.contactPerson='';
 	message.signUpFail= "Registration failed!";
 	message.signUpOK= "Registration completed!"; //, please wait 1-2 minutes for sign in！";
 	message.signInFail= "Sign in failed or forget password, ";
@@ -42,6 +49,34 @@ else if(web_language=="EN")
 	message.passwordWrong= "Wrong password!";
 	message.authorizeFail= "Only admin account may login!";
 	message.systemError= "System error!";
+}
+
+let loginData = {
+	expirationDate: '',
+	person:{
+		id: '',
+		identifier: '',
+		name: '',
+		username: ''
+	},
+	role: [],
+	organization: {
+		id: '',
+		identifier: '',
+		status: '',	
+		name: '',		
+		cpname: '',
+		cpphone: '',
+		cpemail: ''
+	},
+	roleAccess:[],
+	schedule: {
+		code: '',
+		name: '',		
+		practitionerRoleID: '',
+		practitionerName: '',
+		maxParticipant: 0
+	}
 }
 
 //Declare variable
@@ -68,13 +103,6 @@ class CPatient{
 	}
 }
 
-class CAppointment{
-	constructor(AID, SID) {
-		this.appointmentID= AID;
-		this.slotID= SID;
-	}
-}
-
 class CSchedule{
 	constructor(p1, p2, p3, p4, p5) {
 		this.scheduleID= p1;
@@ -83,6 +111,7 @@ class CSchedule{
 		this.courseEndDate= p4;
 		this.practitionerRoleID= p5;
 		this.appointment=[];
+		this.slot=[];
 		this.material=[];
 	}
 	newAppointment(p){
@@ -91,6 +120,17 @@ class CSchedule{
 	}
 	newSchedule(id){
 		this.scheduleID= id;
+	}
+	newSlot(id){
+		this.slot= id;
+	}
+}
+
+
+class CAppointment{
+	constructor(AID, SID) {
+		this.appointmentID= AID;
+		this.slotID= SID;
 	}
 }
 
@@ -209,9 +249,7 @@ function initializeAppt(){
 	appointmentJSONobj = {
 	  "resourceType": "Appointment",
 	  "status": "booked",
-	  "slot": [ {
-		"reference": "Slot/2138767"
-	  } ],
+	  "slot": [],
 	  "participant": [ {
 		"actor": {
 		  "reference": "Patient/2138343",
@@ -226,11 +264,13 @@ function initializeAppt(){
 	};
 }
 
+
+/* Data Field Validation */
 function checkRequiredField(fieldArr){
-	var count = 0; //計數器
+	var count = 0;
 	var isEmpty=false, formatIsWrong= false;
 	for (var k = 0; k < fieldArr.code.length; k++) {
-		let obj= document.getElementById("p" + fieldArr.code[k]);
+		let obj= document.getElementById(fieldArr.code[k]);
 		if(fieldArr.isRequired[k])
 		{
 			if (fieldArr.type[k] == "radio" && !obj.checked) {

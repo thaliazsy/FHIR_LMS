@@ -1,42 +1,85 @@
 //Set table field
 let field= {
-	//field code	
 	code: ["Name", "Email", "Password", "Institution", "JobPosition"],
-	//field placeholder	
 	placeholder: ["", "", "", "例如： 慈濟大學 / 慈濟醫院", "例如： 學生 / 教授 / 護理人員", ],
-	//field name
 	desc: [],
-	//field required or not
 	isRequired: [1,1,1,1,1],		
-	//field type e.g. text, number, password
 	type: ["text", "email", "password", "text", "text"]			
 };
 
 if(web_language=="CH")
 {
 	field.desc= ["姓名", "Email", "密碼", "就讀機構", "職稱"];
-	info.pageName= "註冊網頁";
+	pageName= "註冊網頁";
 }
 else if(web_language=="EN")
 {
 	field.desc= ["Name", "Email", "Password", "Educational/Working Institution", "Job Position"];
-	info.pageName= "Sign Up";
+	pageName= "Sign Up";
 }
 
-let temp="";
-//Show Registration Form field
+//local variable for store temporary json obj
+let personJSON;
+
+let localVar = {
+	person:{
+		id: '',
+		name: '',
+		username: '',
+		jobPosition: '',
+		highestEduDegree: '',
+		institution: ''
+	},
+	patient:{
+		id: ''
+	},
+	organization: {
+		id: '',
+		identifier: '',
+		status: '',	
+		name: '',		
+		cpname: '',
+		cpphone: '',
+		cpemail: ''
+	},
+	schedule: {
+		code: '',
+		name: '',		
+		practitionerRoleID: '',
+		practitionerName: '',
+		maxParticipant: 0,
+		currentParticipant: 0
+	},
+	slot:{
+		id: []
+	}
+}
+
+//Function Initialization
 $(document).ready(function(){
+	let temp="";
+	// Clear session
+	let stringValue = window.sessionStorage.getItem("loginAccount")
+    if (stringValue != null) 
+	{
+		window.sessionStorage.removeItem("loginAccount");
+	}
+	showForm();
+});
+
+
+function showForm()
+{
+	let temp="";
+	// Show Login Form field
 	for(let i=0; i<field.desc.length;i++){
 		temp += '<tr><td>' + field.desc[i];
 		if(field.isRequired[i])			
 			temp += '<font color="red"> *</font>';
 		
-		temp += '</td><td>:</td><td>&nbsp;<input class="width250" type="' + field.type[i] + '" id="p' + field.code[i] + '" ';
+		temp += '</td><td>:&nbsp;<input type="' + field.type[i] + '" id="' + field.code[i] + '" ';
 		
-		if(field.placeholder[i] != "")
-			temp += 'placeholder="' + field.placeholder[i] + '" ';
-		
-		if(field.code[i] == "Password")
+		if(field.type[i] == "password")
 			temp += 'onkeyup="SHA256PWD.value = sha256(this.value);" ';
 			
 		if(field.isRequired[i])			
@@ -44,94 +87,129 @@ $(document).ready(function(){
 			
 		temp += '><br></td></tr>';
 	}
-	temp+= '<tr><td colspan="3" align="right"><input id="btnSubmit" type="button" value="Submit" onclick="dataValidation()"></td></tr>';
-	document.getElementById('mainTable').innerHTML= temp;
-});
+	temp+= '<tr><td colspan="2" align="right"><input id="btnSubmit" type="button" value="Submit" onclick="validateData()"></td></tr>';
+	$('#mainTable').html(temp);
+	
+	// Get Organization Information
+	getResource(FHIRURL, 'Organization', '/' + DB.organization, FHIRResponseType, 'getOrganization');
+}
 
-//Show Page Title and Header (need to initialize info.pageName beforehand)
-document.title= info.courseName + " - " + info.pageName;
-document.getElementById("header").innerHTML= info.courseName + "<br>" + info.pageName;
+function getOrganization(str){
+	let obj= JSON.parse(str);
+	if(retValue(obj))
+	{
+		localVar.organization.id = (obj.id) ? obj.id : '';
+		localVar.organization.identifier= (obj.identifier)? obj.identifier[0].value : '';
+		localVar.organization.status= (obj.active == true) ? 'Active' : 'Inactive';
+		localVar.organization.name= (obj.name) ? obj.name : '';
+		if (obj.contact)
+		{
+			localVar.organization.cpname= obj.contact[0].name.text;
+			obj.contact[0].telecom.map((telecom, i) => {
+				if (telecom.system == "email")
+					localVar.organization.cpemail= telecom.value;
+				else if (telecom.system == "phone")
+					localVar.organization.cpphone= telecom.value;
+			});
+		}
+	}
+	// Get Schedule Information
+	getResource(FHIRURL, 'Schedule', '/' + DB.schedule, FHIRResponseType, 'getSchedule');
+}
 
-//Initialize Fhir Person class
-let user = new CPerson();
-//local variable for store temporary json obj
-let personJSON, slotJSON=[];
+function getSchedule(str){
+	let obj= JSON.parse(str);
+	if(retValue(obj))
+	{
+		localVar.schedule.code= (obj.specialty)? obj.specialty[0].coding[0].code : '';
+		localVar.schedule.name= (obj.specialty)? obj.specialty[0].coding[0].display : '';
+		localVar.schedule.practitionerRoleID= (obj.actor) ? obj.actor[0].reference.split('/')[1] : '';
+		localVar.schedule.practitionerName= (obj.actor) ? obj.actor[0].display : '';
+	}
+	showWebsiteInfo();
+}
+
+//Show Page Title and Header (need to initialize page name beforehand)
+function showWebsiteInfo()
+{
+	document.title= localVar.schedule.name + " - " + pageName;
+	$("#header").html(localVar.schedule.name + "<br>" + pageName);
+}
 
 //Validate data input by user
-function dataValidation(){
+function validateData(){
 	if(checkRequiredField(field)){
 		document.getElementById("loadingPage").style.display = "block";
-		user.username= $("#pEmail").val();
-		user.jobPosition= $("#pJobPosition").val();
-		user.institution= $("#pInstitution").val();
-		getResource(FHIRURL, 'Person', '?identifier=' + user.username, FHIRResponseType, 'verifyUser');
+		localVar.person.name= $('#Name').val();
+		localVar.person.username= $("#Email").val();
+		localVar.person.jobPosition= $("#JobPosition").val();
+		localVar.person.institution= $("#Institution").val();
+		getResource(FHIRURL, 'Person', '?identifier=' + localVar.person.username, FHIRResponseType, 'verifyUser');
 	}
 }
 
 //Verify FHIR Person & Patient exist or not 
-function verifyUser(ret){ 
+function verifyUser(str){ 
+	let obj= JSON.parse(str);
 	//if person exist -> alert "user exist"
-	if (ret.total > 0)
+	if (obj.total > 0)
 	{			
-		user.id = ret.entry[0].resource.link ? ret.entry[0].resource.link[0].target.reference : "";
 		alert(message.accountExist);
 		document.getElementById("loadingPage").style.display = "none";
 	}
 	//if person unexist -> check slot availability -> create new Person ->  create new Patient
 	else 
 	{
-		getResource(FHIRURL, 'Slot', '?schedule=' + course1.scheduleID + "&status=free", FHIRResponseType, 'checkSlotAvailability');
+		getResource(FHIRURL, 'Slot', '?schedule=' + DB.schedule, FHIRResponseType, 'getSlotID');
 	}
 }
 
-//Check slot availability 
-function checkSlotAvailability(obj){ 
-	if (obj.total == 0){
-		alert("Course full slot!");
-		document.getElementById("loadingPage").style.display = "none";
-	}
-	else{
-		createPerson();
-	}
+//Get all slot ID 
+function getSlotID(str){ 
+	let obj= JSON.parse(str);
+	
+    obj.entry.map((entry, i) => {
+		localVar.slot.id.push(entry.resource.id);
+	});
+	createPerson();
 }
 
 //Create new FHIR Person
 function createPerson(){
 	initialize();
-	let encPassword= document.getElementById('SHA256PWD').value;
-	user.name= document.getElementById('pName').value;
 	
-	personJSONobj.identifier[0].value= user.username;
-	personJSONobj.identifier[1].value= encPassword;
-	personJSONobj.identifier[2].value= user.jobPosition;
-	personJSONobj.identifier[3].value= user.institution;
-	personJSONobj.name[0].text= user.name;
-	personJSONobj.telecom[0].value= user.username;
+	personJSONobj.identifier[0].value= localVar.person.username;
+	personJSONobj.identifier[1].value= $('#SHA256PWD').val();
+	personJSONobj.identifier[2].value= localVar.person.jobPosition;
+	personJSONobj.identifier[3].value= localVar.person.institution;
+	personJSONobj.name[0].text= localVar.person.name;
+	personJSONobj.telecom[0].value= localVar.person.username;
 	personJSONobj = JSON.stringify(personJSONobj);
 	postResource(FHIRURL, 'Person', '', FHIRResponseType, "createPatient", personJSONobj);
 }
 
 //Create new FHIR Patient
-function createPatient(obj){
+function createPatient(str){
+	let obj= JSON.parse(str);
 	//If failed to create new Person
 	if (!isError(obj.resourceType, "Error in create FHIR Person. " + message.contactPerson))
 	{
-		user.id= obj.id;
+		localVar.person.id= obj.id;
 		personJSON= obj;
-		patientJSONobj.name[0].text= user.name;
-		patientJSONobj.managingOrganization.reference= course1.organizationID;
+		patientJSONobj.name[0].text= localVar.person.name;
+		patientJSONobj.managingOrganization.reference= 'Organization/' + DB.organization;
 		patientJSONobj = JSON.stringify(patientJSONobj);
 		postResource(FHIRURL, 'Patient', '', FHIRResponseType, "updatePerson", patientJSONobj);
 	}
 }
 
 //Update FHIR Person to connect it with FHIR Patient
-function updatePerson(obj){
-	//If failed to create new Patient
+function updatePerson(str){
+	let obj= JSON.parse(str);
 	if (!isError(obj.resourceType, "Error in create FHIR Patient. " + message.contactPerson))
 	{
-		globalPatientID= obj.id;
-		let link= '{"link":[{"target":{"reference":"Patient/' + globalPatientID + '","display": "' + user.name + '"}}]}';
+		localVar.patient.id= obj.id;
+		let link= '{"link":[{"target":{"reference":"Patient/' + localVar.patient.id + '","display": "' + localVar.person.name + '"}}]}';
 		link= JSON.parse(link);
 		
 		if(personJSON.link == null)
@@ -142,21 +220,60 @@ function updatePerson(obj){
 			};
 		}
 		personJSON = JSON.stringify(mergedObject);
-		//putResource(FHIRURL, 'Person', '/' + user.id, FHIRResponseType, "signUpResult", personJSON)
-		putResource(FHIRURL, 'Person', '/' + user.id, FHIRResponseType, "getAppointmentByPatientID", personJSON)
+		putResource(FHIRURL, 'Person', '/' + localVar.person.id, FHIRResponseType, "readGroup", personJSON);
 	}
 }
 
-//Check all appointment of patient by Actor.reference
-function getAppointmentByPatientID(obj){
-	//let patientID= obj.link[0].target.reference;
+//read Group to get max participant quota
+function readGroup(str){
+	let obj= JSON.parse(str);
 	if (!isError(obj.resourceType, "Error in update FHIR Person. " + message.contactPerson))
 	{
-		getResource(FHIRURL, 'Appointment', '?actor=' + globalPatientID, FHIRResponseType, 'getSlotByApptID');
+		getResource(FHIRURL, 'Group', '?identifier=' + localVar.schedule.code + '&code=201', FHIRResponseType, "getMaxParticipant");
 	}
 }
 
-function getSlotByApptID(obj){
+//Get max participant quota
+function getMaxParticipant(str){
+	let obj= JSON.parse(str);
+	if (!isError(obj.resourceType, "Error in read FHIR Group. " + message.contactPerson))
+	{
+		if (obj.total == 1)
+		{			
+			localVar.schedule.maxParticipant = obj.entry[0].resource.quantity ? obj.entry[0].resource.quantity : "";
+		}
+		getResource(FHIRURL, 'Appointment', '?slot=Slot/' + localVar.slot.id[0] + '&status=booked', FHIRResponseType, 'getCurrentParticipant');
+	}
+}
+
+//Get current participant quota
+function getCurrentParticipant(str){
+	let obj= JSON.parse(str);
+	if (!isError(obj.resourceType, "Error in read FHIR Appointment. " + message.contactPerson))
+	{
+		let currentParticipant= obj.total;
+		if(currentParticipant < localVar.schedule.maxParticipant)
+		{
+			createAppointment("booked");
+		}
+		else
+		{
+			createAppointment("waitlist");
+		}
+	}
+}
+
+//Check course availability
+function checkCourseAvailability(str){
+	let obj= JSON.parse(str);
+	if (!isError(obj.resourceType, "Error in update FHIR Person. " + message.contactPerson))
+	{
+		getResource(FHIRURL, 'Appointment', '?slot=Slot/' + localVar.slot.id[0] + '&status=booked', FHIRResponseType, 'checkCourseAvailability');
+	}
+}
+
+function getSlotByApptID(str){
+	let obj= JSON.parse(str);
 	//If patient doesn't have appointment -> check free Slot -> create new appointment
 	if (obj.total == 0){
 		for(let i=101; i<= 100+course1.totalSlotSession ; i++){
@@ -177,40 +294,35 @@ function getSlotByApptID(obj){
 	// }
 }
 
-function createAppointment(obj){
-	//Check slot availability again for certainty
-	if (obj.total == 0){
-		alert("Course full slot!");
-		document.getElementById("loadingPage").style.display = "none";
-	}
-	else{
-		initializeAppt();
-		slotJSON.push(obj.entry[0].resource);
-		appointmentJSONobj.slot[0].reference= "Slot/" + obj.entry[0].resource.id;				//slot ID
-		appointmentJSONobj.participant[0].actor.reference= "Patient/" + globalPatientID;						//patient ID
-		appointmentJSONobj.participant[0].actor.display= user.name;								//patient name
-		appointmentJSONobj.participant[1].actor.reference= course1.practitionerRoleID;			//PractitionerRole ID
-		appointmentJSONobj.participant[1].actor.display= course1.practitionerName;				//PractitionerRole name
-		appointmentJSONobj = JSON.stringify(appointmentJSONobj);
-		postResource(FHIRURL, 'Appointment', '', FHIRResponseType, "updateSlot", appointmentJSONobj);
-	}
+function createAppointment(pstatus){
+	initializeAppt();
+	
+	localVar.slot.id.forEach(element => {
+		let temp_ref={
+			reference: ''
+		};
+		temp_ref.reference =  "Slot/" + element;
+		appointmentJSONobj.slot.push(temp_ref);
+	});
+	appointmentJSONobj.status= pstatus;		
+	appointmentJSONobj.participant[0].actor.reference= "Patient/" + localVar.patient.id;							//patient ID
+	appointmentJSONobj.participant[0].actor.display= localVar.person.name;											//patient name
+	appointmentJSONobj.participant[1].actor.reference= "PractitionerRole/" +  localVar.schedule.practitionerRoleID;	//PractitionerRole ID
+	appointmentJSONobj.participant[1].actor.display= localVar.schedule.practitionerName;							//PractitionerRole name
+	appointmentJSONobj = JSON.stringify(appointmentJSONobj);
+	postResource(FHIRURL, 'Appointment', '', FHIRResponseType, "signUpResult", appointmentJSONobj);
 }
 
-function updateSlot(obj){
-	if (!isError(obj.resourceType, "Error in create FHIR Appointment. " + message.contactPerson))
-	{
-		let slotTemp= slotJSON.filter(x => x.id == obj.slot[0].reference.split("/")[1])[0];
-		slotTemp.status="busy";
-		let slotSTR = JSON.stringify(slotTemp);
-		putResource(FHIRURL, 'Slot', '/' + slotTemp.id, FHIRResponseType, "signUpResult", slotSTR)
-	}
-}
-
-function signUpResult(obj){
+function signUpResult(str){
+	let obj= JSON.parse(str);
 	if (!isError(obj.resourceType, message.signUpFail + message.contactPerson))
 	{
 		document.getElementById("loadingPage").style.display = "none";
-		alert(message.signUpOK);
+		if(obj.status=="booked")
+			alert(message.signUpOK);
+		else if(obj.status=="waitlist")
+			alert("Course full slot!");
+		
 		window.close();
 	}
 }
