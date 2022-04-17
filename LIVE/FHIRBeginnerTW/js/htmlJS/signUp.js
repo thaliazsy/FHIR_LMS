@@ -57,7 +57,6 @@ let localVar = {
 
 //Function Initialization
 $(document).ready(function(){
-	let temp="";
 	// Clear session
 	let stringValue = window.sessionStorage.getItem("loginAccount")
     if (stringValue != null) 

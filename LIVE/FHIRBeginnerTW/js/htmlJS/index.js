@@ -1,61 +1,57 @@
-//Langguage setting
+//Language setting
 if(web_language=="CH")
 {
-	info.pageName= "學習平台";
+	pageName= "學習平台";
 }
 else if(web_language=="EN")
 {
-	info.pageName= "Learning Platform";
+	pageName= "Learning Platform";
 }
-
-//Show Page Title and Header (need to initialize info.pageName beforehand)
-document.title= info.universityName + info.courseName + " - " + info.pageName;
-document.getElementById("header").innerHTML= info.universityName + info.courseName + "<br>" + info.pageName;
-//Variable Initialization
-let user = new CPerson();
 
 //Function Initialization
 $(document).ready(function(){
-	let ret= sessionGet("loginAccount");
-	if(ret==null) {
+	/* Check session */
+	loginData= sessionGet("loginAccount");
+	if(loginData==null) {
 		//redirect users to login page
-		window.location.href = "login.html";
-	} 
+		window.location.href = "../login.html";
+	}
 	else {
-		//init page
-		user.id = ret.userLogin.id;
-		user.name = ret.userLogin.name;
-		user.username = ret.userLogin.username;
-		$("#intro").html("Welcome, " + user.name + "!");
-		
-		let arr= ret.patientID;
-		for(item in arr) {
-			globalPatientID=arr[item].split('/')[1];
-			let urlStr= FHIRURL + "Patient/" + globalPatientID;
-			getResource(FHIRURL, 'Patient', '/' + globalPatientID, FHIRResponseType, 'getPatientByID');
-		};
+		showWebsiteInfo();
+		$("#intro").html("Welcome, " + loginData.person.name + "!");
+		//Get user control access range
+		//getResource(FHIRURL, 'Patient', '/' + loginData.role[0].patientID, FHIRResponseType, 'getPatientByID');
+		getResource(FHIRURL, 'Appointment', '?actor=Patient/' + loginData.role[0].patientID, FHIRResponseType, 'getAppointmentByPatientID');
 	}
 });
 
-function getPatientByID(obj){
-	let patientID = (obj.id) ? obj.id : '';
-	let organizationID =(obj.managingOrganization.reference) ? obj.managingOrganization.reference.split('/')[1] : '';
-	let p = new CPatient(patientID, organizationID)
-	groupMember.newMember(p);
-	getResource(FHIRURL, 'Organization', '/' + organizationID, FHIRResponseType, 'getOrganizationByID');
+//Show Page Title and Header (need to initialize page name beforehand)
+function showWebsiteInfo()
+{
+	document.title= loginData.schedule.name + " - " + pageName;
+	$("#header").html(loginData.schedule.name + "<br>" + pageName);
 }
 
-function getOrganizationByID(obj){
-	let organizationID = (obj.id) ? obj.id : '';
-	let organizationName = (obj.name) ? obj.name : '';
-	groupMember.patient.filter(x => x.organizationID == organizationID && x.organizationName == '')[0].organizationName = organizationName; //must only return 1 row
-	let patientID= groupMember.patient.filter(x => x.organizationID == organizationID)[0].patientID; 
-	//document.getElementById("titleDiv").innerHTML= organizationName + " - " + info.pageName;					//organizationName
-	getResource(FHIRURL, 'Appointment', '?actor=Patient/' + patientID, FHIRResponseType, 'getAppointmentByPatientID');
-}
+// function getPatientByID(obj){
+	// let patientID = (obj.id) ? obj.id : '';
+	// let organizationID =(obj.managingOrganization.reference) ? obj.managingOrganization.reference.split('/')[1] : '';
+	// let p = new CPatient(patientID, organizationID)
+	// groupMember.newMember(p);
+	// getResource(FHIRURL, 'Organization', '/' + organizationID, FHIRResponseType, 'getOrganizationByID');
+// }
+
+// function getOrganizationByID(obj){
+	// let organizationID = (obj.id) ? obj.id : '';
+	// let organizationName = (obj.name) ? obj.name : '';
+	// groupMember.patient.filter(x => x.organizationID == organizationID && x.organizationName == '')[0].organizationName = organizationName; //must only return 1 row
+	// let patientID= groupMember.patient.filter(x => x.organizationID == organizationID)[0].patientID; 
+	// //document.getElementById("titleDiv").innerHTML= organizationName + " - " + info.pageName;					//organizationName
+	// getResource(FHIRURL, 'Appointment', '?actor=Patient/' + patientID, FHIRResponseType, 'getAppointmentByPatientID');
+// }
 
 //Retrieve: Slot ID
-function getAppointmentByPatientID(obj){
+function getAppointmentByPatientID(str){
+	let obj= JSON.parse(str);
 	if (obj.total == 0)	alert('無資料');
 	else{
 		obj.entry.map((entry, i) => {
@@ -74,14 +70,16 @@ function getAppointmentByPatientID(obj){
 }
 
 //Retrieve: Schedule ID
-function getSlotByID(obj){
+function getSlotByID(str){
+	let obj= JSON.parse(str);
 	let slotID= (obj.id) ? obj.id : '';
 	let scheduleID= (obj.schedule) ? obj.schedule.reference.split('/')[1] : '';
 	//groupMember.courseIsExist(scheduleID);
 	getResource(FHIRURL, 'Schedule', '/' + scheduleID, FHIRResponseType, 'getSchedule');	//http://203.64.84.213:8080/fhir/PlanDefinition?composed-of=Schedule/1738
 }
 
-function getSchedule(obj){
+function getSchedule(str){
+	let obj= JSON.parse(str);
 	let scheduleID = (obj.id) ? obj.id : '';
 	let courseName = (obj.specialty) ? obj.specialty[0].coding[0].display : '';
 	let practitionerRoleID = (obj.actor) ? obj.actor[0].reference : '';				
@@ -96,7 +94,8 @@ function getSchedule(obj){
 	getResource(FHIRURL, 'PlanDefinition', '?composed-of=Schedule/' + scheduleID, FHIRResponseType, 'getMaterialByScheduleID');	//http://203.64.84.213:8080/fhir/PlanDefinition?composed-of=Schedule/1738
 }
 
-function getMaterialByScheduleID(obj){
+function getMaterialByScheduleID(str){
+	let obj= JSON.parse(str);
 	if (obj.total == 0)	alert('無資料');
 	else{
 		obj.entry.map((entry, i) => {
@@ -116,24 +115,18 @@ function getMaterialByScheduleID(obj){
 	showMyCourse();
 }
 
-function getPractitionerRole(obj){
-	
-}
-
-
 function showMyCourse(){
 	var table= document.getElementById("TableAppointment");
 	var cellIndex;
 	var row, noIndex=1, videoName;
-	
 	//check per organization
 	let indexTable;
-	for (indexTable=0;indexTable<groupMember.patient.length;indexTable++){											
+	//for (indexTable=0;indexTable<groupMember.patient.length;indexTable++){											
 		table.innerHTML+= '<tr><th bgcolor="#ebebe0" colspan="2">My Course List</th></tr>';
 		//check per schedule
 		let namaDosen='';
 		groupMember.course.forEach(item => {
-			document.getElementById("intro").innerHTML+= '<br>Patient ID: ' + groupMember.patient[0].patientID;
+			document.getElementById("intro").innerHTML+= '<br>Patient ID: ' + loginData.role[0].patientID; //groupMember.patient[0].patientID;
 			document.getElementById("intro").innerHTML+= '<br>Course Period: ' + item.courseStartDate + ' until ' + item.courseEndDate;
 			table.innerHTML+= '<tr><th>No.</th><th>Course Material</th></tr>';
 			var indexNo=1;
@@ -157,7 +150,7 @@ function showMyCourse(){
 				}
 			});
 		});
-	}
+	//}
 }
 
 // <!-- function linkToCourseSelection(){ -->

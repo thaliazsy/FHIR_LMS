@@ -79,6 +79,13 @@ let loginData = {
 	}
 }
 
+let CPatient= {
+	roleName: '',
+	patientID: '',
+	organizationID: '',
+	organizationName: ''
+}
+
 //Declare variable
 let globalPatientID, globalName, globalPersonID;
 let personJSONobj, patientJSONobj, appointmentJSONobj;
@@ -95,13 +102,13 @@ class CPerson{
 	}
 }
 
-class CPatient{
-	constructor(id, OID) {
-		this.patientID=id;
-		this.organizationID= OID;
-		this.organizationName='';
-	}
-}
+// class CPatient{
+	// constructor(id, OID) {
+		// this.patientID=id;
+		// this.organizationID= OID;
+		// this.organizationName='';
+	// }
+// }
 
 class CSchedule{
 	constructor(p1, p2, p3, p4, p5) {

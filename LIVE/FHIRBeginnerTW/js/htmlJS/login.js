@@ -22,7 +22,6 @@ else if(web_language=="EN")
 
 //Function Initialization
 $(document).ready(function(){
-	let temp="";
 	// Clear session
 	let stringValue = window.sessionStorage.getItem("loginAccount")
     if (stringValue != null) 
@@ -113,27 +112,73 @@ function validateData(){
 }
 
 //Verify login account username and password
-function verifyUser(str){
+function verifyUser(str)
+{
 	let obj= JSON.parse(str);
-	let encPassword= document.getElementById('SHA256PWD').value;
-	let retID="", retName="", retUsername="", retPassword="", patientID="";
-	let arrPatientID= new Array();
+	let retPassword="";
 	
 	if (obj.total == 0) alert(message.accountUnexist);
 	else if (obj.total == 1){
-		retID = (obj.entry[0].resource.id) ? obj.entry[0].resource.id : '';
-		retName = (obj.entry[0].resource.name) ? obj.entry[0].resource.name[0].text : '';
-		retUsername= (obj.entry[0].resource.identifier[0])? obj.entry[0].resource.identifier[0].value : '';
+		loginData.person.id = (obj.entry[0].resource.id) ? obj.entry[0].resource.id : '';
+		loginData.person.name = (obj.entry[0].resource.name) ? obj.entry[0].resource.name[0].text : '';
+		loginData.person.username= (obj.entry[0].resource.identifier[0])? obj.entry[0].resource.identifier[0].value : '';
 		retPassword= (obj.entry[0].resource.identifier[1])? obj.entry[0].resource.identifier[1].value : '';
-		patientID = (obj.entry[0].resource.link) ? obj.entry[0].resource.link[0].target.reference:'';
-		arrPatientID.push(patientID);
-		if(encPassword!=retPassword)	alert(message.passwordWrong);		
+		
+		if(obj.entry[0].resource.link)
+		{
+			obj.entry[0].resource.link.map((link, i) => {
+				let roleID= link.target.reference;
+				if(roleID.split('/')[0] == "Practitioner") 
+				{
+					CPractitioner.roleName= "Practitioner";
+					CPractitioner.practID= roleID.split('/')[1];
+					getResource(FHIRURL, 'PractitionerRole', '?practitioner=' + CPractitioner.practID, FHIRResponseType, 'getPractitionerRole');
+					if(CPractitioner.organizationID == DB.organization)
+						loginData.role.push(CPractitioner);
+				}
+				else if(roleID.split('/')[0] == "Patient") 
+				{
+					CPatient.roleName= "Patient";
+					CPatient.patientID= roleID.split('/')[1];
+					getResource(FHIRURL, 'Patient', '/' + CPatient.patientID, FHIRResponseType, 'getPatient');
+					if(CPatient.organizationID == DB.organization)
+						loginData.role.push(CPatient);
+				}
+			});
+		}
+		
+		if($('#SHA256PWD').val() != retPassword)	alert(message.passwordWrong);
+		else if(loginData.role.length == 0)	alert(message.authorizeFail);
 		else {
-			sessionSet("loginAccount", retID, retName, retUsername, arrPatientID);
-			window.open('index.html',"_self");
+			sessionSet("loginAccount", loginData, 30);
+			if(loginData.role[0].roleName == "Patient")
+				window.open('index.html',"_self");
+			else if(loginData.role[0].roleName == "Practitioner")
+				window.open('Admin/index.html',"_self");
 		}
 	}
 	else{
-		alert("This user has more than 1 account.\n" + message.contactPerson);
+		alert(message.systemError + " " + message.contactPerson);
 	}
+}
+
+
+function getPractitionerRole(str)
+{ 
+	let obj= JSON.parse(str);
+	obj.entry.map((entry, i) => {
+		CPractitioner.practRoleID = entry.resource.id;
+		CPractitioner.organizationID = entry.resource.organization.reference.split('/')[1];
+		CPractitioner.organizationName = entry.resource.organization.display;
+		entry.resource.code[0].coding.map((coding, i) => {
+			CPractitioner.roleCode.push(coding.code);
+		});
+	});
+}
+
+function getPatient(str)
+{ 
+	let obj= JSON.parse(str);
+	CPatient.organizationID = obj.managingOrganization.reference.split('/')[1];
+	CPatient.organizationName = obj.managingOrganization.display;
 }
