@@ -145,7 +145,10 @@ function postResource(URL, ResourceName, Parameter, FHIRResponseType, AfterFun, 
                 eval(string)
                 @desc： Convert string to JavaScript function code for execution
             */
-			eval(AfterFun)(str);
+			if(AfterFun != '')
+			{
+				eval(AfterFun)(str);
+			}
 			return str;
         }
 		else if(this.readyState == 4 && (this.status != 200 || this.status != 201))
@@ -224,7 +227,10 @@ function putResource(URL, ResourceName, Parameter, FHIRResponseType, AfterFun, R
                 eval(string)
                 @desc： Convert string to JavaScript function code for execution
             */
-            eval(AfterFun)(str);
+            if(AfterFun != '')
+			{
+				eval(AfterFun)(str);
+			}
             return str;
         }
 		else if(this.readyState == 4 && this.status != 200)
@@ -286,7 +292,10 @@ function deleteResource(URL, ResourceName, Parameter, AfterFun) {
                 eval(string)
                 @desc： Convert string to JavaScript function code for execution
             */
-            eval(AfterFun)(str);
+            if(AfterFun != '')
+			{
+				eval(AfterFun)(str);
+			}
             return str;
         }
 		else if(this.readyState == 4 && this.status != 200)

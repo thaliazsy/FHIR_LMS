@@ -56,6 +56,13 @@ function getAppointmentByPatientID(str){
 	else{
 		obj.entry.map((entry, i) => {
 			let appointmentID = (entry.resource.id) ? entry.resource.id : '';
+			let appointmentStatus = (entry.resource.status) ? entry.resource.status : '';
+			if(appointmentStatus == 'waitlist')
+			{
+				$("#intro").html("Your current status is on <font color='red'>waiting</font> list.<br>Please contact your administrator for further information.");
+			}
+			else if(appointmentStatus == 'booked')
+			{
 			let slotID= (entry.resource.slot) ? entry.resource.slot[0].reference.split('/')[1] : '';
 			//Jangan include appointment dan slot id ke dalam CSchedule, only include scheduleID dan material
 			// let appointment = new CAppointment(appointmentID, slotID);
@@ -65,6 +72,7 @@ function getAppointmentByPatientID(str){
 			//#UbahIni
 			if(i==0)
 			getResource(FHIRURL, 'Slot', '/' + slotID, FHIRResponseType, 'getSlotByID');
+			}
 		});
 	}
 }
@@ -126,7 +134,7 @@ function showMyCourse(){
 		//check per schedule
 		let namaDosen='';
 		groupMember.course.forEach(item => {
-			document.getElementById("intro").innerHTML+= '<br>Patient ID: ' + loginData.role[0].patientID; //groupMember.patient[0].patientID;
+			document.getElementById("intro").innerHTML+= '<br>Student ID: ' + loginData.role[0].patientID; //groupMember.patient[0].patientID;
 			document.getElementById("intro").innerHTML+= '<br>Course Period: ' + item.courseStartDate + ' until ' + item.courseEndDate;
 			table.innerHTML+= '<tr><th>No.</th><th>Course Material</th></tr>';
 			var indexNo=1;
