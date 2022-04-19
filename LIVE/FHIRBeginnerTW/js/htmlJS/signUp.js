@@ -141,6 +141,8 @@ function showWebsiteInfo()
 
 //Validate data input by user
 function validateData(){
+let str="{status='waitlist'}";
+
 	if(checkRequiredField(field)){
 		document.getElementById("loadingPage").style.display = "block";
 		localVar.person.name= $('#Name').val();
@@ -288,8 +290,7 @@ function getCurrentParticipant(str){
 		}
 		else
 		{
-			let str="{status='waitlist'}";
-			signUpResult(str);
+			courseFullSlot();
 		}
 	}
 }
@@ -313,8 +314,7 @@ function checkCourseAvailability(str){
 		updateAppointment();
 	}
 	else{
-		let str="{status='waitlist'}";
-		signUpResult(str);
+		courseFullSlot();
 	}
 }
 
@@ -350,13 +350,16 @@ function signUpResult(str){
 	if (!isError(obj.resourceType, message.signUpFail + message.contactPerson))
 	{
 		document.getElementById("loadingPage").style.display = "none";
-		if(obj.status=="booked")
-			alert(message.signUpOK);
-		else if(obj.status=="waitlist")
-			alert("Course full slot!<br>Please contact your administrator for further information.");
-		
+		alert(message.signUpOK);
+			
 		window.close();
 	}
+}
+
+function courseFullSlot()
+{
+	document.getElementById("loadingPage").style.display = "none";
+	alert("Course full slot!<br>Please contact your administrator for further information.");
 }
 
 function isError(resourceType, msg){
