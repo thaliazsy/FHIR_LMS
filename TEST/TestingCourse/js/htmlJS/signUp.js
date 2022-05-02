@@ -91,7 +91,7 @@ function showForm()
 		temp += '><br></td></tr>';
 	}
 	temp+= '<tr><td colspan="2" align="right"><input id="btnSubmit" type="button" value="Submit" onclick="validateData()"></td></tr>';
-	$("#mainTable").html(temp);
+	$('#mainTable').html(temp);
 	
 	// Get Organization Information
 	getResource(FHIRURL, 'Organization', '/' + DB.organization, FHIRResponseType, 'getOrganization');
