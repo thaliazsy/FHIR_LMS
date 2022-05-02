@@ -86,6 +86,14 @@ let CPatient= {
 	organizationName: ''
 }
 
+let CPractitioner= {
+	roleName: '',
+	practID: '',
+	practRoleID: '',
+	organizationID: '',
+	organizationName: ''
+}
+
 //Declare variable
 let globalPatientID, globalName, globalPersonID;
 let personJSONobj, patientJSONobj, appointmentJSONobj;
