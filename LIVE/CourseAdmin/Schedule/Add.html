@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel='stylesheet' typeof='text/css' media='all' href='../css/Reset.css' />
+    <link rel='stylesheet' typeof='text/css' media='all' href='../css/Site.css' />
+    <link rel='stylesheet' typeof='text/css' media='all' href='../css/Schedule.css' />
+
+    <title>FHIR Schedule</title>
+</head>
+
+<body>
+   <div id="Header">
+		<a href="../Schedule/index.html"><img src="../js/assets/images/pngs/home.png" class="topleft"/></a>
+		<button class="topright" onclick="logOut()">Logout</button>
+        <div id="Logo">
+			<font color="red">FHIR</font> Schedule
+		</div>
+	</div>
+    <div id="Bodyer">
+        <!-- <div id="Head"></div> -->
+        <div id="Left"></div>
+        <div id="Body">
+            <div id="Add">
+                <div class="Header">
+                    <div class="Title">Add Course</div>
+                </div>
+                <div class="Bodyer">
+					<form onsubmit="addCourse()">
+						<ul class="L1s">
+							<li class="L1 i1 CourseCode">
+								<div class="Name">Course code：</div>
+								<div class="Value"><input type="text" class="CourseCodePK" placeholder="Must be unique!" required></div>
+								<!-- onchange="checkCourseCode()" -->
+								<div class="Message"></div>
+								<div class="Clear"></div>
+							</li>
+							<li class="L1 i2 CourseName">
+								<div class="Name">Course name：</div>
+								<div class="Value"><input type="text" required></div>
+								<div class="Message"></div>
+								<div class="Clear"></div>
+							</li>
+							<li class="L1 i3 PeriodDate">
+								<div class="Name">Course period date：</div>
+								<div class="Value">
+									<input type="date" placeholder="yyyy-mm-dd" required> - 
+									<input type="date" placeholder="yyyy-mm-dd" required>
+								</div>
+								<div class="Message"></div>
+								<div class="Clear"></div>
+							</li>
+							<li class="L1 i4 NameOfDay">
+								<div class="Name">Name of the day：</div>
+								<div class="Value"><input type="text" placeholder="e.g. Monday" required></div>
+								<div class="Message"></div>
+								<div class="Clear"></div>
+							</li>
+							<li class="L1 i5 PeriodTime">
+								<div class="Name">Course time：</div>
+								<div class="Value">
+									<input type="time" required> - 
+									<input type="time" required>
+								</div>
+								<div class="Message"></div>
+								<div class="Clear"></div>
+							</li>
+							<li class="L1 i6 MaxParticipant">
+								<div class="Name">Max no. of students：</div>
+								<div class="Value"><input type="number" min="1" required></div>
+								<div class="Message"></div>
+								<div class="Clear"></div>
+							</li>
+							<li class="L1 i7 Status">
+								<div class="Name">Status：</div>
+								<div class="Value">
+									<input type="radio" name="status" value="true" checked>Active
+									<input type="radio" name="status" value="false">Inactive
+								</div>
+								<div class="Message"></div>
+								<div class="Clear"></div>
+							</li>
+							<li class="L1 i8 Submit">
+								<div class="Tool"><button style="margin-top: 5px">Submit</button></div>
+							</li>
+						</ul>
+					</form>
+                    <div class="Clear"></div>
+                </div>
+                <div class="Footer">
+                    <div class="Tool">
+                        <ul class="L1s">
+                            <li class="L1 i1">
+								<div class="Btn Save">Save</div>
+                            </li>
+                            <li class="L1 i2">
+                                <div class="Btn Back">Back</div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="Clear"></div>
+                </div>
+            </div>
+        </div>
+        <div id="Right"></div>
+        <div id="Foot"></div>
+    </div>
+    <div id="Footer">
+        <div id="CopyRight">
+            Copyright © 2021 Department of Medical Informatics, Tzu Chi University All rights reserved
+        </div>
+    </div>
+</body>
+<!-- JQUERY JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type='text/javascript' src='../js/setting.js'></script>
+<script type='text/javascript' src='../js/site.js'></script>
+<script type='text/javascript' src='../js/session.js'></script>
+<script type='text/javascript' src='../js/getQueryString.js'></script>
+<script type='text/javascript' src='../js/HTTPRequest.js'></script>
+<script type='text/javascript' src='../js/Resource/Schedule/addSchedule.js'></script>
+
+</html>
