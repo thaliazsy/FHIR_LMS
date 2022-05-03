@@ -1,0 +1,35 @@
+<html>
+	<body>
+		Choose your role:<br>
+		<a id="student">Student</a><br>
+		<a id="teacher">Teacher</a>
+		
+		<script src="js/setting.js"></script>
+		<script src="js/site.js"></script>
+		<script src="js/jquery.min.js"></script>
+		<script src="js/session.js"></script>
+		<script>
+		//Function Initialization
+		$(document).ready(function(){
+			/* Check session */
+			loginData= sessionGet("loginAccount");
+			if(loginData==null) {
+				//redirect users to login page
+				window.location.href = "../login.html";
+			}
+			
+			$("#student").click(function() {
+				sessionSet("loginAccount", loginData, 30);
+				window.location.href = "index.html";
+			});
+	
+	
+			$("#teacher").click(function() {
+				sessionSet("loginAccount", loginData, 30);
+				window.open('../CourseAdmin/Organization/index.html');
+				//window.open('https://victoriatjia.github.io/FHIR_LMS/LIVE/CourseAdmin/Organization/index.html',"_self");
+			});
+		});
+		</script>
+	</body>
+</html>

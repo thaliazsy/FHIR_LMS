@@ -149,12 +149,16 @@ function verifyUser(str)
 		
 		if($('#SHA256PWD').val() != retPassword)	alert(message.passwordWrong);
 		else if(loginData.role.length == 0)	alert(message.authorizeFail);
-		else {
+		else if(loginData.role.length == 1){
 			sessionSet("loginAccount", loginData, 30);
 			if(loginData.role[0].roleName == "Patient")
 				window.open('index.html',"_self");
 			else if(loginData.role[0].roleName == "Practitioner")
-				window.open('Admin/index.html',"_self");
+				window.open('https://victoriatjia.github.io/FHIR_LMS/LIVE/CourseAdmin/Organization/index.html',"_self");
+		}
+		else if(loginData.role.length > 1){
+			sessionSet("loginAccount", loginData, 30);
+			window.open('chooseRole.html',"_self");
 		}
 	}
 	else{
@@ -167,12 +171,15 @@ function getPractitionerRole(str)
 { 
 	let obj= JSON.parse(str);
 	obj.entry.map((entry, i) => {
-		CPractitioner.practRoleID = entry.resource.id;
-		CPractitioner.organizationID = entry.resource.organization.reference.split('/')[1];
-		CPractitioner.organizationName = entry.resource.organization.display;
-		entry.resource.code[0].coding.map((coding, i) => {
-			CPractitioner.roleCode.push(coding.code);
-		});
+		CPractitioner.practRoleID = entry.resource.id? entry.resource.id : '';
+		CPractitioner.organizationID = entry.resource.organization? entry.resource.organization.reference.split('/')[1] : '';
+		CPractitioner.organizationName = entry.resource.organization.display? entry.resource.organization.display : '';
+		if(entry.resource.code)
+		{
+			entry.resource.code[0].coding.map((coding, i) => {
+				CPractitioner.roleCode.push(coding.code);
+			});
+		}
 	});
 }
 

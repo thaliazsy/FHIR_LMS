@@ -112,9 +112,11 @@ function getMaterialByScheduleID(str){
 			let relatedArtifactLen= entry.resource.relatedArtifact ? entry.resource.relatedArtifact.length : 0;
 			while(index < relatedArtifactLen)
 			{
-				let title= entry.resource.relatedArtifact[index].display.split("-")[2];
+				let temp= entry.resource.relatedArtifact[index].display.split("-");
+				let title= temp[2];
+				let type= temp[1];
 				let url= entry.resource.relatedArtifact[index].url? entry.resource.relatedArtifact[index].url : '';
-				let material= new CMaterial(title, url);
+				let material= new CMaterial(title, type, url);
 				groupMember.course.filter(x => x.scheduleID == scheduleID)[0].material.push(material); //must only return 1 row
 				index++;
 			}
@@ -125,6 +127,7 @@ function getMaterialByScheduleID(str){
 
 function showMyCourse(){
 	var table= document.getElementById("TableAppointment");
+	var param= btoa("personID=" + loginData.person.id);
 	var cellIndex;
 	var row, noIndex=1, videoName;
 	//check per organization
@@ -153,6 +156,11 @@ function showMyCourse(){
 					elLink = document.createElement('a');
 					elLink.target= "_blank";
 					elLink.innerHTML = item2.title;
+					
+					if(item2.type != 'ppt')
+					{
+						item2.url+= "?" + param;
+					}
 					elLink.href = item2.url;
 					row.insertCell(1).appendChild(elLink);
 				}

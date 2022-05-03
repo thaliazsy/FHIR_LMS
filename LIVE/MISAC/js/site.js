@@ -150,8 +150,9 @@ class CAppointment{
 }
 
 class CMaterial{
-	constructor(ptitle, purl) {
+	constructor(ptitle, ptype, purl) {
 		this.title= ptitle;
+		this.type= ptype;
 		this.url= purl;
 	}
 }
