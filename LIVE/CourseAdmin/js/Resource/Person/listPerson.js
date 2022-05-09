@@ -57,8 +57,7 @@ let globalTotalParticipant;
 let participantArr=[["No.", "Person ID", "Name", "Email", "Highest Education Degree", "Institution", "Patient ID", "Account Created Date"]];
 function getAllBusySlotID(str){
 	let obj= JSON.parse(str);
-	globalTotalParticipant= obj.total;
-	if (globalTotalParticipant == 0)	alert('無資料');
+	if (obj.total == 0)	alert('無資料');
 	else{
 		obj.entry.map((entry, i) => {
 			let slotID= (entry.resource.id) ? entry.resource.id : '';
@@ -70,6 +69,7 @@ function getAllBusySlotID(str){
 let multiAppt="";
 function getAppointmentBySlotID(str){
 	let obj= JSON.parse(str);
+	globalTotalParticipant= obj.total;
 	if (obj.total == 0)	{
 		let temp= JSON.stringify(obj.link[0].url);
 		alert('無資料 '+ temp.split("Slot%2F")[1]);
@@ -79,19 +79,19 @@ function getAppointmentBySlotID(str){
 			let appointmentID = (entry.resource.id) ? entry.resource.id : '';
 			let patientID= (entry.resource.participant[0].actor) ? entry.resource.participant[0].actor.reference.split('/')[1] : '';
 			let slotID= (entry.resource.slot[0].reference) ? entry.resource.slot[0].reference : '';
-			if(i==0) 
-				multiAppt+= slotID + ": "; 
+			getResource(FHIRURL, 'Person', '?link=Patient/' + patientID, FHIRResponseType, 'getPersonByID');
+			// if(i==0) 
+				// multiAppt+= slotID + ": "; 
 			
-			multiAppt+= patientID + ", ";
-			if(i==(obj.total-1)){
-				multiAppt+= "\n";
-				getResource(FHIRURL, 'Person', '?link=Patient/' + patientID, FHIRResponseType, 'getPersonByID');
-			}
+			// multiAppt+= patientID + ", ";
+			// if(i==(obj.total-1)){
+				// multiAppt+= "\n";
+			// }
 		});
 	}
 }
 
-let index=0, str="";
+let index=0, temp='';
 function getPersonByID(str) {
 	let obj= JSON.parse(str);
     let template = [];
@@ -104,7 +104,7 @@ function getPersonByID(str) {
 			//let comment = (entry.resource.comment && entry.resource.comment.length) ? entry.resource.comment : '';
 			let name = (entry.resource.name) ? entry.resource.name[0].text : '';
 			let email = (entry.resource.identifier[0] && entry.resource.identifier[0].system == "UserID")? entry.resource.identifier[0].value : '';
-			let highestEduDegree = (entry.resource.identifier[2] && entry.resource.identifier[2].system == "HighestEduDegree")? entry.resource.identifier[2].value : '';
+			let JobPosition = (entry.resource.identifier[2] && entry.resource.identifier[2].system == "JobPosition")? entry.resource.identifier[2].value : '';
 			let institution = (entry.resource.identifier[3] && entry.resource.identifier[3].system == "Institution")? entry.resource.identifier[3].value : '';
 			let patientID = (entry.resource.link[0].target) ? entry.resource.link[0].target.reference : '';
 			let lastUpdatedDate = (entry.resource.meta.lastUpdated) ? entry.resource.meta.lastUpdated.split("+")[0] : '';
@@ -114,7 +114,7 @@ function getPersonByID(str) {
 			
 			// insert participant data into 2d Array (used to generate CSV file)
 			participantArr.push( [] );
-			participantArr[participantArr.length-1].push(index + 1, id, name, email, highestEduDegree, institution, patientID, lastUpdatedDate); 
+			participantArr[participantArr.length-1].push(index + 1, id, name, email, JobPosition, institution, patientID, lastUpdatedDate); 
 			template.push(`
 			<li class="L1 child i${index + 1} ${id}">
 				<div class="Num">${index + 1}</div>
@@ -122,7 +122,7 @@ function getPersonByID(str) {
 				
 				<div class="Name">${name}</div>
 				<div class="Email">${email}</div>
-				<div class="HighestEduDegree">${highestEduDegree}</div>
+				<div class="JobPosition">${JobPosition}</div>
 				<div class="Institution">${institution}</div>
 				<div class="PatientID">${patientID}</div>
 				<div class="CreatedDate">${lastUpdatedDate}</div>
@@ -141,11 +141,11 @@ function getPersonByID(str) {
 		})
 	}
 	index++;
-	str+= template.join('');
+	temp+= template.join('');
     if(index==globalTotalParticipant){
 		document.getElementById("loadingPage").style.display = "none";
-		document.getElementById('textarea1').innerHTML= multiAppt;
-		document.getElementById('List').getElementsByClassName('List-Person')[0].getElementsByClassName('Bodyer')[0].getElementsByClassName('L1s')[0].innerHTML+= str;
+		//document.getElementById('textarea1').innerHTML= multiAppt;
+		document.getElementById('List').getElementsByClassName('List-Person')[0].getElementsByClassName('Bodyer')[0].getElementsByClassName('L1s')[0].innerHTML+= temp;
 		tablePagination("List-Person", 5);
 	}
 }

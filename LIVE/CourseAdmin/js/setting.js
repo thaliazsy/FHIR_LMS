@@ -6,5 +6,5 @@ var FHIRResponseType= 'json';							//Requested data type returned by the server
 
 //Define required FHIR resources
 let DB={
-	organization: "226"
+	organization: "170"
 };

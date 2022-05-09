@@ -19,9 +19,9 @@ function getResource(URL, ResourceName, Parameter, FHIRResponseType, AfterFun){
         @param： 
             method： Using HTTP "GET" method
             url： Request path
-            async： synchronously(false) or asynchronously(true)
+            async： synchronously(true) or asynchronously(false)
     */
-    xhttp.open("GET", url, false);
+    xhttp.open("GET", url, true);
     /*
         xhttp.setRequestHeader(header, value)
         @desc： Set the value of the HTTP header
@@ -54,20 +54,17 @@ function getResource(URL, ResourceName, Parameter, FHIRResponseType, AfterFun){
 				403:FORBIDDEN
 				404:PAGE NOT FOUND
         */
-        if (this.readyState == 4 && (this.status == 200 || this.status == 201)) 
+        if (this.readyState == 4 && this.status == 200) 
 		{
             var str = this.response;
             /*
                 eval(string)
                 @desc： Convert string to JavaScript function code for execution
             */
-			if(AfterFun != '')
-			{
-				eval(AfterFun)(str);
-			}
+            eval(AfterFun)(str);
             return str;
         }
-		else if(this.readyState == 4 && (this.status != 200 || this.status != 201))
+		else if(this.readyState == 4 && this.status != 200)
 		{
 			retValue(JSON.parse(this.response));
 		}  
@@ -145,10 +142,7 @@ function postResource(URL, ResourceName, Parameter, FHIRResponseType, AfterFun, 
                 eval(string)
                 @desc： Convert string to JavaScript function code for execution
             */
-			if(AfterFun != '')
-			{
-				eval(AfterFun)(str);
-			}
+			eval(AfterFun)(str);
 			return str;
         }
 		else if(this.readyState == 4 && (this.status != 200 || this.status != 201))
@@ -227,10 +221,7 @@ function putResource(URL, ResourceName, Parameter, FHIRResponseType, AfterFun, R
                 eval(string)
                 @desc： Convert string to JavaScript function code for execution
             */
-            if(AfterFun != '')
-			{
-				eval(AfterFun)(str);
-			}
+            eval(AfterFun)(str);
             return str;
         }
 		else if(this.readyState == 4 && this.status != 200)
@@ -292,10 +283,7 @@ function deleteResource(URL, ResourceName, Parameter, AfterFun) {
                 eval(string)
                 @desc： Convert string to JavaScript function code for execution
             */
-            if(AfterFun != '')
-			{
-				eval(AfterFun)(str);
-			}
+            eval(AfterFun)(str);
             return str;
         }
 		else if(this.readyState == 4 && this.status != 200)
