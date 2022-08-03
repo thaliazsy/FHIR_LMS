@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_PublishTargetUrl>E:\Cia\Coding\Project FHIR\LMS\LIVE\pub</_PublishTargetUrl>
+    <History>True|2022-08-03T05:38:08.6876419Z;False|2022-08-03T12:37:31.2596261+07:00;True|2022-08-03T11:27:05.7224370+07:00;</History>
+  </PropertyGroup>
+</Project>

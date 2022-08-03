@@ -1,0 +1,40 @@
+E:\Cia\Coding\Project FHIR\LMS\LIVE\FHIR LMS\FHIR LMS\bin\Release\netcoreapp3.1\appsettings.Development.json
+E:\Cia\Coding\Project FHIR\LMS\LIVE\FHIR LMS\FHIR LMS\bin\Release\netcoreapp3.1\appsettings.json
+E:\Cia\Coding\Project FHIR\LMS\LIVE\FHIR LMS\FHIR LMS\bin\Release\netcoreapp3.1\FHIR LMS.exe
+E:\Cia\Coding\Project FHIR\LMS\LIVE\FHIR LMS\FHIR LMS\bin\Release\netcoreapp3.1\FHIR LMS.deps.json
+E:\Cia\Coding\Project FHIR\LMS\LIVE\FHIR LMS\FHIR LMS\bin\Release\netcoreapp3.1\FHIR LMS.runtimeconfig.json
+E:\Cia\Coding\Project FHIR\LMS\LIVE\FHIR LMS\FHIR LMS\bin\Release\netcoreapp3.1\FHIR LMS.runtimeconfig.dev.json
+E:\Cia\Coding\Project FHIR\LMS\LIVE\FHIR LMS\FHIR LMS\bin\Release\netcoreapp3.1\FHIR LMS.dll
+E:\Cia\Coding\Project FHIR\LMS\LIVE\FHIR LMS\FHIR LMS\bin\Release\netcoreapp3.1\FHIR LMS.pdb
+E:\Cia\Coding\Project FHIR\LMS\LIVE\FHIR LMS\FHIR LMS\bin\Release\netcoreapp3.1\FHIR LMS.Views.dll
+E:\Cia\Coding\Project FHIR\LMS\LIVE\FHIR LMS\FHIR LMS\bin\Release\netcoreapp3.1\FHIR LMS.Views.pdb
+E:\Cia\Coding\Project FHIR\LMS\LIVE\FHIR LMS\FHIR LMS\bin\Release\netcoreapp3.1\Newtonsoft.Json.dll
+E:\Cia\Coding\Project FHIR\LMS\LIVE\FHIR LMS\FHIR LMS\obj\Release\netcoreapp3.1\FHIR LMS.csproj.AssemblyReference.cache
+E:\Cia\Coding\Project FHIR\LMS\LIVE\FHIR LMS\FHIR LMS\obj\Release\netcoreapp3.1\FHIR LMS.GeneratedMSBuildEditorConfig.editorconfig
+E:\Cia\Coding\Project FHIR\LMS\LIVE\FHIR LMS\FHIR LMS\obj\Release\netcoreapp3.1\FHIR LMS.AssemblyInfoInputs.cache
+E:\Cia\Coding\Project FHIR\LMS\LIVE\FHIR LMS\FHIR LMS\obj\Release\netcoreapp3.1\FHIR LMS.AssemblyInfo.cs
+E:\Cia\Coding\Project FHIR\LMS\LIVE\FHIR LMS\FHIR LMS\obj\Release\netcoreapp3.1\FHIR LMS.csproj.CoreCompileInputs.cache
+E:\Cia\Coding\Project FHIR\LMS\LIVE\FHIR LMS\FHIR LMS\obj\Release\netcoreapp3.1\FHIR LMS.MvcApplicationPartsAssemblyInfo.cache
+E:\Cia\Coding\Project FHIR\LMS\LIVE\FHIR LMS\FHIR LMS\obj\Release\netcoreapp3.1\FHIR LMS.RazorAssemblyInfo.cache
+E:\Cia\Coding\Project FHIR\LMS\LIVE\FHIR LMS\FHIR LMS\obj\Release\netcoreapp3.1\FHIR LMS.RazorAssemblyInfo.cs
+E:\Cia\Coding\Project FHIR\LMS\LIVE\FHIR LMS\FHIR LMS\obj\Release\netcoreapp3.1\staticwebassets\FHIR LMS.StaticWebAssets.Manifest.cache
+E:\Cia\Coding\Project FHIR\LMS\LIVE\FHIR LMS\FHIR LMS\obj\Release\netcoreapp3.1\staticwebassets\FHIR LMS.StaticWebAssets.xml
+E:\Cia\Coding\Project FHIR\LMS\LIVE\FHIR LMS\FHIR LMS\obj\Release\netcoreapp3.1\scopedcss\bundle\FHIR LMS.styles.css
+E:\Cia\Coding\Project FHIR\LMS\LIVE\FHIR LMS\FHIR LMS\obj\Release\netcoreapp3.1\FHIR LMS.TagHelpers.input.cache
+E:\Cia\Coding\Project FHIR\LMS\LIVE\FHIR LMS\FHIR LMS\obj\Release\netcoreapp3.1\FHIR LMS.TagHelpers.output.cache
+E:\Cia\Coding\Project FHIR\LMS\LIVE\FHIR LMS\FHIR LMS\obj\Release\netcoreapp3.1\FHIR LMS.RazorCoreGenerate.cache
+E:\Cia\Coding\Project FHIR\LMS\LIVE\FHIR LMS\FHIR LMS\obj\Release\netcoreapp3.1\Razor\Pages\Error.cshtml.g.cs
+E:\Cia\Coding\Project FHIR\LMS\LIVE\FHIR LMS\FHIR LMS\obj\Release\netcoreapp3.1\Razor\Pages\ForgotPassword.cshtml.g.cs
+E:\Cia\Coding\Project FHIR\LMS\LIVE\FHIR LMS\FHIR LMS\obj\Release\netcoreapp3.1\Razor\Pages\Index.cshtml.g.cs
+E:\Cia\Coding\Project FHIR\LMS\LIVE\FHIR LMS\FHIR LMS\obj\Release\netcoreapp3.1\Razor\Pages\Privacy.cshtml.g.cs
+E:\Cia\Coding\Project FHIR\LMS\LIVE\FHIR LMS\FHIR LMS\obj\Release\netcoreapp3.1\Razor\Pages\Shared\_Layout.cshtml.g.cs
+E:\Cia\Coding\Project FHIR\LMS\LIVE\FHIR LMS\FHIR LMS\obj\Release\netcoreapp3.1\Razor\Pages\Shared\_ValidationScriptsPartial.cshtml.g.cs
+E:\Cia\Coding\Project FHIR\LMS\LIVE\FHIR LMS\FHIR LMS\obj\Release\netcoreapp3.1\Razor\Pages\_ViewImports.cshtml.g.cs
+E:\Cia\Coding\Project FHIR\LMS\LIVE\FHIR LMS\FHIR LMS\obj\Release\netcoreapp3.1\Razor\Pages\_ViewStart.cshtml.g.cs
+E:\Cia\Coding\Project FHIR\LMS\LIVE\FHIR LMS\FHIR LMS\obj\Release\netcoreapp3.1\FHIR LMS.RazorTargetAssemblyInfo.cache
+E:\Cia\Coding\Project FHIR\LMS\LIVE\FHIR LMS\FHIR LMS\obj\Release\netcoreapp3.1\FHIR LMS.RazorTargetAssemblyInfo.cs
+E:\Cia\Coding\Project FHIR\LMS\LIVE\FHIR LMS\FHIR LMS\obj\Release\netcoreapp3.1\FHIR LMS.Views.pdb
+E:\Cia\Coding\Project FHIR\LMS\LIVE\FHIR LMS\FHIR LMS\obj\Release\netcoreapp3.1\FHIR LMS.csproj.CopyComplete
+E:\Cia\Coding\Project FHIR\LMS\LIVE\FHIR LMS\FHIR LMS\obj\Release\netcoreapp3.1\FHIR LMS.dll
+E:\Cia\Coding\Project FHIR\LMS\LIVE\FHIR LMS\FHIR LMS\obj\Release\netcoreapp3.1\FHIR LMS.pdb
+E:\Cia\Coding\Project FHIR\LMS\LIVE\FHIR LMS\FHIR LMS\obj\Release\netcoreapp3.1\FHIR LMS.genruntimeconfig.cache

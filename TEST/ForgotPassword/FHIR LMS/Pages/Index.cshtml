@@ -1,0 +1,32 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+    $(document).ready(function () {
+        val1 = "5";
+        val2 = "2";
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Add")",
+            data: {number1: val1, number2: val2},
+            dataType: "text",
+            success: function (msg) {
+                console.log(msg);
+            },
+            error: function (req, status, error) {
+                console.log(msg);
+            }
+        });
+    });
+    </script>
+}
