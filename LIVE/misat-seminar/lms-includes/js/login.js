@@ -63,7 +63,7 @@
 		$('#linkToSignUpPage').html(field.signUpPage);
 		
 		// Get Organization Information
-		getResource(FHIRURL, 'Organization', '/' + DB.organization, FHIRResponseType, 'getOrganization');
+		//getResource(FHIRURL, 'Organization', '/' + DB.organization, FHIRResponseType, 'getOrganization');
 	}
 
 	//Step 3. Get Organization information
@@ -121,16 +121,16 @@
 		if(checkRequiredField(field)){
 			$("#global-loader").show();
 			var formData = urlEncodeFormData(document.getElementById('loginForm'));
-			postResource(FHIRURLLogin, '', '', 'application/x-www-form-urlencoded', getUserInformation, formData);
+			postResource(FHIRURL.replace('fhir/', 'r4/rest/login'), '', '', 'application/x-www-form-urlencoded', 'getUserInformation', formData);
 		}
 	}
 
 	//Step 2. Verify login account username and password
-	function getUserInformation(str)
+	function getUserInformation(res)
 	{
-		var obj = JSON.parse(str);
-		//var token= res.getResponseHeader("Authorization");
+		var obj = JSON.parse(res.response);
 		//2.1.1 Get account information
+		loginData.token= res.getResponseHeader("Authorization");
 		loginData.person.id = (obj.id) ? obj.id : '';
 		loginData.person.name = (obj.name) ? obj.name[0].text : '';
 		loginData.person.username= (obj.identifier[0])? obj.identifier[0].value : '';
@@ -163,7 +163,7 @@
 		if(loginData.role.length == 0)	
 		{
 			//alert(message.authorizeFail);
-			personstr= str;
+			personstr= res.response;
 			getResource(FHIRURL, 'Slot', '?schedule=' + DB.schedule, FHIRResponseType, 'getSlotID');
 			createPatient(personstr);
 		}
