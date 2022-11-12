@@ -1,0 +1,34 @@
+<html>
+	<body>
+		Choose your role:<br>
+		<a id="student">Student</a><br>
+		<a id="teacher">Teacher</a>
+		
+		<script src="lms-includes/js/setting.js"></script>
+		<script src="lms-includes/js/site.js"></script>
+		<script src="lms-includes/js/jquery.min.js"></script>
+		<script src="lms-includes/js/session.js"></script>
+		<script>
+		//Function Initialization
+		$(document).ready(function(){
+			/* Check session */
+			loginData= sessionGet("loginAccount");
+			if(loginData==null) {
+				//redirect users to login page
+				window.location.href = "login.html";
+			}
+			
+			$("#student").click(function() {
+				sessionSet("loginAccount", loginData, 30);
+				window.location.href = "lms-content/index.html";
+			});
+	
+			$("#teacher").click(function() {
+				sessionSet("loginAccount", loginData, 30);
+				window.open('lms-admin/Organization/index.html',"_self");
+				//window.open('https://tzfhir.ml/system/fhir-lms/lmsAdmin/Organization/index.html',"_self");
+			});
+		});
+		</script>
+	</body>
+</html>

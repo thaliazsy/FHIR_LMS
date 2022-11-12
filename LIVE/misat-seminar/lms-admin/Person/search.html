@@ -1,0 +1,92 @@
+<html>
+
+<head>
+	<style>
+		.pad10{
+			padding: 10px 100px 10px 100px
+		}
+		.pad20{
+			padding: 10px 100px 20px 100px
+		}
+	</style>
+	<meta charset="utf-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel='stylesheet' typeof='text/css' media='all' href='../css/Reset.css' />
+    <link rel='stylesheet' typeof='text/css' media='all' href='../css/Site.css' />
+    <link rel='stylesheet' typeof='text/css' media='all' href='../css/Person.css' />
+	<link href="../css/Style.css" rel="stylesheet" type="text/css" media="screen" />
+	<script src="../js/HTTPRequest.js"></script>
+	<script src="../js/setting.js"></script>
+    <title>FHIR Person Search</title>
+</head>
+   
+<body>
+	<div id="Header">
+		<a href="../Organization/index.html"><img src="../js/assets/images/pngs/home.png" class="topleft"/></a>
+		<button class="topright" onclick="logOut()">Logout</button>
+        <div id="Logo">
+			<font color="red">FHIR</font> Person Search
+		</div>
+	</div>
+	<div id="Bodyer">
+		<div id="Body">
+            <div id="List">
+                <div class="List-Person">
+				<center><br>User email : 
+				<input type="text" name="identifier" id="personEmail">  &nbsp;
+				<img src="../js/assets/images/pngs/search.png" onclick="showForm()" width="30" height="30"/>
+				
+				<table id="TabPerson" align="center" border="1"></table><br></center>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<script>
+	alert('1. Input user email. \n2. Then click "Delete" button of related data');
+	function showForm(){
+		getResource(FHIRURL, 'Person', '?identifier=' + document.getElementById("personEmail").value, FHIRResponseType, 'getPatientByEmail');
+	}
+	
+	function getPatientByEmail(str){
+		let obj= JSON.parse(str);
+		let template = [];
+		if (obj.total == 0)	alert('User not exist!');
+		else{
+			template.push(`<tr>
+				<th>No.</th>
+				<th>Person Id</th>
+				<th>Name</th>
+				<th>Username</th>
+				<th>Patient ID</th>
+				<th>Tool</th>
+			</tr>`);
+			obj.entry.map((entry, i) => {
+				retID = (entry.resource.id) ? entry.resource.id : '';
+				retName = (entry.resource.name) ? entry.resource.name[0].text : '';
+				retUsername= (entry.resource.identifier)? entry.resource.identifier[0].value : '';
+				patientID = (entry.resource.link) ? entry.resource.link[0].target.reference:'';
+				template.push(`
+				<tr>
+					<td>${i + 1}</td>
+					<td>${retID}</td>
+					<td>${retName}</td>
+					<td>${retUsername}</td>
+					<td>${patientID}</td>
+					<td><input type="button" value="delete" onclick="deleteData(retID)"/></td>
+				</tr>`);
+			});
+			document.getElementById('TabPerson').innerHTML= template.join('');;
+		}
+	}
+	
+	function deleteData(id){
+		HTTPDeleteData(FHIRURL + "/Person/" + id);
+	}
+	
+	</script>
+</body>
+</html>

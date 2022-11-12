@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel='stylesheet' typeof='text/css' media='all' href='../css/Reset.css' />
+    <link rel='stylesheet' typeof='text/css' media='all' href='../css/Site.css' />
+    <link rel='stylesheet' typeof='text/css' media='all' href='../css/Questionnaire.css' />
+
+    <title>FHIR Questionnaire</title>
+</head>
+
+<body>
+    <div id="Header">
+		<a href="../Organization/index.html"><img src="../js/assets/images/pngs/home.png" class="topleft"/></a>
+		<button class="topright" onclick="logOut()">Logout</button>
+        <div id="Logo">
+			<font color="red">FHIR</font> Questionnaire
+		</div>
+	</div>
+    <div id="Bodyer">
+        <!-- <div id="Head"></div> -->
+        <!-- <div id="Left"></div> -->
+        <div id="Body">
+            <div id="List">
+                <div class="List-Questionnaire">
+                    <div class="Header">
+                        <div class="Title">Questionnaire Form</div>
+                        <!-- <div class="Tool"> -->
+                            <!-- <ul class="L1s"> -->
+                                <!-- <li class="L1 i1"> -->
+									<!-- <div class="Btn Export CSV">Export CSV</div> -->
+                                <!-- </li> -->
+								<!-- <li class="L1 i2"> -->
+									<!-- <div class="Btn SearchUser">Search User</div> -->
+                                <!-- </li> -->
+                            <!-- </ul> -->
+                        <!-- </div> -->
+                    </div>
+                    <div class="Bodyer">
+                        <ul class="L1s" id="parent-List-Questionnaire">
+                            <div class="L1 header i0">
+                                <div class="Num">No.</div>
+								<div class="CreatedDate">Created date</div>
+                                <div class="Id">ID</div>
+                                <div class="Title">Title</div>
+                                <div class="Status">Status</div>
+                                <div class="Tool">
+                                    <div class="Edit">View</div>
+                                </div>
+                                <div class="Clear"></div>
+                            </div>
+                        </ul>
+                    </div>
+                    <div class="Footer">
+                        <div class="Tool">
+                            <div id="Page">
+                                <ul class="L1s">
+                                    <li class="L1 i1">
+                                        <div class="Title">1</div>
+                                    </li>
+                                    <li class="L1 i2">
+                                        <div class="Title">2</div>
+                                    </li>
+                                    <li class="L1 i3">
+                                        <div class="Title">3</div>
+                                    </li>
+                                    <li class="L1 i4">
+                                        <div class="Title">4</div>
+                                    </li>
+                                    <li class="L1 i5 Active">
+                                        <div class="Title">5</div>
+                                    </li>
+                                    <li class="L1 i6">
+                                        <div class="Title">6</div>
+                                    </li>
+                                    <li class="L1 i7">
+                                        <div class="Title">7</div>
+                                    </li>
+                                    <li class="L1 i8">
+                                        <div class="Title">8</div>
+                                    </li>
+                                    <li class="L1 i9">
+                                        <div class="Title">9</div>
+                                    </li>
+                                    <li class="L1 i10">
+                                        <div class="Title">10</div>
+                                    </li>
+                                </ul>
+                                <div class="Clear"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="Right"></div>
+        <div id="Foot"></div>
+		<div id="loadingPage" style="display:block;">
+			<div id="overlay" style="display:block;"></div>
+			<div id="loader"></div>
+		</div>
+    </div>
+    <div id="Footer">
+        <div id="CopyRight">
+            Copyright © 2022 Department of Medical Informatics, Tzu Chi University All rights reserved
+        </div>
+    </div>
+</body>
+
+<!-- JQUERY JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type='text/javascript' src='../js/setting.js'></script>
+<script type='text/javascript' src='../js/site.js'></script>
+<script type='text/javascript' src="../js/session.js"></script>
+<script type='text/javascript' src='../js/getQueryString.js'></script>
+<script type='text/javascript' src='../js/HTTPRequest.js'></script>
+<script type='text/javascript' src='../js/Resource/Questionnaire/listQuestionnaire.js'></script>
+
+</html>
