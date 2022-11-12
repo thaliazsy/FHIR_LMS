@@ -141,13 +141,14 @@ function postResource(URL, ResourceName, Parameter, ContentType, AfterFun, Reque
         */
         if (this.readyState == 4 && (this.status == 200 || this.status == 201)) 
 		{            
-            /*
+            var str = this;
+			/*
                 eval(string)
                 @desc： Convert string to JavaScript function code for execution
             */
 			if(AfterFun != '')
 			{
-				eval(AfterFun)(this);
+				eval(AfterFun)(str);
 			}
 			return str;
         }
