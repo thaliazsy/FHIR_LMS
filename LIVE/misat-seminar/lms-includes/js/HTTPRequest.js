@@ -140,12 +140,8 @@ function postResource(URL, ResourceName, Parameter, ContentType, AfterFun, Reque
 				404:PAGE NOT FOUND
         */
         if (this.readyState == 4 && (this.status == 200 || this.status == 201)) 
-		{     
+		{            
             var str = this.response;       
-            /*
-                eval(string)
-                @desc： Convert string to JavaScript function code for execution
-            */
 			if(AfterFun != '')
 			{
 				eval(AfterFun)(str);
