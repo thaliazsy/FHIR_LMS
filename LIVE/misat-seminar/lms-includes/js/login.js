@@ -121,7 +121,7 @@
 		if(checkRequiredField(field)){
 			$("#global-loader").show();
 			var formData = urlEncodeFormData(document.getElementById('loginForm'));
-			postResource('https://tzfhir.ml:53443/r4/rest/login', '', '', 'application/x-www-form-urlencoded', getUserInformation, formData);
+			postResource(FHIRURL.replace('fhir/', 'r4/rest/login'), '', '', 'application/x-www-form-urlencoded', getUserInformation, formData);
 		}
 	}
 
