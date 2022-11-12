@@ -99,18 +99,18 @@ let getScheduleIndex=0, getMaterialIndex=0;
 			
 			if(getScheduleIndex == totalAppt)
 			{
-				//If login schedule is not include in list
-				if (!groupMember.courseIsExist(loginData.schedule.id))
-				{
-					addNewCourseToList();
-				}
+				// //If login schedule is not include in list
+				// if (!groupMember.courseIsExist(loginData.schedule.id))
+				// {
+					// addNewCourseToList();
+				// }
+				// else
+				// {}
+					
 				//Get all courses material
-				else
-				{
-					groupMember.course.forEach(item => {
-						getResource(FHIRURL, 'PlanDefinition', '?composed-of=Slot/' + item.scheduleID, FHIRResponseType, 'getMaterialByScheduleID');
-					});	
-				}			
+				groupMember.course.forEach(item => {
+					getResource(FHIRURL, 'PlanDefinition', '?composed-of=Slot/' + item.scheduleID, FHIRResponseType, 'getMaterialByScheduleID');
+				});					
 			}
 		}
 	}
