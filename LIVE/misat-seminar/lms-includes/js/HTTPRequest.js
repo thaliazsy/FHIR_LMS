@@ -30,6 +30,8 @@ function getResource(URL, ResourceName, Parameter, FHIRResponseType, AfterFun){
             value： Header value
     */
     xhttp.setRequestHeader("Content-type", 'text/' + FHIRResponseType);
+	if(loginData.token)
+		xhttp.setRequestHeader('Authorization', 'Bearer ' + loginData.token);
     /*
         xhttp.onreadystatechange = callback;
         @desc：Stores a function to be called automatically each time the readyState property changes
@@ -141,7 +143,7 @@ function postResource(URL, ResourceName, Parameter, ContentType, AfterFun, Reque
         */
         if (this.readyState == 4 && (this.status == 200 || this.status == 201)) 
 		{            
-            var str = this.response;       
+            var str = this;       
 			if(AfterFun != '')
 			{
 				eval(AfterFun)(str);
