@@ -62,8 +62,7 @@
 		$('#mainTable').html(temp);
 		$('#linkToSignUpPage').html(field.signUpPage);
 		
-		// Get Organization Information
-		//getResource(FHIRURL, 'Organization', '/' + DB.organization, FHIRResponseType, 'getOrganization');
+		showWebsiteInfo();
 	}
 
 	//Step 3. Get Organization information
@@ -108,8 +107,8 @@
 	//Step 5. Show Page Title and Header
 	function showWebsiteInfo()
 	{
-		document.title= loginData.schedule.name + " - " + pageName;
-		$("#header").html(loginData.schedule.name + "<br>" + pageName);
+		document.title= loginData.organization.name + " - " + pageName;
+		$("#header").html(loginData.organization.name + "<br>" + pageName);
 		message.contactPerson= "please contact " + loginData.organization.cpname + "<br>Phone No.：" + loginData.organization.cpphone + "<br>Email：" + loginData.organization.cpemail;
 		$("#cp").html(message.signInFail + message.contactPerson);
 	}
@@ -235,17 +234,6 @@ function finalResult(str){
 		alert(loginData.schedule.name + " course have successfully added to your course list!");
 		directToHomePage();
 	}
-}
-
-function urlEncodeFormData(form) {
-	var i, e, data = [];
-	for (i = 0; i < form.elements.length; i++) {
-		e = form.elements[i];
-		if (e.type !== 'button' && e.type !== 'submit' && e.type !== 'password') {
-			data.push(encodeURIComponent(e.name) + '=' + encodeURIComponent(e.value)); 
-		}
-	}
-	return data.join('&');
 }
 	
 function directToHomePage()
