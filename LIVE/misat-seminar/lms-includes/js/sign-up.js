@@ -18,10 +18,10 @@ loginData = {
 		id: '',
 		identifier: '',
 		status: '',	
-		name: '',		
-		cpname: '',
-		cpphone: '',
-		cpemail: ''
+		name: 'MISAC LMS',		
+		cpname: 'Victoria',
+		cpphone: '+6285373330117',
+		cpemail: 'victoriatjiaa@gmail.com'
 	},
 	schedule: {
 		id: '',
@@ -43,11 +43,11 @@ loginData = {
 
 //Set table field
 let field= {
-	code: ["Name", "Email", "Password", "Gender", "Nationality" ,"Institution", "JobPosition"],
+	code: ["name", "email", "ppassword", "gender","institution", "jobPosition", "nationality" ],
 	placeholder: ["", "", "", "例如： 慈濟大學 / 慈濟醫院", "例如： 學生 / 教授 / 護理人員", ],
 	desc: [],
-	isRequired: [1,1,1,1,1],		
-	type: ["text", "email", "password", "text", "text", "text"]			
+	isRequired: [1,1,1,0,1,1,1],		
+	type: ["text", "email", "password", "radio", "text", "text", "text", "text"]			
 };
 
 if(web_language=="CH")
@@ -57,8 +57,8 @@ if(web_language=="CH")
 }
 else if(web_language=="EN")
 {
-	field.desc= ["Name", "Email", "Password", "Educational/Working Institution", "Job Position"];
-	field.placeholder= ["", "", "", "e.g. Tzu Chi University", "e.g. Student"];
+	field.desc= ["Name", "Email", "Password", "Gender", "Educational/Working Institution", "Job Position", "Nationality"];
+	field.placeholder= ["", "", "", "", "e.g. Tzu Chi University", "", ""];
 	pageName= "Sign Up";
 }
 
@@ -86,7 +86,12 @@ function showForm()
 		if(field.isRequired[i])			
 			temp += '<font color="red"> *</font>';
 		
-		temp += '</td><td class="col-02">:&nbsp;<input class="signup-field" type="' + field.type[i] + '" id="' + field.code[i] + '" placeholder="' + field.placeholder[i] + '" ';
+		temp += '</td><td class="col-02">:&nbsp;';
+		
+		if(field.type[i] == "radio")
+			temp+= '<input type="radio" id="male" name="gender" value="male" checked><label for="male">male</label>  &nbsp;<input type="radio" id="female" name="gender" value="female"><label for="female">female</label';
+		else
+			temp+= '<input class="signup-field" type="' + field.type[i] + '" id="' + field.code[i] + '" name="' + field.code[i] + '" placeholder="' + field.placeholder[i] + '" ';
 		
 		if(field.type[i] == "password")
 			temp += 'onkeyup="SHA256PWD.value = sha256(this.value);" ';
@@ -99,50 +104,14 @@ function showForm()
 	temp+= '<tr><td colspan="2" align="right"><input id="signup-btn" type="button" value="Submit" onclick="validateData()"></td></tr>';
 	$("#signup-table").html(temp);
 	
-	// Get Organization Information
-	getResource(FHIRURL, 'Organization', '/' + DB.organization, FHIRResponseType, 'getOrganization');
-}
-
-function getOrganization(str){
-	let obj= JSON.parse(str);
-	if(retValue(obj))
-	{
-		loginData.organization.id = (obj.id) ? obj.id : '';
-		loginData.organization.identifier= (obj.identifier)? obj.identifier[0].value : '';
-		loginData.organization.status= (obj.active == true) ? 'Active' : 'Inactive';
-		loginData.organization.name= (obj.name) ? obj.name : '';
-		if (obj.contact)
-		{
-			loginData.organization.cpname= obj.contact[0].name.text;
-			obj.contact[0].telecom.map((telecom, i) => {
-				if (telecom.system == "email")
-					loginData.organization.cpemail= telecom.value;
-				else if (telecom.system == "phone")
-					loginData.organization.cpphone= telecom.value;
-			});
-		}
-	}
-	// Get Schedule Information
-	getResource(FHIRURL, 'Schedule', '/' + DB.schedule, FHIRResponseType, 'getSchedule');
-}
-
-function getSchedule(str){
-	let obj= JSON.parse(str);
-	if(retValue(obj))
-	{
-		loginData.schedule.code= (obj.specialty)? obj.specialty[0].coding[0].code : '';
-		loginData.schedule.name= (obj.specialty)? obj.specialty[0].coding[0].display : '';
-		loginData.schedule.practitionerRoleID= (obj.actor) ? obj.actor[0].reference.split('/')[1] : '';
-		loginData.schedule.practitionerName= (obj.actor) ? obj.actor[0].display : '';
-	}
 	showWebsiteInfo();
 }
 
 //Show Page Title and Header (need to initialize page name beforehand)
 function showWebsiteInfo()
 {
-	document.title= loginData.schedule.name + " - " + pageName;
-	$("#header").html(loginData.schedule.name + "<br>" + pageName);
+	document.title= loginData.organization.name + " - " + pageName;
+	$("#header").html(loginData.organization.name + "<br>" + pageName);
 }
 
 //Validate data input by user
@@ -151,11 +120,15 @@ let str="{status='waitlist'}";
 
 	if(checkRequiredField(field)){
 		$("#global-loader").show();
-		loginData.person.name= $('#Name').val();
-		loginData.person.username= $("#Email").val();
-		loginData.person.jobPosition= $("#JobPosition").val();
-		loginData.person.institution= $("#Institution").val();
-		getResource(FHIRURL, 'Person', '?identifier=' + loginData.person.username, FHIRResponseType, 'verifyUser');
+		// loginData.person.name= $('#Name').val();
+		// loginData.person.username= $("#Email").val();
+		// loginData.person.jobPosition= $("#JobPosition").val();
+		// loginData.person.institution= $("#Institution").val();
+		// loginData.person.gender= document.querySelector('input[name="rate"]:checked').value;
+		// getResource(FHIRURL, 'Person', '?identifier=' + loginData.person.username, FHIRResponseType, 'verifyUser');
+		
+		var formData = urlEncodeFormData(document.getElementById('signupForm'));
+		//postResource(FHIRURL.replace('fhir/', 'r4/rest/register'), '', '', 'application/x-www-form-urlencoded', 'finalResult', formData);
 	}
 }
 
