@@ -5,7 +5,7 @@ if(web_language=="CH")
 }
 else if(web_language=="EN")
 {
-	pageName= "Learning Platform";
+	pageName= "Home";
 }
 /* END LANGUAGE SETTING */
 

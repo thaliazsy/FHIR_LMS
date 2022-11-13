@@ -12,9 +12,9 @@ body { margin: 0 }
 	top:0;
 	right:10;
 }
-#header{
-	font-size:2.5vw;
-}
+/* #header{ */
+	/* font-size:2.5vw; */
+/* } */
 article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary { display: block }
 audio, canvas, progress, video { display: inline-block; vertical-align: baseline; }
 audio:not([controls]) { display: none; height: 0; }
@@ -115,11 +115,11 @@ h6 { font-size: 12px }
 	width: 95%;
 }
 
-label {
-    display: block;
-    margin-bottom: 10px;
-    font-weight: 500;
-}
+/* label { */
+    /* display: block; */
+    /* margin-bottom: 10px; */
+    /* font-weight: 500; */
+/* } */
 
 input, textarea {
     padding: 8px 12px;
