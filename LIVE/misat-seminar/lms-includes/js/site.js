@@ -69,10 +69,10 @@ let loginData = {
 		id: '',
 		identifier: '',
 		status: '',	
-		name: '',		
-		cpname: '',
-		cpphone: '',
-		cpemail: ''
+		name: 'MISAC LMS',		
+		cpname: 'Victoria',
+		cpphone: '+6285373330117',
+		cpemail: 'victoriatjiaa@gmail.com'
 	},
 	schedule: {
 		id: '',
@@ -406,3 +406,16 @@ function isError(resourceType, msg){
 $(window).on("load", function(e) {
 	$("#global-loader").hide();
 })
+
+
+
+function urlEncodeFormData(form) {
+	var i, e, data = [];
+	for (i = 0; i < form.elements.length; i++) {
+		e = form.elements[i];
+		if (e.type !== 'button' && e.type !== 'submit' && e.type !== 'password' && !(e.type=='radio' && !e.checked)) {
+			data.push(encodeURIComponent(e.name) + '=' + encodeURIComponent(e.value)); 
+		}
+	}
+	return data.join('&');
+}
