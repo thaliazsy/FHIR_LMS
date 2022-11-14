@@ -58,7 +58,10 @@ let loginData = {
 		id: '',
 		identifier: '',
 		name: '',
-		username: ''
+		email: '',
+		jobPosition: '',
+		institution: '',
+		gender: ''
 	},
 	patient:{
 		id: ''
@@ -75,16 +78,16 @@ let loginData = {
 		cpemail: 'victoriatjiaa@gmail.com'
 	},
 	schedule: {
-		id: '',
-		code: '',
-		name: '',		
-		practitionerRoleID: '',
-		practitionerName: '',
+		id: '860',
+		code: '100001101100',
+		name: 'Tel-Conference for Standardized Medical Document and Image Sharing',		
+		practitionerRoleID: '856',
+		practitionerName: '蕭嘉宏',
 		maxParticipant: 0,
 		currentParticipant: 0
 	},
 	slot:{
-		id: []
+		id: ["861"]
 	},
 	appointment:{
 		id: '',
@@ -109,17 +112,19 @@ let CPractitioner= {
 
 //Declare variable
 let globalPatientID, globalName, globalPersonID;
-let personJSONobj, patientJSONobj, appointmentJSONobj;
+let personJSONobj, patientJSONobj, appointmentJSONobj, registerJSONobj;
 //END: Declare variable
 
 class CPerson{
 	constructor() {
 		this.id="";
 		this.name="";
-		this.username="";
+		this.email="";
 		this.jobPosition="";
 		this.highestEduDegree="";
 		this.institution="";
+		this.gender="";
+		this.nationality="";
 	}
 }
 
@@ -246,18 +251,23 @@ function initialize(){
 				"value": ""
 			}, 
 			{
-				"system": "Password",
-				"value": "MWI0ZjBlOTg1MTk3MTk5OGU3MzIwNzg1NDRjOTZiMzZjM2QwMWNlZGY3Y2FhMzMyMzU5ZDZmMWQ4MzU2NzAxNA=="
-			},
-			{
-				"system": "JobPosition",
+				"system": "password",
 				"value": ""
 			},
 			{
-				"system": "Institution",
+				"system": "jobPosition",
+				"value": ""
+			},
+			{
+				"system": "institution",
+				"value": ""
+			},
+			{
+				"system": "nationality",
 				"value": ""
 			}
 		],
+		"gender": "",
 		"name": [ {
 			"text": "testPerson1"
 		} ],
@@ -286,6 +296,10 @@ function initialize(){
 		},
 	};
 	
+	registerJSONobj= {
+		"Person":{},
+		"Patient":{}
+	};
 	initializeAppt();
 }
 		

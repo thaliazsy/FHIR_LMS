@@ -4,7 +4,7 @@ loginData = {
 		id: '',
 		identifier: '',
 		name: '',
-		username: '',
+		email: '',
 		gender: '',
 		nationality: '',
 		jobPosition: '',
@@ -89,7 +89,7 @@ function showForm()
 		temp += '</td><td class="col-02">:&nbsp;';
 		
 		if(field.type[i] == "radio")
-			temp+= '<input type="radio" id="male" name="gender" value="male" checked><label for="male">male</label>  &nbsp;<input type="radio" id="female" name="gender" value="female"><label for="female">female</label';
+			temp+= '<input type="radio" id="male" name="gender" value="male" checked><label for="male"> &nbsp;male</label> &nbsp;<input type="radio" id="female" name="gender" value="female"><label for="female"> &nbsp;female</label';
 		else
 			temp+= '<input class="signup-field" type="' + field.type[i] + '" id="' + field.code[i] + '" name="' + field.code[i] + '" placeholder="' + field.placeholder[i] + '" ';
 		
@@ -117,18 +117,21 @@ function showWebsiteInfo()
 //Validate data input by user
 function validateData(){
 let str="{status='waitlist'}";
-
 	if(checkRequiredField(field)){
 		$("#global-loader").show();
-		// loginData.person.name= $('#Name').val();
-		// loginData.person.username= $("#Email").val();
-		// loginData.person.jobPosition= $("#JobPosition").val();
-		// loginData.person.institution= $("#Institution").val();
-		// loginData.person.gender= document.querySelector('input[name="rate"]:checked').value;
-		// getResource(FHIRURL, 'Person', '?identifier=' + loginData.person.username, FHIRResponseType, 'verifyUser');
-		
-		var formData = urlEncodeFormData(document.getElementById('signupForm'));
-		//postResource(FHIRURL.replace('fhir/', 'r4/rest/register'), '', '', 'application/x-www-form-urlencoded', 'finalResult', formData);
+		loginData.person.name= $('#name').val();
+		loginData.person.email= $("#email").val();
+		loginData.person.institution= $("#institution").val();
+		loginData.person.jobPosition= $("#jobPosition").val();
+		loginData.person.nationality= $("#nationality").val();
+		loginData.person.gender= document.querySelector('input[name="gender"]:checked').value;
+		createPerson();
+		createPatient();
+		registerJSONobj.Person= personJSONobj;
+		registerJSONobj.Patient= patientJSONobj;	
+		let registerStr = JSON.stringify(registerJSONobj);	
+		//let str= personJSONobj
+		postResource(FHIRURL.replace('fhir/', 'process/register'), '', '', 'text/' + FHIRResponseType, 'createAppointment', registerStr);
 	}
 }
 
@@ -138,7 +141,7 @@ function verifyUser(str){
 	//if person exist -> alert "user exist"
 	if (obj.total > 0)
 	{			
-		alert(message.accountExist + '\n' + 'If you are the owner of "' + loginData.person.username + '" this account, please login directly');
+		alert(message.accountExist + '\n' + 'If you are the owner of "' + loginData.person.email + '" this account, please login directly');
 		$("#global-loader").hide();
 	}
 	//if person unexist -> check slot availability -> create new Person ->  create new Patient
@@ -161,19 +164,20 @@ function getSlotID(str){
 //Create new FHIR Person
 function createPerson(){
 	initialize();
-	
-	personJSONobj.identifier[0].value= loginData.person.username;
+	personJSONobj.identifier[0].value= loginData.person.email;
 	personJSONobj.identifier[1].value= $('#SHA256PWD').val();
 	personJSONobj.identifier[2].value= loginData.person.jobPosition;
 	personJSONobj.identifier[3].value= loginData.person.institution;
+	personJSONobj.identifier[4].value= loginData.person.nationality;
 	personJSONobj.name[0].text= loginData.person.name;
-	personJSONobj.telecom[0].value= loginData.person.username;
-	personJSONobj = JSON.stringify(personJSONobj);
-	postResource(FHIRURL, 'Person', '', FHIRResponseType, "createPatient", personJSONobj);
+	personJSONobj.telecom[0].value= loginData.person.email;
+	//personJSONobj = JSON.stringify(personJSONobj);
 }
 
-function finalResult(str){
-	let obj= JSON.parse(str);
+function finalResult(res){
+	var obj = JSON.parse(res.response);
+	//2.1.1 Get account information
+	let token= res.getResponseHeader("Authorization");
 	if (!isError(obj.resourceType, message.signUpFail + message.contactPerson))
 	{
 		$("#global-loader").hide();

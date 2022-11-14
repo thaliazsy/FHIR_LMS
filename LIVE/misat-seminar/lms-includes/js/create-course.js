@@ -1,16 +1,8 @@
 //Create new FHIR Patient
-function createPatient(str){
-	let obj= JSON.parse(str);
-	//If failed to create new Person
-	if (!isError(obj.resourceType, "Error in create FHIR Person. " + message.contactPerson))
-	{
-		loginData.person.id= obj.id;
-		personJSON= obj;
-		patientJSONobj.name[0].text= loginData.person.name;
-		patientJSONobj.managingOrganization.reference= 'Organization/' + DB.organization;
-		patientJSONobj = JSON.stringify(patientJSONobj);
-		postResource(FHIRURL, 'Patient', '', FHIRResponseType, "updatePerson", patientJSONobj);
-	}
+function createPatient(){
+	patientJSONobj.name[0].text= loginData.person.name;
+	patientJSONobj.managingOrganization.reference= 'Organization/' + DB.organization;
+	//patientJSONobj = JSON.stringify(patientJSONobj);
 }
 
 //Update FHIR Person to connect it with FHIR Patient
@@ -43,11 +35,21 @@ function updatePerson(str){
 }
 
 function createAppointment(str){
-	let obj= JSON.parse(str);
+	var obj = JSON.parse(str.response);
 	if (!isError(obj.resourceType, "Error in update FHIR Person. " + message.contactPerson))
 	{
 		initializeAppt();
 	
+		if(obj.entry)
+		{
+			obj.entry.map((entry, i) => {
+				let res= entry.response.location.split("/");
+				if(res[0] == "Patient")
+					loginData.patient.id= res[1];
+				else if(res[0] == "Person")
+					loginData.person.id= res[1];
+			});
+		}
 		loginData.slot.id.forEach(element => {
 			let temp_ref={
 				reference: ''
