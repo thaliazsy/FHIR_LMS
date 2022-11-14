@@ -132,7 +132,7 @@
 		loginData.token= res.getResponseHeader("Authorization");
 		loginData.person.id = (obj.id) ? obj.id : '';
 		loginData.person.name = (obj.name) ? obj.name[0].text : '';
-		loginData.person.username= (obj.identifier[0])? obj.identifier[0].value : '';
+		loginData.person.email= (obj.identifier[0])? obj.identifier[0].value : '';
 		
 		//2.1.2 Get user role (teacher or student)
 		if(obj.link)
