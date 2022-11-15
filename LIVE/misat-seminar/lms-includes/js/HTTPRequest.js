@@ -8,7 +8,7 @@
         ReponseType： Requested data type returned by the server (json or xml) (json or xml)
         AfterFun：The function to be executed after the data is obtained
 */
-function getResource(URL, ResourceName, Parameter, FHIRResponseType, AfterFun){
+function getResource(URL, ResourceName, Parameter, FHIRResponseType, AfterFun) {
     //The complete URL to request data from FHIR Server
     var url = URL + ResourceName + Parameter;
     //Using XMLHttpRequest component to interact with the server
@@ -30,8 +30,8 @@ function getResource(URL, ResourceName, Parameter, FHIRResponseType, AfterFun){
             value： Header value
     */
     xhttp.setRequestHeader("Content-type", 'text/' + FHIRResponseType);
-	if(loginData.token)
-		xhttp.setRequestHeader('Authorization', 'Bearer ' + loginData.token);
+    if (loginData.token)
+        xhttp.setRequestHeader('Authorization', 'Bearer ' + loginData.token);
     /*
         xhttp.onreadystatechange = callback;
         @desc：Stores a function to be called automatically each time the readyState property changes
@@ -41,11 +41,11 @@ function getResource(URL, ResourceName, Parameter, FHIRResponseType, AfterFun){
             this.readyState
             @desc： Return the current status of the XMLHttpRequest
             @value：
-				0: request not initialized
-				1: server connection established
-				2: request received (can obtained header & status)
-				3: processing request
-				4: request finished and response is ready
+                0: request not initialized
+                1: server connection established
+                2: request received (can obtained header & status)
+                3: processing request
+                4: request finished and response is ready
         */
         /*
             this.status
@@ -53,26 +53,23 @@ function getResource(URL, ResourceName, Parameter, FHIRResponseType, AfterFun){
             @value：
                 0：UNSENT or OPENED
                 200：LOADING or DONE
-				403:FORBIDDEN
-				404:PAGE NOT FOUND
+                403:FORBIDDEN
+                404:PAGE NOT FOUND
         */
-        if (this.readyState == 4 && (this.status == 200 || this.status == 201)) 
-		{
+        if (this.readyState == 4 && (this.status == 200 || this.status == 201)) {
             var str = this.response;
             /*
                 eval(string)
                 @desc： Convert string to JavaScript function code for execution
             */
-			if(AfterFun != '')
-			{
-				eval(AfterFun)(str);
-			}
+            if (AfterFun != '') {
+                eval(AfterFun)(str);
+            }
             return str;
         }
-		else if(this.readyState == 4 && (this.status != 200 || this.status != 201))
-		{
-			retValue(JSON.parse(this.response));
-		}  
+        else if (this.readyState == 4 && (this.status != 200 || this.status != 201)) {
+            retValue(JSON.parse(this.response));
+        }
     };
     /*
         xhttp.send()
@@ -90,15 +87,16 @@ function getResource(URL, ResourceName, Parameter, FHIRResponseType, AfterFun){
         Parameter： Filter parameter to search
         ReponseType： Requested data type returned by the server (json or xml) (json or xml)
         AfterFun：The function to be executed after the data is obtained
-		RequestData: Parameter to be send to server
+        RequestData: Parameter to be send to server
 */
 
-function postResource(URL, ResourceName, Parameter, ContentType, AfterFun, RequestData){
-	//'text/' + FHIRResponseType
+function postResource(URL, ResourceName, Parameter, ContentType, AfterFun, RequestData) {
+    //'text/' + FHIRResponseType
     //The complete URL to request data from FHIR Server
     var url = URL + ResourceName + Parameter;
     //Using XMLHttpRequest component to interact with the server
     var xhttp = new XMLHttpRequest();
+
     /*
         xhttp.open(method, url, async)
         @desc： Initialize components
@@ -115,9 +113,12 @@ function postResource(URL, ResourceName, Parameter, ContentType, AfterFun, Reque
             header： Header name
             value： Header value
     */
-	if (ContentType!="")
-		xhttp.setRequestHeader("Content-type", ContentType);
+    if (ContentType != "")
+        xhttp.setRequestHeader("Content-type", ContentType);
+    if (loginData.token)
+        xhttp.setRequestHeader('Authorization', 'Bearer ' + loginData.token);
     /*
+    
         xhttp.onreadystatechange = callback;
         @desc：Stores a function to be called automatically each time the readyState property changes
     */
@@ -126,11 +127,11 @@ function postResource(URL, ResourceName, Parameter, ContentType, AfterFun, Reque
             this.readyState
             @desc： Return the current status of the XMLHttpRequest
             @value：
-				0: request not initialized
-				1: server connection established
-				2: request received (can obtained header & status)
-				3: processing request
-				4: request finished and response is ready
+                0: request not initialized
+                1: server connection established
+                2: request received (can obtained header & status)
+                3: processing request
+                4: request finished and response is ready
         */
         /*
             this.status
@@ -138,22 +139,19 @@ function postResource(URL, ResourceName, Parameter, ContentType, AfterFun, Reque
             @value：
                 0：UNSENT or OPENED
                 200：LOADING or DONE
-				403:FORBIDDEN
-				404:PAGE NOT FOUND
+                403:FORBIDDEN
+                404:PAGE NOT FOUND
         */
-        if (this.readyState == 4 && (this.status == 200 || this.status == 201)) 
-		{            
-            var str = this;       
-			if(AfterFun != '')
-			{
-				eval(AfterFun)(str);
-			}
-			return str;
+        if (this.readyState == 4 && (this.status == 200 || this.status == 201)) {
+            var str = this;
+            if (AfterFun != '') {
+                eval(AfterFun)(str);
+            }
+            return str;
         }
-		else if(this.readyState == 4 && (this.status != 200 || this.status != 201))
-		{
-			retValue(JSON.parse(this.response));
-		}  
+        else if (this.readyState == 4 && (this.status != 200 || this.status != 201)) {
+            retValue(JSON.parse(this.response));
+        }
     };
     /*
         xhttp.send()
@@ -171,9 +169,9 @@ function postResource(URL, ResourceName, Parameter, ContentType, AfterFun, Reque
         Parameter： Filter parameter to search
         ReponseType： Requested data type returned by the server (json or xml)
         AfterFun：The function to be executed after the data is obtained
-		RequestData: Parameter to be send to server
+        RequestData: Parameter to be send to server
 */
-function putResource(URL, ResourceName, Parameter, FHIRResponseType, AfterFun, RequestData){
+function putResource(URL, ResourceName, Parameter, FHIRResponseType, AfterFun, RequestData) {
     //The complete URL to request data from FHIR Server
     var url = URL + ResourceName + Parameter;
     //Using XMLHttpRequest component to interact with the server
@@ -204,11 +202,11 @@ function putResource(URL, ResourceName, Parameter, FHIRResponseType, AfterFun, R
             this.readyState
             @desc： Return the current status of the XMLHttpRequest
             @value：
-				0: request not initialized
-				1: server connection established
-				2: request received (can obtained header & status)
-				3: processing request
-				4: request finished and response is ready
+                0: request not initialized
+                1: server connection established
+                2: request received (can obtained header & status)
+                3: processing request
+                4: request finished and response is ready
         */
         /*
             this.status
@@ -216,26 +214,23 @@ function putResource(URL, ResourceName, Parameter, FHIRResponseType, AfterFun, R
             @value：
                 0：UNSENT or OPENED
                 200：LOADING or DONE
-				403:FORBIDDEN
-				404:PAGE NOT FOUND
+                403:FORBIDDEN
+                404:PAGE NOT FOUND
         */
-        if (this.readyState == 4 && this.status == 200) 
-		{
+        if (this.readyState == 4 && this.status == 200) {
             var str = this.response;
-			/*
+            /*
                 eval(string)
                 @desc： Convert string to JavaScript function code for execution
             */
-            if(AfterFun != '')
-			{
-				eval(AfterFun)(str);
-			}
+            if (AfterFun != '') {
+                eval(AfterFun)(str);
+            }
             return str;
         }
-		else if(this.readyState == 4 && this.status != 200)
-		{
-			retValue(JSON.parse(this.response));
-		}
+        else if (this.readyState == 4 && this.status != 200) {
+            retValue(JSON.parse(this.response));
+        }
     };
     /*
         xhttp.send()
@@ -269,11 +264,11 @@ function deleteResource(URL, ResourceName, Parameter, AfterFun) {
             this.readyState
             @desc： Return the current status of the XMLHttpRequest
             @value：
-				0: request not initialized
-				1: server connection established
-				2: request received (can obtained header & status)
-				3: processing request
-				4: request finished and response is ready
+                0: request not initialized
+                1: server connection established
+                2: request received (can obtained header & status)
+                3: processing request
+                4: request finished and response is ready
         */
         /*
             this.status
@@ -281,28 +276,25 @@ function deleteResource(URL, ResourceName, Parameter, AfterFun) {
             @value：
                 0：UNSENT or OPENED
                 200：LOADING or DONE
-				403:FORBIDDEN
-				404:PAGE NOT FOUND
+                403:FORBIDDEN
+                404:PAGE NOT FOUND
         */
-		if (this.readyState == 4 && this.status == 200) 
-		{
+        if (this.readyState == 4 && this.status == 200) {
             var str = this.response;
-			/*
+            /*
                 eval(string)
                 @desc： Convert string to JavaScript function code for execution
             */
-            if(AfterFun != '')
-			{
-				eval(AfterFun)(str);
-			}
+            if (AfterFun != '') {
+                eval(AfterFun)(str);
+            }
             return str;
         }
-		else if(this.readyState == 4 && this.status != 200)
-		{
-			retValue(JSON.parse(this.response));
-		}
+        else if (this.readyState == 4 && this.status != 200) {
+            retValue(JSON.parse(this.response));
+        }
     };
-	/*
+    /*
         xhttp.send()
         @desc： Send a request to the specified server path
     */
@@ -310,29 +302,26 @@ function deleteResource(URL, ResourceName, Parameter, AfterFun) {
 }
 
 //Check data response is complete or error
-function retValue(obj){
-	var id="", resType="", err="", severity="";	
-	id= obj.id? obj.id :"";
-	resType= obj.resourceType? obj.resourceType : "";
-	err= obj.issue? obj.issue[0].diagnostics : "";
-	severity= obj.issue? obj.issue[0].severity : "";
-	
-	if(obj.code=="401")
-	{
-		alert(message.accountUnexist);
-		$("#global-loader").hide();
-		return 0;
-	}
-	else if(resType=="OperationOutcome")
-	{
-		//alert('Error!\n' + err);
-		return 0;
-	}
-	else
-	{
-		//alert('Finished!\nFHIR Resource ID: ' + id);
-		return id;
-	}
-	
-	$("#global-loader").hide();
+function retValue(obj) {
+    var id = "", resType = "", err = "", severity = "";
+    id = obj.id ? obj.id : "";
+    resType = obj.resourceType ? obj.resourceType : "";
+    err = obj.issue ? obj.issue[0].diagnostics : "";
+    severity = obj.issue ? obj.issue[0].severity : "";
+
+    if (obj.code == "401") {
+        alert(message.accountUnexist);
+        $("#global-loader").hide();
+        return 0;
+    }
+    else if (resType == "OperationOutcome") {
+        //alert('Error!\n' + err);
+        return 0;
+    }
+    else {
+        //alert('Finished!\nFHIR Resource ID: ' + id);
+        return id;
+    }
+
+    $("#global-loader").hide();
 }
