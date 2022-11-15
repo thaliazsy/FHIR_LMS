@@ -192,7 +192,6 @@ function setToken(res) {
 	else {
 		registeredUser.patientId = obj.entry[0].response.location;
 		registeredUser.personId = obj.entry[1].response.location;
-		//postResource("http://203.64.84.208:81/api/LSMAPI/SelectCourse", '', '', 'text/' + FHIRResponseType, 'signUpResult', registerStr);
 		formData = 'username=' + personJSONobj.identifier[0].value + '&password=' + personJSONobj.identifier[1].value;
 		postResource(FHIRURL.replace('fhir/', 'r4/rest/login'), '', '', 'application/x-www-form-urlencoded', 'createAppointment', formData);
 	}
@@ -203,7 +202,7 @@ function createAppointment(res) {
 	//2.1.1 Post selected course
 	loginData.token = res.getResponseHeader("Authorization");
 	let registerStr = JSON.stringify(registeredUser);
-	postResource("http://localhost:63175/api/LSMAPI/SelectCourse", '', '', 'text/' + FHIRResponseType, 'callLoginAPI', registerStr);
+	postResource("http://203.64.84.208:81/api/LSMAPI/SelectCourse", '', '', 'text/' + FHIRResponseType, 'callLoginAPI', registerStr);
 
 }
 
