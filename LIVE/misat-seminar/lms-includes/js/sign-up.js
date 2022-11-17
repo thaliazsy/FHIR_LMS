@@ -202,7 +202,7 @@ function createAppointment(res) {
 	//2.1.1 Post selected course
 	loginData.token = res.getResponseHeader("Authorization");
 	let registerStr = JSON.stringify(registeredUser);
-	postResource("http://203.64.84.208:81/api/LSMAPI/SelectCourse", '', '', 'text/' + FHIRResponseType, 'callLoginAPI', registerStr);
+	postResource(SelectCourseAPI, '', '', 'text/' + FHIRResponseType, 'callLoginAPI', registerStr);
 
 }
 
