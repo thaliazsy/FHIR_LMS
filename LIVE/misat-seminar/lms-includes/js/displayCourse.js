@@ -22,7 +22,11 @@ function getUserInformation(res) {
                 CPatient.roleName = "Patient";
                 CPatient.patientID = roleID.split('/')[1];
                 getResource(FHIRURL, 'Patient', '/' + CPatient.patientID, FHIRResponseType, 'getPatient');
+<<<<<<< Updated upstream
                 if (CPatient.organizationID == DB.organization)
+=======
+                //if (CPatient.organizationID == DB.organization)
+>>>>>>> Stashed changes
                     loginData.role.push(CPatient);
             }
         });
