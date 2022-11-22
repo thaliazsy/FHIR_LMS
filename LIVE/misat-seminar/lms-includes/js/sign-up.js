@@ -131,11 +131,7 @@ function validateData() {
 		registerJSONobj.Patient = patientJSONobj;
 		let registerStr = JSON.stringify(registerJSONobj);
 		//let str= personJSONobj
-<<<<<<< Updated upstream
-		postResource(FHIRURL.replace('fhir/', 'process/register'), '', '', 'text/' + FHIRResponseType, 'setToken', registerStr);
-=======
 		postResource(FHIRURLRegister, '', '', 'text/' + FHIRResponseType, 'setToken', registerStr);
->>>>>>> Stashed changes
 	}
 }
 
@@ -190,24 +186,14 @@ function setToken(res) {
 	var obj = JSON.parse(res.response);
 	//2.1.0 Alert account existed
 	if (obj.msg != undefined) {
-<<<<<<< Updated upstream
 		alert(obj.msg)
 		location.reload();
-=======
-		$("#global-loader").hide();
-		alert(message.accountExist)
-		//location.reload();
->>>>>>> Stashed changes
 	}
 	else {
 		registeredUser.patientId = obj.entry[0].response.location;
 		registeredUser.personId = obj.entry[1].response.location;
 		formData = 'username=' + personJSONobj.identifier[0].value + '&password=' + personJSONobj.identifier[1].value;
-<<<<<<< Updated upstream
-		postResource(FHIRURL.replace('fhir/', 'r4/rest/login'), '', '', 'application/x-www-form-urlencoded', 'createAppointment', formData);
-=======
 		postResource(FHIRURLLogin, '', '', 'application/x-www-form-urlencoded', 'createAppointment', formData);
->>>>>>> Stashed changes
 	}
 
 }
@@ -222,9 +208,5 @@ function createAppointment(res) {
 
 function callLoginAPI(res) {
 	formData = 'username=' + personJSONobj.identifier[0].value + '&password=' + personJSONobj.identifier[1].value;
-<<<<<<< Updated upstream
-	postResource(FHIRURL.replace('fhir/', 'r4/rest/login'), '', '', 'application/x-www-form-urlencoded', 'getUserInformation', formData);
-=======
 	postResource(FHIRURLLogin, '', '', 'application/x-www-form-urlencoded', 'getUserInformation', formData);
->>>>>>> Stashed changes
 }
