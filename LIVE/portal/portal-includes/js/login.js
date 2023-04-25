@@ -6,7 +6,7 @@
 /* PAGE INITIALIZATION */
 //Set table field
 let field = {
-	code: ["username", "ppassword"],
+	code: ["email", "password"],
 	desc: [],
 	isRequired: [1, 1],
 	type: ["text", "password"],
