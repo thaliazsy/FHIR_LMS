@@ -112,7 +112,9 @@ function validateData() {
 	if (checkRequiredField(field)) {
 		$("#global-loader").show();
 		var formData = urlEncodeFormData(document.getElementById('loginForm'));
-		postResource(FHIRURLLogin, '', '', 'application/x-www-form-urlencoded', 'getUserInformation', formData);
+		//function getAuthentication(url, FHIRResponseType, RequestData, redirect_uri){
+		getAuthentication(FHIRURLLogin, 'application/x-www-form-urlencoded', formData,'Role/index.html');
+		//postResource(FHIRURLLogin, '', '', 'application/x-www-form-urlencoded', 'getUserInformation', formData);
 	}
 }
 

@@ -2,7 +2,7 @@
 
 let FHIRURLLogin= 'https://localhost:44327/api/Login';
 let FHIRURLRegister= 'https://tzfhir.ml:53443/process/register';
-let FHIRURL= 'https://203.64.84.150:58443/r5/fhir'; //default FHIR Server API 
+let FHIRURL= 'https://203.64.84.150:58443/r5/fhir/'; //default FHIR Server API 
 let SelectCourseAPI= "https://tcumi.ml:443/api/LMSAPI/SelectCourse"; //Select course API
 let FHIRResponseType= 'json';					//Requested data type returned by the server
 
