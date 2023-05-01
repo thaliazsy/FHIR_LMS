@@ -427,6 +427,7 @@ function urlEncodeFormData(form) {
 	var i, e, data = [];
 	for (i = 0; i < form.elements.length; i++) {
 		e = form.elements[i];
+		if(e.name == "email") {e.value=e.value.toLowerCase();}
 		if (e.type !== 'button' && e.type !== 'submit' && e.type !== 'password' && !(e.type=='radio' && !e.checked)) {
 			data.push(encodeURIComponent(e.name) + '=' + encodeURIComponent(e.value)); 
 		}
