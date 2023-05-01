@@ -42,13 +42,13 @@ function listUserRole(userLoginData) {
 
 		let roleName = (entry.roleName) ? entry.roleName : '';
 		let roleID = (entry.roleID) ? entry.roleID : '';
-		let practRoleID =(entry.practRoleID) ? entry.practRoleID : '';
+		let practID =(entry.practID) ? entry.practID : '';
 		let organizationName = (entry.organizationName) ? entry.organizationName : '';
 		let status = (entry.status) ? entry.status : '';
 		let patientIdentifier = (entry.patientIdentifier) ? entry.patientIdentifier : '';
 
 		var tr = document.createElement('tr');
-		var temp = [i + 1, roleName, organizationName, roleID, status, patientIdentifier]
+		var temp = [i + 1, roleName, organizationName, roleID, status, patientIdentifier];
 		var params = (window.location.href).split("?")[1];
 		var createClickHandler =
 			function (selectedRole) {
@@ -58,7 +58,7 @@ function listUserRole(userLoginData) {
 					window.open('../AuthenticationService/index.html?' + params, "_self");
 				};
 			};
-		tr.onclick = createClickHandler(roleName + "/" + practRoleID);
+		tr.onclick = createClickHandler(roleName + "/" + roleID);
 
 		for (var i = 0; i < temp.length; i++) {
 			var td = document.createElement('td');
