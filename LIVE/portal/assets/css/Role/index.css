@@ -20,6 +20,7 @@
 #Search .Footer{}
 
 #List .List-MedicalRecord{clear:both;}
+#List .List-MedicalRecord h2 {font-size:2vw; text-align: center; line-height: normal; background-color: white;}
 #List .List-MedicalRecord .Header{margin:10px auto;padding:15px 25px;border-left:6px solid #1c6dd9;display:flex;align-items:center;}
 #List .List-MedicalRecord .Header .Title{float:left;  }
 #List .List-MedicalRecord .Header .Tool{padding:0 10px;}
@@ -31,8 +32,8 @@
 #List .List-MedicalRecord .Bodyer{max-height:600px;overflow: scroll;transition: max-height 1s;}
 #List .List-MedicalRecord .Bodyer-Open .Bodyer{max-height: 600px;}
 #List .List-MedicalRecord .Bodyer-Close .Bodyer{max-height: 0px;}
-#List .List-MedicalRecord .Bodyer table {width: 100%;cursor: pointer;}
-#List .List-MedicalRecord .Bodyer table thead {background-color: #ededed;font-weight: bold;height:50px}
+#List .List-MedicalRecord .Bodyer table {width: 100%; cursor: pointer;}
+#List .List-MedicalRecord .Bodyer table thead {background-color: #ededed;font-weight: bold;height:50px; position:sticky; top:0}
 #List .List-MedicalRecord .Bodyer table thead th{vertical-align: middle;}
 #List .List-MedicalRecord .Bodyer table tbody tr{text-align: center;height: 40px;}
 #List .List-MedicalRecord .Bodyer table tbody tr:hover{background-color:#999; color: #eee; height: 40px;}

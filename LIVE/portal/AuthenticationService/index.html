@@ -21,7 +21,7 @@
 		<a href="../MedicalRecord/index.html"><img src="../assets/img/home.png" class="topleft"/></a>
 		<button class="topright" onclick="logOut()">Logout</button>
         <div id="Logo">
-			<font color="red">FHIR</font> Authentication Service
+			<font color="red">FHIR</font> Document List
 		</div>
 	</div>
     <div id="Bodyer">
@@ -31,23 +31,32 @@
         <div id="Body">
             <div id="List">
                 <div class="List-MedicalRecord">
-                    <div class="Header">
-                        <div class="Title">Authentication Service Table</div>
-                        <div class="Tool">
-                            <ul class="L1s">
-                                <li class="L1 i1">
-                                    <div class="Btn Add MedicalRecord">Authentication Service</div> 
-                                </li>
-                                <li class="L1 i1">Please select your authentication service!</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="Bodyer">
-                        <table style="border:1px" id="RoleTable">
+                    <br><br>
+                    <h2>My Documents</h2>
+                    <div class="Bodyer" style="height:300px;">
+                        <table style="border:1px;" id="AuthorTable">
                             <thead>
                                 <th>No.</th>
-                                <th >Service Name</th>
-                                <th >Service Endpoint</th>
+                                <th>Date</th>
+                                <th>Document Type</th>
+                                <th>Subject</th>
+                                <th>Service Endpoint</th>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <br><br>
+                    <h2>Shared with Me</h2>
+                    <div class="Bodyer" style="height:300px;">
+                        <table style="border:1px;" id="SubjectTable">
+                            <thead>
+                                <th>No.</th>
+                                <th>Date</th>
+                                <th>Document Type</th>
+                                <th>Subject</th>
+                                <th>Author</th>
+                                <th>Service Endpoint</th>
                             </thead>
                             <tbody>
                             </tbody>

@@ -31,9 +31,8 @@ $(document).ready(function () {
 	}
 	else {
 		//Get user control access range
-		//getResource(FHIRURL, 'Patient', '?organization=' + loginData.organization.id, FHIRResponseType, 'getPractRoleByOrganization');https://203.64.84.150:58443/portaltest1/fhir/DocumentReference?author=MIPatientPortal&type=Service
-		getResource(FHIRURL, 'DocumentReference', '?author=' + DB.organization + "&type=Service&_sort=-_lastUpdated", FHIRResponseType, 'listServices');
-		//listUserRole(loginData);
+		getResource(FHIRURL, 'DocumentReference', '?author=' + loginData.userSelectedRole + "&_sort=-_lastUpdated", FHIRResponseType, 'listDocs');
+		getResource(FHIRURL, 'DocumentReference', '?subject=' + DB.organization + "&type=Service&_sort=-_lastUpdated", FHIRResponseType, 'listDocs');
 	}
 });
 
@@ -41,30 +40,32 @@ $(document).ready(function () {
 	說明：列出服務清單
 */
 
-function listServices(str) {
+function listDocs(str) {
 	let obj = JSON.parse(str);
-	let template = [];
-	if(obj.total>0) {
+	let tableName = obj.link[0].url.includes("author=")? "AuthorTable" : "SubjectTable";
+	if(obj.entry) {
 		obj.entry.map((entry, i) => {
-
-		let category = (entry.resource.category[0].coding[0].display) ? entry.resource.category[0].coding[0].display : '';
+		let date = (entry.resource.date)? entry.resource.date.replace("T", " ").substring(0, 16) : '';
+		let category = (entry.resource.category)? entry.resource.category[0].coding[0].display : '';
+		let subject = (entry.resource.subject.display)? entry.resource.subject.display : entry.resource.subject.reference;
+		let author =  (entry.resource.author.display)? entry.resource.author.display : entry.resource.author.reference;
 		let endPoints = "";
 		entry.resource.content.map((endpoint, i) => {
 			endPoints += endpoint.attachment.title + " : " + endpoint.attachment.url + "<br>";
 		})
 
 		var tr = document.createElement('tr');
-		var temp = [i + 1, category, endPoints]
+		var temp = (tableName=="AuthorTable")? [i + 1, date, category, subject, endPoints] : [i + 1, date, category, subject, author, endPoints];
 		var params = (window.location.href).split("?")[1];
 		var createClickHandler =
-			function (selectedService) {
+			function (selectedDocRef) {
 				return function () {
-					alert(selectedService);
+					alert(selectedDocRef);
 					//loginData.userSelectedRole = selectedRole;
 					sessionSet("loginAccount", loginData, 30);
 					//window.open('../Token/index.html?' + params, "_self");
 
-					var str = selectedService.split('<br>');
+					var str = selectedDocRef.split('<br>');
 					var JWTEndpoint = "";
 					str.map((endpoint, i) => {
 						JWTEndpoint += JWTToken(loginData, endpoint) + ",";
@@ -83,21 +84,23 @@ function listServices(str) {
 			};
 		tr.onclick = createClickHandler(endPoints);
 
+		//Input to table row
 		for (var i = 0; i < temp.length; i++) {
 			var td = document.createElement('td');
 			td.innerHTML = temp[i];
 			tr.appendChild(td);
 		}
-		document.getElementById('RoleTable').getElementsByTagName('tbody')[0].appendChild(tr);
+		document.getElementById(tableName).getElementsByTagName('tbody')[0].appendChild(tr);
 	})
 	}
 	else {
+		//No Data Available
 		var tr = document.createElement('tr');
 		var td = document.createElement('td');
 			td.innerHTML = "No Data Available!";
-			td.colSpan=3;
+			td.colSpan=6;
 			tr.appendChild(td);
-			document.getElementById('RoleTable').getElementsByTagName('tbody')[0].appendChild(tr);
+			document.getElementById(tableName).getElementsByTagName('tbody')[0].appendChild(tr);
 	}
 	
 	document.getElementById("loadingPage").style.display = "none";
