@@ -30,9 +30,9 @@ $(document).ready(function () {
 		window.location.href = "../login.html";
 	}
 	else {
-		//Get user control access range
+		//Get user documents
 		getResource(FHIRURL, 'DocumentReference', '?author=' + loginData.userSelectedRole + "&_sort=-_lastUpdated", FHIRResponseType, 'listDocs');
-		getResource(FHIRURL, 'DocumentReference', '?subject=' + DB.organization + "&type=Service&_sort=-_lastUpdated", FHIRResponseType, 'listDocs');
+		getResource(FHIRURL, 'DocumentReference', '?subject=' + DB.organization + "&_sort=-_lastUpdated", FHIRResponseType, 'listDocs');
 	}
 });
 
@@ -42,7 +42,7 @@ $(document).ready(function () {
 
 function listDocs(str) {
 	let obj = JSON.parse(str);
-	let tableName = obj.link[0].url.includes("author=")? "AuthorTable" : "SubjectTable";
+	let tableName = obj.link[0].url.includes("author=")? "AuthorTable" : "SharedTable";
 	if(obj.entry) {
 		obj.entry.map((entry, i) => {
 		let date = (entry.resource.date)? entry.resource.date.replace("T", " ").substring(0, 16) : '';
@@ -60,10 +60,10 @@ function listDocs(str) {
 		var createClickHandler =
 			function (selectedDocRef) {
 				return function () {
-					alert(selectedDocRef);
-					//loginData.userSelectedRole = selectedRole;
+					alert(selectedDocRef.fullUrl);
+					
 					sessionSet("loginAccount", loginData, 30);
-					//window.open('../Token/index.html?' + params, "_self");
+					window.open('view-document.html', "_self");
 
 					var str = selectedDocRef.split('<br>');
 					var JWTEndpoint = "";
@@ -82,9 +82,9 @@ function listDocs(str) {
 					window.open(redirect_uri + '?token=' + encodeURI(param), "_self");
 				};
 			};
-		tr.onclick = createClickHandler(endPoints);
+		tr.onclick = createClickHandler(entry);
 
-		//Input to table row
+		//Input data to table row
 		for (var i = 0; i < temp.length; i++) {
 			var td = document.createElement('td');
 			td.innerHTML = temp[i];

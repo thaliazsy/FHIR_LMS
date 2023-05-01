@@ -37,7 +37,6 @@ $(document).ready(function () {
 	說明：列出所有使用者的角色
 */
 function listUserRole(userLoginData) {
-	let template = [];
 	userLoginData.Roles.map((entry, i) => {
 
 		let roleName = (entry.roleName) ? entry.roleName : '';
