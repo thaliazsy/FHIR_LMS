@@ -1,4 +1,5 @@
-﻿.Btn{cursor:pointer;padding:5px;color:#fff;background:#999;}
+﻿.Btn{cursor:pointer;padding:5px;color:#fff;background:#999; position:relative;left:50%;height:50px;}
+.Btn:hover{border:1px solid #999; color:#999;background:#fff;}
 .Clear{clear:both;width:100%;height:1px;background:none;}
 
 #Logo{padding:40px 0;}
@@ -37,7 +38,10 @@
 #List .List-MedicalRecord .Bodyer table thead th{vertical-align: middle;}
 #List .List-MedicalRecord .Bodyer table tbody tr{text-align: center;height: 40px;}
 #List .List-MedicalRecord .Bodyer table tbody tr:hover{background-color:#999; color: #eee; height: 40px;}
-#List .List-MedicalRecord .Bodyer table tbody tr td{text-align: center;vertical-align: middle;}
+#List .List-MedicalRecord .Bodyer table tbody tr td{text-align: center;}
+#List .List-MedicalRecord table {width: 100%; cursor: pointer;}
+#List .List-MedicalRecord table th {background-color: #ededed;font-weight: bold;height:50px; vertical-align: middle;}
+#List .List-MedicalRecord table td {padding-left: 20px; vertical-align:middle;}
 
 #List .List-MedicalRecord .Bodyer .L1s{}
 #List .List-MedicalRecord .Bodyer .L1s .L1{cursor:pointer;clear:both;padding:5px 0px 5px;}
