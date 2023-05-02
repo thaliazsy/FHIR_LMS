@@ -48,10 +48,10 @@ function listDocs(str) {
 		let date = (entry.resource.date)? entry.resource.date.replace("T", " ").substring(0, 16) : '';
 		let category = (entry.resource.category)? entry.resource.category[0].coding[0].display : '';
 		let subject = (entry.resource.subject.display)? entry.resource.subject.display : entry.resource.subject.reference;
-		let author =  (entry.resource.author.display)? entry.resource.author.display : entry.resource.author.reference;
+		let author =  (entry.resource.author[0].display)? entry.resource.author[0].display : entry.resource.author[0].reference;
 		let endPoints = "";
 		entry.resource.content.map((endpoint, i) => {
-			endPoints += endpoint.attachment.title + " : " + endpoint.attachment.url + "<br>";
+			endPoints += endpoint.attachment.title + ": " + endpoint.attachment.url + "<br>";
 		})
 
 		var tr = document.createElement('tr');
@@ -61,7 +61,7 @@ function listDocs(str) {
 			function (selectedDocRef) {
 				return function () {
 					alert(selectedDocRef.fullUrl);
-					
+					loginData.selectedDocRef=selectedDocRef;
 					sessionSet("loginAccount", loginData, 30);
 					window.open('view-document.html', "_self");
 
