@@ -1,5 +1,5 @@
-function getAuthentication(url, FHIRResponseType, RequestData, redirect_uri){
-    
+function getAuthentication(url, FHIRResponseType, RequestData, redirect_uri) {
+
     //Using XMLHttpRequest component to interact with the server
     var xhttp = new XMLHttpRequest();
     /*
@@ -28,11 +28,11 @@ function getAuthentication(url, FHIRResponseType, RequestData, redirect_uri){
             this.readyState
             @desc： Return the current status of the XMLHttpRequest
             @value：
-				0: request not initialized
-				1: server connection established
-				2: request received (can obtained header & status)
-				3: processing request
-				4: request finished and response is ready
+                0: request not initialized
+                1: server connection established
+                2: request received (can obtained header & status)
+                3: processing request
+                4: request finished and response is ready
         */
         /*
             this.status
@@ -40,27 +40,31 @@ function getAuthentication(url, FHIRResponseType, RequestData, redirect_uri){
             @value：
                 0：UNSENT or OPENED
                 200：LOADING or DONE
-				403:FORBIDDEN
-				404:PAGE NOT FOUND
+                403:FORBIDDEN
+                404:PAGE NOT FOUND
         */
-        if (this.readyState == 4 && (this.status == 200 || this.status == 201)) 
-		{
+        if (this.readyState == 4 && (this.status == 200 || this.status == 201)) {
             var str = this.response;
             loginData = JSON.parse(this.response);
             sessionSet("loginAccount", loginData, 30);
             window.open(redirect_uri, "_self");
         }
-		else if(this.readyState == 4 && (this.status != 200 || this.status != 201))
-		{
-			alert(this.response);
-		}  
+        else if (this.readyState == 4 && (this.status != 200 || this.status != 201)) {
+            alert(this.response);
+        }
     };
     /*
         xhttp.send()
         @desc： Send a request to the specified server path
     */
-        
-    xhttp.send(RequestData);
+    try {
+        xhttp.send(RequestData);
+    }
+    catch (e) {
+        if (e.code == DOMException.NETWORK_ERR) {
+            alert("Network error: Please contact administrator.");
+        }
+    }
 }
 
 
