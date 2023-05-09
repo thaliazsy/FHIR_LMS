@@ -24,3 +24,11 @@ function sessionSet(key, value, expirationInMin) {
 	}
 	window.sessionStorage.setItem(key, JSON.stringify(value));
 }
+
+//logout
+function logOut()
+{
+	window.sessionStorage.removeItem('loginData');
+	//redirect users to login page
+	window.location.href = "../login.html";
+}

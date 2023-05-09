@@ -60,7 +60,6 @@ function listDocs(str) {
 		var createClickHandler =
 			function (selectedDocRef) {
 				return function () {
-					alert(selectedDocRef.fullUrl);
 					loginData.selectedDocRef=selectedDocRef;
 					sessionSet("loginAccount", loginData, 30);
 					window.open('view-document.html', "_self");

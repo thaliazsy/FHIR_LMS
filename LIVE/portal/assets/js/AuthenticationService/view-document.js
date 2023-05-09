@@ -48,11 +48,10 @@ function displayDocument() {
     selection.id = "viewer";
     selection.options[0] = new Option("Please choose a viewer.");
 
-    if (obj.resource.type.coding[0].code == "skinlesion.report.document") {
+    if (type!="" && obj.resource.type.coding[0].code == "skinlesion.report.document") {
 
         selection.options[1] = new Option("Skin Lesion Report Viewer", "skinlesion.report.document");
     }
-
 
     let tr = document.createElement("tr");
     let th = document.createElement("th");
@@ -65,6 +64,9 @@ function displayDocument() {
 }
 
 function getAccessToken() {
+
+    //Input Viewer URL
+    loginData.viewer= document.getElementById("viewer").value;
 
     //Using XMLHttpRequest component to interact with the server
     var xhttp = new XMLHttpRequest();
@@ -110,17 +112,13 @@ function getAccessToken() {
                 404:PAGE NOT FOUND
         */
         if (this.readyState == 4 && (this.status == 200 || this.status == 201)) {
-            var str = this.response;
-            alert("token: " + str);
-            let viewer = document.getElementById("viewer");
-
-            if (viewer.value == "skinlesion.report.document") {
-                //Open Viewer
-                window.open("dummy-viewer.html", "_self");
-            }
-            else {
-                alert("Viewer not available!");
-            }
+            
+            retData = JSON.parse(this.response);
+            alert(this.response);
+            
+            //window.open(redirect_uri, "_self");
+            // POST to Viewer URL (token)
+            openViewer(retData.viewerURL,retData.docURL, FHIRResponseType, retData.accessToken);
         }
         else if (this.readyState == 4 && (this.status != 200 || this.status != 201)) {
             alert(this.response);
