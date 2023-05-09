@@ -46,7 +46,7 @@ function listDocs(str) {
 	if(obj.entry) {
 		obj.entry.map((entry, i) => {
 		let date = (entry.resource.date)? entry.resource.date.replace("T", " ").substring(0, 16) : '';
-		let category = (entry.resource.category)? entry.resource.category[0].coding[0].display : '';
+		let type = (entry.resource.type)? entry.resource.type.coding[0].display : '';
 		let subject = (entry.resource.subject.display)? entry.resource.subject.display : entry.resource.subject.reference;
 		let author =  (entry.resource.author[0].display)? entry.resource.author[0].display : entry.resource.author[0].reference;
 		let endPoints = "";
@@ -55,7 +55,7 @@ function listDocs(str) {
 		})
 
 		var tr = document.createElement('tr');
-		var temp = (tableName=="AuthorTable")? [i + 1, date, category, subject, endPoints] : [i + 1, date, category, subject, author, endPoints];
+		var temp = (tableName=="AuthorTable")? [i + 1, date, type, subject, endPoints] : [i + 1, date, type, subject, author, endPoints];
 		var params = (window.location.href).split("?")[1];
 		var createClickHandler =
 			function (selectedDocRef) {

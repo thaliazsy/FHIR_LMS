@@ -16,11 +16,13 @@ $(document).ready(function () {
 //Display document
 function displayDocument() {
     let obj = loginData.selectedDocRef;
-
     document.getElementById("DocRefID").innerHTML = "DocumentReference/" + obj.fullUrl.split('/').pop();
 
+    let docType = (obj.resource.type) ? obj.resource.type.coding[0].code : null;
+
+
     let date = (obj.resource.date) ? obj.resource.date.replace("T", " ").substring(0, 16) : '';
-    let category = (obj.resource.category) ? obj.resource.category[0].coding[0].display : '';
+    let type = (obj.resource.type) ? obj.resource.type.coding[0].display : '';
     let subject = (obj.resource.subject.display) ? obj.resource.subject.display : obj.resource.subject.reference;
     let author = (obj.resource.author[0].display) ? obj.resource.author[0].display : obj.resource.author[0].reference;
     let endPoints = "";
@@ -29,7 +31,7 @@ function displayDocument() {
     })
 
     let headers = ["Date", "Document Type", "Subject", "Author", "Endpoints"];
-    let values = [date, category, subject, author, endPoints]
+    let values = [date, type, subject, author, endPoints]
 
     for (i = 0; i < headers.length; i++) {
         let tr = document.createElement("tr");
@@ -41,27 +43,25 @@ function displayDocument() {
         tr.appendChild(td);
         document.getElementById("DocTable").appendChild(tr);
     }
-}
+    //Add Viewer list
+    let selection = document.createElement("select");
+    selection.id = "viewer";
+    selection.options[0] = new Option("Please choose a viewer.");
 
-function getToken() {
-    var str = selectedDocRef.split('<br>');
-    var JWTEndpoint = "";
-    str.map((endpoint, i) => {
-        JWTEndpoint += JWTToken(loginData, endpoint) + ",";
-        //endPoints += endpoint.attachment.title +" : "+endpoint.attachment.url +"<br>";
-    })
-    alert(JWTEndpoint);
-    //var param = JWTToken(loginData);//AESencryptString(str)
-    var decParam = AESdecryptString(params);
-    var urlParams = new URLSearchParams(decParam);
-    var useFor = urlParams.get('useFor')
-    var redirect_uri = urlParams.get('redirect_uri')
-    var param = AESencryptString(JWTEndpoint)
-    //document.cookie = "token=asY-x34SfYPk";
-    window.open(redirect_uri + '?token=' + encodeURI(param), "_self");
+    if (obj.resource.type.coding[0].code == "skinlesion.report.document") {
 
-    get(JWTAPI, 'application/x-www-form-urlencoded', formData, 'Role/index.html');
-    psotResource
+        selection.options[1] = new Option("Skin Lesion Report Viewer", "skinlesion.report.document");
+    }
+
+
+    let tr = document.createElement("tr");
+    let th = document.createElement("th");
+    th.innerHTML = "Document Viewer";
+    let td = document.createElement("td");
+    td.appendChild(selection);
+    tr.appendChild(th);
+    tr.appendChild(td);
+    document.getElementById("DocTable").appendChild(tr);
 }
 
 function getAccessToken() {
@@ -111,9 +111,16 @@ function getAccessToken() {
         */
         if (this.readyState == 4 && (this.status == 200 || this.status == 201)) {
             var str = this.response;
-            loginData = JSON.parse(this.response);
-            sessionSet("loginAccount", loginData, 30);
-            window.open(redirect_uri, "_self");
+            alert("token: " + str);
+            let viewer = document.getElementById("viewer");
+
+            if (viewer.value == "skinlesion.report.document") {
+                //Open Viewer
+                window.open("dummy-viewer.html", "_self");
+            }
+            else {
+                alert("Viewer not available!");
+            }
         }
         else if (this.readyState == 4 && (this.status != 200 || this.status != 201)) {
             alert(this.response);
@@ -123,6 +130,7 @@ function getAccessToken() {
         xhttp.send()
         @desc： Send a request to the specified server path
     */
-   
+
     xhttp.send(JSON.stringify(loginData));
 }
+
