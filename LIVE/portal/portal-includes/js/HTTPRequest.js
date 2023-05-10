@@ -67,7 +67,35 @@ function getAuthentication(url, FHIRResponseType, RequestData, redirect_uri) {
     }
 }
 
-function openViewer(url, param, FHIRResponseType, token) {
+
+function openViewer(url, param, FHIRResponseType, token)
+{
+     // The rest of this code assumes you are not using a library.
+    // It can be made less verbose if you use one.
+    const form = document.createElement('form');
+    form.method = "POST";
+    form.action = url;
+
+    const docUrl = document.createElement('input');
+    docUrl.type = 'hidden';
+    docUrl.name = "docUrl";
+    docUrl.value = param;
+    form.appendChild(docUrl);
+
+    const tokenField = document.createElement('input');
+    tokenField.type = 'hidden';
+    tokenField.name = "Authorization";
+    tokenField.value = token;
+    form.appendChild(tokenField);
+    
+    document.body.appendChild(form);
+    form.submit();
+    form.remove();
+
+}
+
+
+function openViewer1(url, param, FHIRResponseType, token) {
 
     //Using XMLHttpRequest component to interact with the server
     var xhttp = new XMLHttpRequest();
@@ -79,7 +107,7 @@ function openViewer(url, param, FHIRResponseType, token) {
             url： Request path
             async： synchronously(false) or asynchronously(true)
     */
-    xhttp.open("GET", url+"?url="+ param, true);
+    xhttp.open("GET", url + "?url=" + param, true);
     /*
         xhttp.setRequestHeader(header, value)
         @desc： Set the value of the HTTP header

@@ -31,7 +31,7 @@ $(document).ready(function () {
 	}
 	else {
 		//Get user documents
-		getResource(FHIRURL, 'DocumentReference', '?author=' + loginData.userSelectedRole + "&_sort=-_lastUpdated", FHIRResponseType, 'listDocs');
+		getResource(FHIRURL, 'DocumentReference', '?author=' + loginData.userSelectedRole + "&_sort=-_lastUpdated&type=skinlesion.report.document", FHIRResponseType, 'listDocs');
 		getResource(FHIRURL, 'DocumentReference', '?subject=' + DB.organization + "&_sort=-_lastUpdated", FHIRResponseType, 'listDocs');
 	}
 });

@@ -45,10 +45,10 @@ function displayDocument() {
     }
     //Add Viewer list
     let selection = document.createElement("select");
-    selection.id = "viewer";
-    selection.options[0] = new Option("Please choose a viewer.");
+    selection.id = "viewerSelect";
+    selection.options[0] = new Option("Please choose a viewer.","");
 
-    if (type!="" && obj.resource.type.coding[0].code == "skinlesion.report.document") {
+    if (type != "" && obj.resource.type.coding[0].code == "skinlesion.report.document") {
 
         selection.options[1] = new Option("Skin Lesion Report Viewer", "skinlesion.report.document");
     }
@@ -64,71 +64,82 @@ function displayDocument() {
 }
 
 function getAccessToken() {
+    // Is viewer selected?
+    if (document.getElementById("viewerSelect").value == "") {
+        alert("Please choose a viewer.")
+    }
+    else {
 
-    //Input Viewer URL
-    loginData.viewer= document.getElementById("viewer").value;
+        //Input Viewer URL
+        loginData.viewer = document.getElementById("viewerSelect").value;
 
-    //Using XMLHttpRequest component to interact with the server
-    var xhttp = new XMLHttpRequest();
-    /*
-        xhttp.open(method, url, async)
-        @desc： Initialize components
-        @param： 
-            method： Using HTTP "GET" method
-            url： Request path
-            async： synchronously(false) or asynchronously(true)
-    */
-    xhttp.open("POST", JWTAPIURL, false);
-    /*
-        xhttp.setRequestHeader(header, value)
-        @desc： Set the value of the HTTP header
-        @param：
-            header： Header name
-            value： Header value
-    */
-    xhttp.setRequestHeader("Content-type", 'text/' + FHIRResponseType);
-    /*
-        xhttp.onreadystatechange = callback;
-        @desc：Stores a function to be called automatically each time the readyState property changes
-    */
-    xhttp.onreadystatechange = function () {
+        //Using XMLHttpRequest component to interact with the server
+        var xhttp = new XMLHttpRequest();
         /*
-            this.readyState
-            @desc： Return the current status of the XMLHttpRequest
-            @value：
-                0: request not initialized
-                1: server connection established
-                2: request received (can obtained header & status)
-                3: processing request
-                4: request finished and response is ready
+            xhttp.open(method, url, async)
+            @desc： Initialize components
+            @param： 
+                method： Using HTTP "GET" method
+                url： Request path
+                async： synchronously(false) or asynchronously(true)
         */
+        xhttp.open("POST", JWTAPIURL, false);
         /*
-            this.status
-            @desc：HTTP status messages that might be returned
-            @value：
-                0：UNSENT or OPENED
-                200：LOADING or DONE
-                403:FORBIDDEN
-                404:PAGE NOT FOUND
+            xhttp.setRequestHeader(header, value)
+            @desc： Set the value of the HTTP header
+            @param：
+                header： Header name
+                value： Header value
         */
-        if (this.readyState == 4 && (this.status == 200 || this.status == 201)) {
-            
-            retData = JSON.parse(this.response);
-            alert(this.response);
-            
-            //window.open(redirect_uri, "_self");
-            // POST to Viewer URL (token)
-            openViewer(retData.viewerURL,retData.docURL, FHIRResponseType, retData.accessToken);
-        }
-        else if (this.readyState == 4 && (this.status != 200 || this.status != 201)) {
-            alert(this.response);
-        }
-    };
-    /*
-        xhttp.send()
-        @desc： Send a request to the specified server path
-    */
+        xhttp.setRequestHeader("Content-type", 'text/' + FHIRResponseType);
+        /*
+            xhttp.onreadystatechange = callback;
+            @desc：Stores a function to be called automatically each time the readyState property changes
+        */
+        xhttp.onreadystatechange = function () {
+            /*
+                this.readyState
+                @desc： Return the current status of the XMLHttpRequest
+                @value：
+                    0: request not initialized
+                    1: server connection established
+                    2: request received (can obtained header & status)
+                    3: processing request
+                    4: request finished and response is ready
+            */
+            /*
+                this.status
+                @desc：HTTP status messages that might be returned
+                @value：
+                    0：UNSENT or OPENED
+                    200：LOADING or DONE
+                    403:FORBIDDEN
+                    404:PAGE NOT FOUND
+            */
+            if (this.readyState == 4 && (this.status == 200 || this.status == 201)) {
 
-    xhttp.send(JSON.stringify(loginData));
+                retData = JSON.parse(this.response);
+                alert(this.response);
+
+                //window.open(redirect_uri, "_self");
+
+
+                // POST to Viewer URL (token)
+                openViewer(retData.viewerURL, retData.docURL, FHIRResponseType, retData.accessToken);
+
+
+
+            }
+            else if (this.readyState == 4 && (this.status != 200 || this.status != 201)) {
+                alert(this.response);
+            }
+        };
+        /*
+            xhttp.send()
+            @desc： Send a request to the specified server path
+        */
+
+        xhttp.send(JSON.stringify(loginData));
+    }
 }
 
