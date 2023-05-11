@@ -46,11 +46,15 @@ function displayDocument() {
     //Add Viewer list
     let selection = document.createElement("select");
     selection.id = "viewerSelect";
-    selection.options[0] = new Option("Please choose a viewer.","");
-
-    if (type != "" && obj.resource.type.coding[0].code == "skinlesion.report.document") {
-
-        selection.options[1] = new Option("Skin Lesion Report Viewer", "skinlesion.report.document");
+    selection.options[0] = new Option("Please choose a viewer.", "");
+    
+    if (type != "") {
+        if (obj.resource.type.coding[0].code == "skinlesion.report.document") {
+            selection.options[1] = new Option("Skin Lesion Report Viewer", "skinlesion.report.document");
+        }
+        else if (obj.resource.type.coding[0].code == "skinlesion.image.document") {
+            selection.options[1] = new Option("Skin Lesion Image Viewer", "skinlesion.image.document");
+        }
     }
 
     let tr = document.createElement("tr");

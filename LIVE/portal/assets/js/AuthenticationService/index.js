@@ -31,11 +31,11 @@ $(document).ready(function () {
 	}
 	else {
 		//Get user documents
-		getResource(FHIRURL, 'DocumentReference', '?author=' + loginData.userSelectedRole + "&_sort=-_lastUpdated&type=skinlesion.report.document", FHIRResponseType, 'listDocs');
+		let param = "&_sort=-_lastUpdated&type=skinlesion.report.document,skinlesion.image.document"
+		getResource(FHIRURL, 'DocumentReference', '?author=' + loginData.userSelectedRole + param, FHIRResponseType, 'listDocs');
 		getResource(FHIRURL, 'DocumentReference', '?subject=' + DB.organization + "&_sort=-_lastUpdated", FHIRResponseType, 'listDocs');
 	}
 });
-
 /*
 	說明：列出服務清單
 */
