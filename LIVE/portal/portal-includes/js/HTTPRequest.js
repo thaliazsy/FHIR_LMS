@@ -44,13 +44,19 @@ function getAuthentication(url, FHIRResponseType, RequestData, redirect_uri) {
                 404:PAGE NOT FOUND
         */
         if (this.readyState == 4 && (this.status == 200 || this.status == 201)) {
-            var str = this.response;
-            loginData = JSON.parse(this.response);
-            sessionSet("loginAccount", loginData, 30);
-            window.open(redirect_uri, "_self");
+            try{
+                loginData = JSON.parse(this.response);
+                sessionSet("loginAccount", loginData, 30);
+                window.open(redirect_uri, "_self");
+            }
+            catch(e){
+                alert(this.response);
+                $("#global-loader").hide();
+            }            
         }
         else if (this.readyState == 4 && (this.status != 200 || this.status != 201)) {
             alert(this.response);
+            $("#global-loader").hide();
         }
     };
     /*
