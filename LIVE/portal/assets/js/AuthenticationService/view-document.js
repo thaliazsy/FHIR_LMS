@@ -47,7 +47,7 @@ function displayDocument() {
     let selection = document.createElement("select");
     selection.id = "viewerSelect";
     selection.options[0] = new Option("Please choose a viewer.", "");
-    
+
     if (type != "") {
         if (obj.resource.type.coding[0].code == "skinlesion.report.document") {
             selection.options[1] = new Option("Skin Lesion Report Viewer", "skinlesion.report.document");
@@ -121,18 +121,9 @@ function getAccessToken() {
                     404:PAGE NOT FOUND
             */
             if (this.readyState == 4 && (this.status == 200 || this.status == 201)) {
-
                 retData = JSON.parse(this.response);
                 alert(this.response);
-
-                //window.open(redirect_uri, "_self");
-
-
-                // POST to Viewer URL (token)
                 openViewer(retData.viewerURL, retData.docURL, FHIRResponseType, retData.accessToken);
-
-
-
             }
             else if (this.readyState == 4 && (this.status != 200 || this.status != 201)) {
                 alert(this.response);
@@ -147,3 +138,19 @@ function getAccessToken() {
     }
 }
 
+function openViewer(url, token)
+{
+    const form = document.createElement('form');
+    form.method = "POST";
+    form.action = url;
+
+    const tokenField = document.createElement('input');
+    tokenField.type = 'hidden';
+    tokenField.name = "Authorization";
+    tokenField.value = token;
+    form.appendChild(tokenField);
+    
+    document.body.appendChild(form);
+    form.submit();
+    form.remove();
+}
