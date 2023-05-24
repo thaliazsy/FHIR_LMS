@@ -69,6 +69,7 @@ function getAuthentication(url, FHIRResponseType, RequestData, redirect_uri) {
     catch (e) {
         if (e.code == DOMException.NETWORK_ERR) {
             alert("Network error: Please contact administrator.");
+            $("#global-loader").hide();
         }
     }
 }
