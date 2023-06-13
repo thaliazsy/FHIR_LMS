@@ -251,7 +251,7 @@ function initialize(){
 				"value": ""
 			}, 
 			{
-				"system": "password",
+				"system": "Password",
 				"value": ""
 			},
 			{
@@ -292,7 +292,7 @@ function initialize(){
 			"text": "testPatient1"
 		} ],
 		"managingOrganization": {
-			"reference": "Organization/2137917"
+			"reference": "Organization/98a6f5c5-af58-41b5-bd6f-d8ca996b5580"
 		},
 	};
 	

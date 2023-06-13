@@ -182,6 +182,7 @@ function finalResult(res) {
 		window.close();
 	}
 }
+
 function setToken(res) {
 	var obj = JSON.parse(res.response);
 	//2.1.0 Alert account existed
@@ -190,10 +191,12 @@ function setToken(res) {
 		location.reload();
 	}
 	else {
-		registeredUser.patientId = obj.entry[0].response.location;
-		registeredUser.personId = obj.entry[1].response.location;
-		formData = 'username=' + personJSONobj.identifier[0].value + '&password=' + personJSONobj.identifier[1].value;
-		postResource(FHIRURLLogin, '', '', 'application/x-www-form-urlencoded', 'createAppointment', formData);
+		alert("Register success.");
+		registeredUser.patientId = obj.patient;
+		registeredUser.personId = obj.person;
+		formData = 'email=' + personJSONobj.identifier[0].value + '&password=' + personJSONobj.identifier[1].value;
+		//postResource(FHIRURLLogin, '', '', 'application/x-www-form-urlencoded', 'createAppointment', formData);
+		getAuthentication(FHIRURLLogin, 'application/x-www-form-urlencoded', formData,'Role/index.html');
 	}
 
 }
