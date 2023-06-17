@@ -1,38 +1,31 @@
-//Create new FHIR Patient
-function createPatient(){
-	patientJSONobj.name[0].text= loginData.person.name;
-	patientJSONobj.managingOrganization.reference= 'Organization/' + DB.organization;
-	//patientJSONobj = JSON.stringify(patientJSONobj);
-}
-
-//Update FHIR Person to connect it with FHIR Patient
-function updatePerson(str){
-	let obj= JSON.parse(str);
-	if (!isError(obj.resourceType, "Error in create FHIR Patient. " + message.contactPerson))
-	{
-		loginData.patient.id= obj.id;
-		let link= '{"link":[{"target":{"reference":"Patient/' + loginData.patient.id + '","display": "' + loginData.person.name + '"}}]}';
-		link= JSON.parse(link);
-		let target= '{"target":{"reference":"Patient/' + loginData.patient.id + '","display": "' + loginData.person.name + '"}}';
-		target= JSON.parse(target);
+// //Update FHIR Person to connect it with FHIR Patient
+// function updatePerson(str){
+// 	let obj= JSON.parse(str);
+// 	if (!isError(obj.resourceType, "Error in create FHIR Patient. " + message.contactPerson))
+// 	{
+// 		loginData.patient.id= obj.id;
+// 		let link= '{"link":[{"target":{"reference":"Patient/' + loginData.patient.id + '","display": "' + loginData.person.name + '"}}]}';
+// 		link= JSON.parse(link);
+// 		let target= '{"target":{"reference":"Patient/' + loginData.patient.id + '","display": "' + loginData.person.name + '"}}';
+// 		target= JSON.parse(target);
 		
-		if(personJSON.link == null)
-		{
-			mergedObject = {
-			  ...personJSON,
-			  ...link,
-			};
-			personJSON = JSON.stringify(mergedObject);
-		}
-		else
-		{
-			personJSON.link.push(target);
-			personJSON = JSON.stringify(personJSON);
-		}
+// 		if(personJSON.link == null)
+// 		{
+// 			mergedObject = {
+// 			  ...personJSON,
+// 			  ...link,
+// 			};
+// 			personJSON = JSON.stringify(mergedObject);
+// 		}
+// 		else
+// 		{
+// 			personJSON.link.push(target);
+// 			personJSON = JSON.stringify(personJSON);
+// 		}
 		
-		putResource(FHIRURL, 'Person', '/' + loginData.person.id, FHIRResponseType, "createAppointment", personJSON);
-	}
-}
+// 		putResource(FHIRURL, 'Person', '/' + loginData.person.id, FHIRResponseType, "createAppointment", personJSON);
+// 	}
+// }
 
 function createAppointment(str){
 	var obj = JSON.parse(str.response);
