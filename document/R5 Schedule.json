@@ -1,0 +1,41 @@
+{
+  "resourceType": "Schedule",
+  "id": "4534",
+  "meta": {
+    "versionId": "2",
+    "lastUpdated": "2023-06-17T15:51:53.602+08:00",
+    "source": "#oEHjkxyjDhMgxUL5"
+  },
+  "active": true,
+  "serviceCategory": [
+    {
+      "coding": [
+        {
+          "code": "100000",
+          "display": "Course Schedule"
+        }
+      ]
+    }
+  ],
+  "specialty": [
+    {
+      "coding": [
+        {
+          "code": "100000100105",
+          "display": "FHIR Beginner Course"
+        }
+      ]
+    }
+  ],
+  "actor": [
+    {
+      "reference": "PractitionerRole/4536",
+      "display": "蕭嘉宏"
+    }
+  ],
+  "planningHorizon": {
+    "start": "2023-01-01T00:00:00Z",
+    "end": "2023-12-31T23:59:59Z"
+  },
+  "comment": "Course schedule-with maximum 5 slots"
+}

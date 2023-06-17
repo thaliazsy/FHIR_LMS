@@ -1,0 +1,36 @@
+{
+  "resourceType": "Organization",
+  "identifier": [
+    {
+      "use": "official",
+      "system": "https://ulist.moe.gov.tw/Download/StartDownload?FileName=ulistaddress.pdf",
+      "value": "1027"
+    }
+  ],
+  "active": true,
+  "type": [
+    {
+      "coding": [
+        {
+          "system": "http://terminology.hl7.org/CodeSystem/organization-type",
+          "code": "edu",
+          "display": "Educational Institute"
+        }
+      ]
+    }
+  ],
+  "name": "Tzu Chi University",
+  "contact": [
+    {
+      "address": {
+        "use": "work",
+        "line": [
+          "No. 701, Section 3, Zhongyang Rd, Hualien City, Hualien County"
+        ],
+        "city": "Hualien City",
+        "postalCode": "970",
+        "country": "TW"
+      }
+    }
+  ]
+}

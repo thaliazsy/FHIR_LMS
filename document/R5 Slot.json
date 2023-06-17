@@ -1,0 +1,19 @@
+{
+  "resourceType": "Slot",
+  "appointmentType": {
+    "coding": [
+      {
+        "system": "courseMaterial",
+        "code": "https://mos2718.github.io/MICexp/basicDataProcess/Index.html",
+        "display": "資料讀取與分析"
+      }
+    ]
+  },
+  "schedule": {
+    "reference": "Schedule/4534"
+  },
+  "status": "free",
+  "start": "2023-01-01T00:00:00Z",
+  "end": "2023-12-31T23:59:59Z",
+  "comment": "FHIR Beginner Course-Slot1"
+}

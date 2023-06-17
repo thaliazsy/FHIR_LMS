@@ -1,0 +1,98 @@
+{
+  "resourceType": "PlanDefinition",
+  "id": "4542",
+  "meta": {
+    "versionId": "1",
+    "lastUpdated": "2023-06-17T19:46:01.437+08:00"
+  },
+  "identifier": [
+    {
+      "use": "official"
+    }
+  ],
+  "version": "1.0.0",
+  "name": "ScheduleSlotDocumentReference",
+  "title": "Tzu Chi University-FHIR Beginner Course-Teaching Plan",
+  "status": "active",
+  "date": "2022-02-20",
+  "publisher": "Tzu Chi University",
+  "purpose": "This plan shows the instructions for the student who participates in the course.",
+  "approvalDate": "2022-02-20",
+  "lastReviewDate": "2022-02-20",
+  "effectivePeriod": {
+    "start": "2022-02-24",
+    "end": "2023-12-31"
+  },
+  "author": [
+    {
+      "name": "Albert Einstein",
+      "telecom": [
+        {
+          "system": "phone",
+          "value": "911",
+          "use": "work"
+        },
+        {
+          "system": "email",
+          "value": "albertEinstein@oxfuni.com",
+          "use": "work"
+        }
+      ]
+    }
+  ],
+  "relatedArtifact": [
+    {
+      "type": "composed-of",
+      "display": "CourseSchedule-FHIR Beginner Course",
+      "resource": "Schedule/4534"
+    },
+    {
+      "type": "composed-of",
+      "label": "2022-02-21",
+      "display": "session1-ppt-FHIR Introduction",
+      "document":{"url": "http://203.64.84.150:51888/user4/course/FHIRbeginner_IT/courseMaterial/FHIR%20Introduction_20220115.pptx"}
+    },
+    {
+      "type": "composed-of",
+      "label": "2022-02-28",
+      "display": "session2-ppt-FHIR JSON Format Data",
+      "document":{"url": "http://203.64.84.150:51888/user4/course/FHIRbeginner_IT/courseMaterial/FHIR%20Beginner%20JSON_20220122.pptx"}
+    }
+  ],
+  "action": [
+    {
+      "title": "Tzu Chi University Course Introduction",
+      "documentation": [
+        {
+          "type": "composed-of",
+          "display": "CourseSchedule-FHIR Beginner Course",
+          "resource": "Schedule/4534"
+        }
+      ],
+      "action": [
+        {
+          "title": "session1",
+          "documentation": [
+            {
+              "type": "composed-of",
+              "display": "session1-ppt-FHIR Introduction",
+              "document":{"url": "http://203.64.84.150:51888/user4/course/FHIRbeginner_IT/courseMaterial/FHIR%20Introduction_20220115.pptx"}
+            }
+          ],
+          "action": [
+            {
+              "title": "session2",
+              "documentation": [
+                {
+                  "type": "composed-of",
+                  "display": "session2-ppt-FHIR JSON Format Data",
+                  "document":{"url": "http://203.64.84.150:51888/user4/course/FHIRbeginner_IT/courseMaterial/FHIR%20Beginner%20JSON_20220122.pptx"}
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
