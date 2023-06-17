@@ -32,8 +32,8 @@ $(document).ready(function () {
 	else {
 		//Get user documents
 		let param = "&_sort=-_lastUpdated&type=skinlesion.report.document,skinlesion.image.document"
-		getResource(FHIRURL, 'DocumentReference', '?author=' + loginData.userSelectedRole + param, FHIRResponseType, 'listDocs');
-		getResource(FHIRURL, 'DocumentReference', '?subject=' + DB.organization + "&_sort=-_lastUpdated", FHIRResponseType, 'listDocs');
+		getResource(FHIRURL, 'DocumentReference', '?author=' + loginData.userSelectedRole.roleID + param, FHIRResponseType, 'listDocs');
+		getResource(FHIRURL, 'DocumentReference', '?subject=' + loginData.userSelectedRole.organizationID + "&_sort=-_lastUpdated", FHIRResponseType, 'listDocs');
 	}
 });
 /*
