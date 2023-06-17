@@ -1,6 +1,14 @@
 ﻿.Btn{cursor:pointer;padding:5px;color:#fff;background:#999; position:relative;left:50%;height:50px;}
 .Btn:hover{border:1px solid #999; color:#999;background:#fff;}
 .Clear{clear:both;width:100%;height:1px;background:none;}
+.mini-apps {background:#999; margin: 20px;}
+.mini-apps:hover {background-color: #3e8e41}
+
+.mini-apps:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
 
 #Logo{padding:40px 0;}
 /*#Head{position: relative;margin:-100px 300px auto;width:1500px;}*/

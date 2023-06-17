@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- SITE CSS -->
+    <link rel="stylesheet" type="text/css" href="/assets/css/site.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="/assets/css/reset.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="/assets/css/Role/index.css" media="screen" />
+    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16" />
+    <title>FHIR MedicalRecord</title>
+</head>
+
+<body>
+    <!-- GLOBAL-LOADER -->
+    <div id="global-loader">
+        <img src="../assets/img/loader.svg" class="loader-img" alt="Loader">
+    </div>
+    <!-- /GLOBAL-LOADER -->
+    <div id="Header">
+        <a href="../Role/index.html"><img src="../assets/img/home.png" class="topleft" /></a>
+        <button class="topright" onclick="logOut()">Logout</button>
+        <div id="Logo">
+            Portal Mini Apps
+        </div>
+        
+    </div>
+    <div id="Bodyer">
+        <!-- <div id="Head"> -->
+        <!-- </div> -->
+        <div id="Left"></div>
+        <nav>
+            <a href="/Role/mini-apps.html">Upload Data</a> | 
+            <a href="/AuthenticationService/index.html">Access Data</a>
+        </nav>
+        <div id="Body">
+            <div id="List">
+                <div class="List-MedicalRecord">
+                    <div class="Header">
+                        <div class="Title">Please select your login user role!</div>
+                    </div>
+                    <div class="Bodyer">
+                        <div id="MiniApps"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="loadingPage" style="display:none;">
+            <div id="overlay" style="display:block;"></div>
+            <div id="loader"></div>
+        </div>
+    </div>
+    <div id="Footer">
+        <div id="CopyRight">
+            Copyright © 2022 TCU H707 All rights reserved
+        </div>
+    </div>
+</body>
+
+<script src="../portal-includes/js/jquery.min.js"></script>
+<script src="../portal-includes/js/sha256.js"></script>
+<script src="../portal-includes/js/setting.js"></script>
+<script src="../portal-includes/js/site.js"></script>
+<script src="../portal-includes/js/session.js"></script>
+<script src="../portal-includes/js/HTTPRequest.js"></script>
+<script src="../portal-includes/js/queryString.js"></script>
+<script src="../assets/js/Role/mini-apps.js"></script>
+
+</html>

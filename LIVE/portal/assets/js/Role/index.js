@@ -34,7 +34,7 @@ $(document).ready(function () {
 	}
 });
 /*
-	說明：列出所有使用者的角色
+DocumentRegistry	說明：列出所有使用者的角色
 */
 function listUserRole(userLoginData) {
 	userLoginData.roles.map((entry, i) => {
@@ -50,14 +50,24 @@ function listUserRole(userLoginData) {
 		var temp = [i + 1, roleName, organizationName, roleID, status, patientIdentifier];
 		var params = (window.location.href).split("?")[1];
 		var createClickHandler =
-			function (selectedRole) {
+			function (entry) {
 				return function () {
-					loginData.userSelectedRole = selectedRole;
-					sessionSet("loginAccount", loginData, 30);
-					window.open('../AuthenticationService/index.html?' + params, "_self");
+					
+					loginData.userSelectedRole = entry;
+					loginData.organization.name = entry.organizationName;
+					loginData.organization.id = entry.organizationID;
+					if(entry.roleName=="PractitionerRole"){
+						sessionSet("loginAccount", loginData, 30);
+						window.open('../AuthenticationService/index.html?' + params, "_self");
+					}
+					else if (entry.roleName=="Patient"){
+						loginData.patient.id=entry.roleID;
+						sessionSet("loginAccount", loginData, 30);
+						window.open('../LearningPortal/index.html?' + params, "_self");
+					}
 				};
 			};
-		tr.onclick = createClickHandler(roleName + "/" + roleID);
+		tr.onclick = createClickHandler(entry);
 
 		for (var i = 0; i < temp.length; i++) {
 			var td = document.createElement('td');
