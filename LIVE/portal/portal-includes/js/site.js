@@ -66,13 +66,13 @@ let loginData = {
 	patient:{
 		id: ''
 	},
-	role: [],
+	roles: [],
 	roleAccess:[],
 	organization: {
 		id: '',
 		identifier: '',
 		status: '',	
-		name: 'Portal',		
+		name: 'TCUMI Portal',		
 		cpname: 'Thalia',
 		cpphone: '+886 901-162-106',
 		cpemail: '110325102@gms.tcu.edu.tw'
@@ -87,7 +87,7 @@ let loginData = {
 		currentParticipant: 0
 	},
 	slot:{
-		id: ["861"]
+		id: []
 	},
 	appointment:{
 		id: '',

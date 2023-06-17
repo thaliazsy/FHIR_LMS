@@ -20,17 +20,17 @@ loginData = {
 		id: '',
 		identifier: '',
 		status: '',
-		name: 'MISAC LMS',
-		cpname: 'Victoria',
-		cpphone: '+6285373330117',
-		cpemail: 'victoriatjiaa@gmail.com'
+		name: 'TCUMI Portal',
+		cpname: 'Thalia',
+		cpphone: '+886 901-162-106',
+		cpemail: '110325102@gms.tcu.edu.tw'
 	},
 	schedule: {
-		id: '',
-		code: '',
-		name: '',
-		practitionerRoleID: '',
-		practitionerName: '',
+		id: '860',
+		code: '100001101100',
+		name: 'Tel-Conference for Standardized Medical Document and Image Sharing',		
+		practitionerRoleID: '856',
+		practitionerName: '蕭嘉宏',
 		maxParticipant: 0,
 		currentParticipant: 0
 	},
@@ -42,6 +42,7 @@ loginData = {
 		bookingsuccess: false
 	}
 }
+
 var registeredUser = {
 	patientId: "",
 	personId: ""
@@ -57,11 +58,13 @@ let field = {
 
 if (web_language == "CH") {
 	field.desc = ["姓名", "Email", "密碼", "就讀機構", "職稱"];
+	siteName = "TCUMI 平台"
 	pageName = "註冊網頁";
 }
 else if (web_language == "EN") {
 	field.desc = ["Name", "Email", "Password", "Gender", "Educational/Working Institution", "Job Position", "Nationality"];
 	field.placeholder = ["", "", "", "", "e.g. Tzu Chi University", "", ""];
+	siteName = "TCUMI Portal"
 	pageName = "Sign Up";
 }
 
@@ -159,6 +162,12 @@ function getSlotID(str) {
 	createPerson();
 }
 
+//Create new FHIR Patient
+function createPatient(){
+	patientJSONobj.name[0].text= loginData.person.name;
+	patientJSONobj.managingOrganization.reference= 'Organization/98a6f5c5-af58-41b5-bd6f-d8ca996b5580';	// Organization: Tzu Chi Hospital
+}
+
 //Create new FHIR Person
 function createPerson() {
 	initialize();
@@ -169,6 +178,7 @@ function createPerson() {
 	personJSONobj.identifier[4].value = loginData.person.nationality;
 	personJSONobj.name[0].text = loginData.person.name;
 	personJSONobj.telecom[0].value = loginData.person.email;
+	personJSONobj.gender = document.querySelector('input[name="gender"]:checked').value;
 	//personJSONobj = JSON.stringify(personJSONobj);
 }
 
