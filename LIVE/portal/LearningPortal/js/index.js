@@ -25,8 +25,7 @@ let getScheduleIndex=0, getMaterialIndex=0;
 			window.location.href = "../login.html";
 		}
 		else {
-			showWebsiteInfo();
-			$("#intro").html("Welcome, " + loginData.person.name + "!");
+			
 			getResource(FHIRURL, 'Appointment', '?actor=Patient/' + loginData.userSelectedRole.roleID, FHIRResponseType, 'getAppointmentByPatientID');
 		}
 	});
@@ -49,7 +48,7 @@ let getScheduleIndex=0, getMaterialIndex=0;
 		let obj= JSON.parse(str);
 		if (!isError(obj.resourceType, message.signUpFail + message.contactPerson))
 		{
-			totalAppt= obj.total;
+			totalAppt= obj.entry? obj.entry.length: 0;
 			
 			//Step 2.1 If student have not select any course
 			if (totalAppt == 0)	
@@ -108,9 +107,12 @@ let getScheduleIndex=0, getMaterialIndex=0;
 				// {}
 					
 				//Get all courses material
-				groupMember.course.forEach(item => {
+				for (const item of groupMember.course){
 					getResource(FHIRURL, 'PlanDefinition', '?composed-of=Slot/' + item.scheduleID, FHIRResponseType, 'getMaterialByScheduleID');
-				});					
+				}
+				// groupMember.course.forEach(item => {
+				// 	getResource(FHIRURL, 'PlanDefinition', '?composed-of=Slot/' + item.scheduleID, FHIRResponseType, 'getMaterialByScheduleID');
+				// });					
 			}
 		}
 	}
@@ -157,13 +159,13 @@ let getScheduleIndex=0, getMaterialIndex=0;
 			table.innerHTML+= '<tr><th bgcolor="#ebebe0" colspan="2">My Course List</th></tr>';
 			document.getElementById("intro").innerHTML+= '<br>User ID: ' + loginData.userSelectedRole.roleID; //groupMember.patient[0].patientID;
 			//check per schedule
-			groupMember.course.forEach(item => {
+			for(const item of groupMember.course){
 				table.innerHTML+= '<tr><th>No.</th><th>' + item.courseName + '</th></tr>';
 				//'<br>' + '(' + item.courseStartDate + ' until '  + item.courseEndDate + ')';
 				var indexNo=1;
 				//check per slot
 				if(item.apptStatus=="booked"){
-					item.material.forEach(item2 => {		
+					for(const item2 of item.material){
 						row = table.insertRow(-1);
 						row.align="left";
 						row.insertCell(0).innerHTML= indexNo++ + ".";
@@ -185,15 +187,17 @@ let getScheduleIndex=0, getMaterialIndex=0;
 							elLink.href = item2.url;
 							row.insertCell(1).appendChild(elLink);
 						}
-					});
+					}
 				}
 				else{
 					row = table.insertRow(-1);
 					row.insertCell(0).innerHTML = "You are still in waiting list. Please contact administrator."+ message.contactPerson;
 					row.insertCell(0).colspan = 2;
 				}
-			});
+			}
 			$("#global-loader").hide();
+			showWebsiteInfo();
+			$("#intro").html("Welcome, " + loginData.person.name + "!");
 		//}
 	}
 	
