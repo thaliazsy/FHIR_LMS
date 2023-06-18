@@ -2,13 +2,19 @@
 
 //let FHIRURLLogin= 'http://203.64.84.33:33484/api/login';
 //let JWTAPIURL= 'http://203.64.84.33:33484/api/jwt';
-let FHIRURLLogin = 'https://localhost:44327/api/login';
-let JWTAPIURL = 'https://localhost:44327/api/jwt';
-let MiniAppsURL = 'https://localhost:44327/api/role/mini-apps';
-let FHIRURLRegister = 'https://localhost:44327/api/register';
+
+//let apiRoot = "https://localhost:44327/";	// Development
+let apiRoot = "'http://203.64.84.33:33484/";	// Release
+
+let FHIRURLLogin = apiRoot+ 'api/login';
+let JWTAPIURL = apiRoot + 'api/jwt';
+let MiniAppsURL = apiRoot + 'api/role/mini-apps';
+let FHIRURLRegister = apiRoot + 'api/register';
+let SelectCourseAPI = apiRoot + "api/select-course"; //Select course API
+
 let FHIRURL = 'https://203.64.84.150:58443/r5/fhir/'; //default FHIR Server API
 let SkinLesionReportViewer = 'http://203.64.84.32:9876/viewer';
-let SelectCourseAPI = "https://localhost:44327/api/select-course"; //Select course API
+
 let FHIRResponseType = 'json';					//Requested data type returned by the server
 
 // let FHIRURLLogin= 'https://tzfhir.ml:53443/rest/login';
