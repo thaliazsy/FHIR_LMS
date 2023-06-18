@@ -183,7 +183,7 @@ function createPerson() {
 }
 
 function finalResult(res) {
-	var obj = JSON.parse(res.response);
+	var obj = JSON.parse(res);
 	//2.1.1 Get account information
 	let token = res.getResponseHeader("Authorization");
 	if (!isError(obj.resourceType, message.signUpFail + message.contactPerson)) {
@@ -194,7 +194,7 @@ function finalResult(res) {
 }
 
 function setToken(res) {
-	var obj = JSON.parse(res.response);
+	var obj = JSON.parse(res);
 	//2.1.0 Alert account existed
 	if (obj.msg != undefined) {
 		alert(obj.msg)
@@ -211,7 +211,7 @@ function setToken(res) {
 
 }
 function createAppointment(res) {
-	var obj = JSON.parse(res.response);
+	var obj = JSON.parse(res);
 	//2.1.1 Post selected course
 	loginData.token = res.getResponseHeader("Authorization");
 	let registerStr = JSON.stringify(registeredUser);

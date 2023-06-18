@@ -22,6 +22,11 @@ else if (web_language == "EN") {
 // local variable for store temporary json obj
 let personJSON, apptJSON;
 
+var registeredUser = {
+	patientId: "",
+	personId: ""
+}
+
 // Function Initialization
 $(document).ready(function () {
 	// Clear session
@@ -145,7 +150,7 @@ function createPerson() {
 // }
 
 function setToken(res) {
-	var obj = JSON.parse(res.response);
+	var obj = JSON.parse(res);
 	//2.1.0 Alert account existed
 	if (obj.msg != undefined) {
 		alert(obj.msg)
