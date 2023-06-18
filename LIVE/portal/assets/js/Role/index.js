@@ -27,7 +27,7 @@ $(document).ready(function () {
 	loginData = sessionGet("loginAccount");
 	if (loginData == null) {
 		//redirect users to login page
-		window.location.href = "../login.html?"+(window.location.href).split("?")[1];
+		window.location.href = "../login.html?" + (window.location.href).split("?")[1];
 	}
 	else {
 		listUserRole(loginData);
@@ -41,7 +41,7 @@ function listUserRole(userLoginData) {
 
 		let roleName = (entry.roleName) ? entry.roleName : '';
 		let roleID = (entry.roleID) ? entry.roleID : '';
-		let practID =(entry.practID) ? entry.practID : '';
+		let practID = (entry.practID) ? entry.practID : '';
 		let organizationName = (entry.organizationName) ? entry.organizationName : '';
 		let status = (entry.status) ? entry.status : '';
 		let patientIdentifier = (entry.patientIdentifier) ? entry.patientIdentifier : '';
@@ -52,18 +52,19 @@ function listUserRole(userLoginData) {
 		var createClickHandler =
 			function (entry) {
 				return function () {
-					
+
 					loginData.userSelectedRole = entry;
 					loginData.organization.name = entry.organizationName;
 					loginData.organization.id = entry.organizationID;
-					if(entry.roleName=="PractitionerRole"){
-						sessionSet("loginAccount", loginData, 30);
-						window.open('../AuthenticationService/index.html?' + params, "_self");
-					}
-					else if (entry.roleName=="Patient"){
-						loginData.patient.id=entry.roleID;
-						sessionSet("loginAccount", loginData, 30);
+					loginData.patient.id = (entry.roleName == "Patient") ? entry.roleID : "";
+
+					sessionSet("loginAccount", loginData, 30);
+
+					if (entry.roleName == "Patient" && entry.organizationID == "4533") {
 						window.open('../LearningPortal/index.html?' + params, "_self");
+					}
+					else {
+						window.open('../AuthenticationService/index.html?' + params, "_self");
 					}
 				};
 			};
