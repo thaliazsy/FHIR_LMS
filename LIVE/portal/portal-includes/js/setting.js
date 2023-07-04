@@ -4,7 +4,7 @@
 //let JWTAPIURL= 'http://203.64.84.33:33484/api/jwt';
 
 //let apiRoot = "https://localhost:44327/";	// Development
-let apiRoot = "'http://203.64.84.33:33484/";	// Release
+let apiRoot = "https://203.64.84.33:33484/";	// Release
 
 let FHIRURLLogin = apiRoot+ 'api/login';
 let JWTAPIURL = apiRoot + 'api/jwt';
