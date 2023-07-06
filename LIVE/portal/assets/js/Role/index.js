@@ -30,6 +30,8 @@ $(document).ready(function () {
 		window.location.href = "../login.html?" + (window.location.href).split("?")[1];
 	}
 	else {
+		//Set user name
+		document.getElementById("username").innerHTML= "Hi, " + loginData.person.name;
 		listUserRole(loginData);
 	}
 });
@@ -61,10 +63,10 @@ function listUserRole(userLoginData) {
 					sessionSet("loginAccount", loginData, 30);
 
 					if (entry.roleName == "Patient" && entry.organizationID == "4533") {
-						window.open('../LearningPortal/index.html?' + params, "_self");
+						window.open('../learning-portal/index.html?' + params, "_self");
 					}
 					else {
-						window.open('../AuthenticationService/index.html?' + params, "_self");
+						window.open('../authentication-service/index.html?' + params, "_self");
 					}
 				};
 			};

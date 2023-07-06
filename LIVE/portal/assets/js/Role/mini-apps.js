@@ -30,8 +30,10 @@ $(document).ready(function () {
 		window.location.href = "../login.html?" + (window.location.href).split("?")[1];
 	}
 	else {
-		let param = loginData.userSelectedRole;
-		getResource(MiniAppsURL, "", "?userRole=" + loginData.userSelectedRole.roleName, FHIRResponseType, listMiniApps);
+		//Set user name
+		document.getElementById("username").innerHTML= "Hi, " + loginData.person.name;
+		let param = "?userRole=" + loginData.userSelectedRole.roleName;
+		getResource(MiniAppsURL, "", param, FHIRResponseType, listMiniApps);
 	}
 });
 /*

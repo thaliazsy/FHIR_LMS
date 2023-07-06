@@ -8,6 +8,8 @@ $(document).ready(function () {
         window.location.href = "../login.html";
     }
     else {
+        //Set user name
+		document.getElementById("username").innerHTML= "Hi, " + loginData.person.name;
         //Display document
         displayDocument(FHIRURL, 'DocumentReference', '?author=' + loginData.userSelectedRole + "&_sort=-_lastUpdated", FHIRResponseType, 'listDocs');
     }

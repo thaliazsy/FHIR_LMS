@@ -7,7 +7,7 @@
     <!-- SITE CSS -->
     <link rel="stylesheet" type="text/css" href="../assets/css/site.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="../assets/css/reset.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="../assets/css/Role/index.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="../assets/css/role/index.css" media="screen" />
     <link rel="icon" type="image/png" href="../favicon-32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="../favicon-16x16.png" sizes="16x16" />
     <title>FHIR MedicalRecord</title>
@@ -20,7 +20,8 @@
     </div>
     <!-- /GLOBAL-LOADER -->
     <div id="Header">
-        <a href="../Role/index.html"><img src="../assets/img/home.png" class="topleft" /></a>
+        <a href="../role/index.html"><img src="../assets/img/home.png" class="topleft" /></a>
+        <a href="../role/index.html" id="username">Hi, User</a>
         <button class="topright" onclick="logOut()">Logout</button>
         <div id="Logo">
             <font color="red">FHIR</font> Document List
@@ -31,7 +32,7 @@
         <!-- </div> -->
         <div id="Left"></div>
         <nav>
-            <a href="/Role/mini-apps.html">Upload Data</a> | 
+            <a href="../role/mini-apps.html">Upload Data</a> | 
             <a id="accessData">Access Data</a>
         </nav>
         <div id="Body">
@@ -125,28 +126,28 @@
 </body>
 
 <!-- JQUERY JS -->
-<script src="../portal-includes/js/jquery.min.js"></script>
+<script src="../assets/js/0-global/jquery.min.js"></script>
 <!-- Crypto JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
 <!-- SHA256 JS -->
-<script src="../portal-includes/js/sha256.js"></script>
+<script src="../assets/js/0-global/sha256.js"></script>
 <!-- GLOBAL FUNCTION FOR ALL PAGE JS -->
-<script src="../portal-includes/js/site.js"></script>
+<script src="../assets/js/0-global/site.js"></script>
 <!-- SESSION JS -->
-<script src="../portal-includes/js/session.js"></script>
+<script src="../assets/js/0-global/session.js"></script>
 <!-- XMLHTTP REQUEST JS -->
-<script src="../portal-includes/js/HTTPRequest.js"></script>
+<script src="../assets/js/0-global/HTTPRequest.js"></script>
 <!-- FHIR SERVER SETTING JS -->
-<script src="../portal-includes/js/setting.js"></script>
+<script src="../assets/js/0-global/setting.js"></script>
 <!-- QUERY STRING SETTING JS -->
-<script src="../portal-includes/js/queryString.js"></script>
+<script src="../assets/js/0-global/queryString.js"></script>
 
 <!-- JWT JS -->
-<script src="../assets/js/functions/jwtToken.js"></script>
+<script src="../assets/js/0-global/jwtToken.js"></script>
 <!-- AES JS -->
-<script src="../assets/js/functions/AES.js"></script>
+<script src="../assets/js/0-global/AES.js"></script>
 
 <!-- MedicalRecord INDEX JS -->
-<script src="../assets/js/AuthenticationService/index.js"></script>
+<script src="../assets/js/authentication-service/index.js"></script>
 
 </html>

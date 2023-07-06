@@ -7,7 +7,7 @@
     <!-- SITE CSS -->
     <link rel="stylesheet" type="text/css" href="../assets/css/site.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="../assets/css/reset.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="../assets/css/Role/index.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="../assets/css/role/index.css" media="screen" />
     <link rel="icon" type="image/png" href="../favicon-32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="../favicon-16x16.png" sizes="16x16" />
     <title>FHIR MedicalRecord</title>
@@ -20,7 +20,8 @@
     </div>
     <!-- /GLOBAL-LOADER -->
     <div id="Header">
-        <a href="../Role/index.html"><img src="../assets/img/home.png" class="topleft" /></a>
+        <a href="index.html"><img src="../assets/img/home.png" class="topleft" /></a>
+        <a href="index.html" id="username">Hi, User</a>
         <button class="topright" onclick="logOut()">Logout</button>
         <div id="Logo">
             <font color="red">FHIR</font> User Role
@@ -106,13 +107,12 @@
     </div>
 </body>
 
-<script src="../portal-includes/js/jquery.min.js"></script>
-<script src="../portal-includes/js/sha256.js"></script>
-<script src="../portal-includes/js/setting.js"></script>
-<script src="../portal-includes/js/site.js"></script>
-<script src="../portal-includes/js/session.js"></script>
-<script src="../portal-includes/js/HTTPRequest.js"></script>
-<script src="../portal-includes/js/queryString.js"></script>
-<script src="../assets/js/Role/index.js"></script>
+<script src="../assets/js/0-global/HTTPRequest.js"></script>
+<script src="../assets/js/0-global/jquery.min.js"></script>
+<script src="../assets/js/0-global/queryString.js"></script>
+<script src="../assets/js/0-global/session.js"></script>
+<script src="../assets/js/0-global/setting.js"></script>
+<script src="../assets/js/0-global/site.js"></script>
+<script src="../assets/js/role/index.js"></script>
 
 </html>

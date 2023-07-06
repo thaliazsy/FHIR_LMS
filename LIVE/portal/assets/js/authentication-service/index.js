@@ -30,6 +30,8 @@ $(document).ready(function () {
 		window.location.href = "../login.html";
 	}
 	else {
+		//Set user name
+		document.getElementById("username").innerHTML= "Hi, " + loginData.person.name;
 		//Get user documents
 		let param = "&_sort=-_lastUpdated&type=skinlesion.report.document,skinlesion.image.document"
 		getResource(FHIRURL, 'DocumentReference', '?author=' + loginData.userSelectedRole.roleID + param, FHIRResponseType, 'listDocs');
