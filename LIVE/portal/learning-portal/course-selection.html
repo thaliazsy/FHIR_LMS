@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- SITE CSS -->
+    <link rel="stylesheet" type="text/css" href="../assets/css/site.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="../assets/css/reset.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="../assets/css/role/index.css" media="screen" />
+    <link rel="icon" type="image/png" href="../favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="../favicon-16x16.png" sizes="16x16" />
+    <title>FHIR MedicalRecord</title>
+</head>
+
+<body>
+    <!-- GLOBAL-LOADER -->
+    <div id="global-loader">
+        <img src="../assets/img/loader.svg" class="loader-img" alt="Loader">
+    </div>
+    <!-- /GLOBAL-LOADER -->
+    <div id="Header">
+        <a href="index.html"><img src="../assets/img/home.png" class="topleft" /></a>
+        <a href="index.html" id="username">Hi, User</a>
+        <button class="topright" onclick="logOut()">Logout</button>
+        <div id="Logo">
+            <font color="red">FHIR</font> Course Selection
+        </div>
+    </div>
+    <div id="Bodyer">
+        <!-- <div id="Head"> -->
+        <!-- </div> -->
+        <div id="Left"></div>
+        <div id="Body">
+            <div id="List">
+                <div class="List-MedicalRecord">
+                    <div class="Header">
+                        <div class="Title">Please select your course selection!</div>
+                    </div>
+                    <div class="Bodyer">
+                        <table style="border:1px" id="RoleTable">
+                            <thead>
+                                <th>No.</th>
+                                <th>Date Time</th>
+                                <th>Course / Seminar</th>
+                                <th>Organization</th>
+                                <th>Speaker</th>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="Footer">
+                        <div class="Tool">
+                            <div id="Page">
+                                <ul class="L1s">
+                                    <li class="L1 i1">
+                                        <div class="Title">1</div>
+                                    </li>
+                                    <li class="L1 i2">
+                                        <div class="Title">2</div>
+                                    </li>
+                                    <li class="L1 i3">
+                                        <div class="Title">3</div>
+                                    </li>
+                                    <li class="L1 i4">
+                                        <div class="Title">4</div>
+                                    </li>
+                                    <li class="L1 i5 Active">
+                                        <div class="Title">5</div>
+                                    </li>
+                                    <li class="L1 i6">
+                                        <div class="Title">6</div>
+                                    </li>
+                                    <li class="L1 i7">
+                                        <div class="Title">7</div>
+                                    </li>
+                                    <li class="L1 i8">
+                                        <div class="Title">8</div>
+                                    </li>
+                                    <li class="L1 i9">
+                                        <div class="Title">9</div>
+                                    </li>
+                                    <li class="L1 i10">
+                                        <div class="Title">10</div>
+                                    </li>
+                                </ul>
+                                <div class="Clear"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="Right"></div>
+        <div id="Foot"></div>
+        <div id="loadingPage" style="display:none;">
+            <div id="overlay" style="display:block;"></div>
+            <div id="loader"></div>
+        </div>
+    </div>
+    <div id="Footer">
+        <div id="CopyRight">
+            Copyright © 2022 TCU H707 All rights reserved
+        </div>
+    </div>
+</body>
+
+<script src="../assets/js/0-global/HTTPRequest.js"></script>
+<script src="../assets/js/0-global/jquery.min.js"></script>
+<script src="../assets/js/0-global/queryString.js"></script>
+<script src="../assets/js/0-global/session.js"></script>
+<script src="../assets/js/0-global/setting.js"></script>
+<script src="../assets/js/0-global/site.js"></script>
+<script src="../assets/js/learning-portal/course-selection.js"></script>
+
+</html>

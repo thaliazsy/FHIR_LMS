@@ -28,7 +28,7 @@ loginData = {
 	schedule: {
 		id: '860',
 		code: '100001101100',
-		name: 'Tel-Conference for Standardized Medical Document and Image Sharing',		
+		name: 'Tel-Conference for Standardized Medical Document and Image Sharing',
 		practitionerRoleID: '856',
 		practitionerName: '蕭嘉宏',
 		maxParticipant: 0,
@@ -163,9 +163,10 @@ function getSlotID(str) {
 }
 
 //Create new FHIR Patient
-function createPatient(){
-	patientJSONobj.name[0].text= loginData.person.name;
-	patientJSONobj.managingOrganization.reference= 'Organization/98a6f5c5-af58-41b5-bd6f-d8ca996b5580';	// Organization: Tzu Chi Hospital
+function createPatient() {
+	patientJSONobj.name[0].text = loginData.person.name;
+	patientJSONobj.managingOrganization.reference = 'Organization/98a6f5c5-af58-41b5-bd6f-d8ca996b5580';	// Organization: Tzu Chi Hospital
+	patientJSONobj.managingOrganization.display = 'Tzu Chi Hospital';
 }
 
 //Create new FHIR Person
@@ -206,7 +207,7 @@ function setToken(res) {
 		registeredUser.personId = obj.person;
 		formData = 'email=' + personJSONobj.identifier[0].value + '&password=' + personJSONobj.identifier[1].value;
 		//postResource(FHIRURLLogin, '', '', 'application/x-www-form-urlencoded', 'createAppointment', formData);
-		getAuthentication(FHIRURLLogin, 'application/x-www-form-urlencoded', formData,'Role/index.html');
+		getAuthentication(FHIRURLLogin, 'application/x-www-form-urlencoded', formData, 'role/index.html');
 	}
 
 }

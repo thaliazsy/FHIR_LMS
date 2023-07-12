@@ -31,7 +31,7 @@ $(document).ready(function () {
 	}
 	else {
 		//Set user name
-		document.getElementById("username").innerHTML= "Hi, " + loginData.person.name;
+		document.getElementById("username").innerHTML = "Hi, " + loginData.person.name;
 		listUserRole(loginData);
 	}
 });
@@ -62,7 +62,7 @@ function listUserRole(userLoginData) {
 
 					sessionSet("loginAccount", loginData, 30);
 
-					if (entry.roleName == "Patient" && entry.organizationID == "4533") {
+					if (entry.roleName == "Patient" && (entry.organizationID == "4533" || entry.organizationID == "MISAC")) {
 						window.open('../learning-portal/index.html?' + params, "_self");
 					}
 					else {

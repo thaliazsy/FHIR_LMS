@@ -121,8 +121,8 @@ function validateData() {
 // Create new FHIR Patient
 function createPatient() {
 	patientJSONobj.name[0].text = loginData.person.name;
-	patientJSONobj.managingOrganization.reference = 'Organization/4533';	// Organization: Tzu Chi University	
-	patientJSONobj.managingOrganization.display = 'Tzu Chi University';
+	patientJSONobj.managingOrganization.reference = 'Organization/MISAC';	// Organization: MISAC
+	patientJSONobj.managingOrganization.display = 'Medical Informatics Standard Application Consortium (MISAC)';
 }
 
 //Create new FHIR Person
@@ -162,7 +162,7 @@ function setToken(res) {
 		registeredUser.personId = obj.person;
 		formData = 'email=' + personJSONobj.identifier[0].value + '&password=' + personJSONobj.identifier[1].value;
 		//postResource(FHIRURLLogin, '', '', 'application/x-www-form-urlencoded', 'createAppointment', formData);
-		getAuthentication(FHIRURLLogin, 'application/x-www-form-urlencoded', formData, 'Role/index.html');
+		getAuthentication(FHIRURLLogin, 'application/x-www-form-urlencoded', formData, 'role/index.html');
 	}
 
 }

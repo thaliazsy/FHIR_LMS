@@ -25,7 +25,6 @@ let getScheduleIndex=0, getMaterialIndex=0;
 			window.location.href = "../login.html";
 		}
 		else {
-			
 			getResource(FHIRURL, 'Appointment', '?actor=Patient/' + loginData.userSelectedRole.roleID, FHIRResponseType, 'getAppointmentByPatientID');
 		}
 	});
@@ -53,7 +52,9 @@ let getScheduleIndex=0, getMaterialIndex=0;
 			//Step 2.1 If student have not select any course
 			if (totalAppt == 0)	
 			{
-				addNewCourseToList();
+				//addNewCourseToList();
+				// redirect to course selection
+				window.location.href = "course-selection.html";
 			}
 			//Step 2.2 If student have select courses before, check whether the this course include in student course list
 			else{
@@ -201,16 +202,6 @@ let getScheduleIndex=0, getMaterialIndex=0;
 		//}
 	}
 	
-	function addNewCourseToList(){
-		let userInfo = {
-			patientId: loginData.patient.id,
-			personId: loginData.person.id
-		}
-		postResource(SelectCourseAPI, '', '', 'text/' + FHIRResponseType, 'getAppointmentByPatientID', JSON.stringify(userInfo));
-		// loginData.patient.id= loginData.userSelectedRole.roleID;
-		// var str = getResource(FHIRURL, 'Slot', '?schedule=' + DB.schedule, FHIRResponseType, 'getSlotID');
-		// createAppointment(str); // in create-course.js
-	}
 /* END PAGE INITIALIZATION */
 
 function finalResult(str){
