@@ -25,6 +25,17 @@ let getScheduleIndex=0, getMaterialIndex=0;
 			window.location.href = "../login.html";
 		}
 		else {
+			if(loginData.userSelectedRole=="") {
+				loginData.roles.forEach(entry => {
+					if(entry.organizationID=="MISAC") {
+						loginData.userSelectedRole = entry;
+						loginData.organization.name = entry.organizationName;
+						loginData.organization.id = entry.organizationID;
+						loginData.patient.id = (entry.roleName == "Patient") ? entry.roleID : "";
+						sessionSet("loginAccount", loginData, 30);
+					}
+				});
+			}
 			getResource(FHIRURL, 'Appointment', '?actor=Patient/' + loginData.userSelectedRole.roleID, FHIRResponseType, 'getAppointmentByPatientID');
 		}
 	});
@@ -123,7 +134,7 @@ let getScheduleIndex=0, getMaterialIndex=0;
 		let obj= JSON.parse(str);
 		if (!isError(obj.resourceType, message.signUpFail + message.contactPerson))
 		{
-			if (obj.total == 0)	alert('無資料');
+			if (obj.total == 0)	console.log('無資料');
 			else{
 				obj.entry.map((entry, i) => {
 					var index=1;	//since relatedArtifact[0] store Schedule information instead of material 

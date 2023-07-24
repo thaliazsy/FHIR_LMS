@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../assets/css/role/index.css" media="screen" />
     <link rel="icon" type="image/png" href="../favicon-32x32.png" sizes="32x32" />
     <link rel="icon" type="image/png" href="../favicon-16x16.png" sizes="16x16" />
-    <title>FHIR MedicalRecord</title>
+    <title>MISAC - Course Selection</title>
 </head>
 
 <body>
@@ -24,7 +24,7 @@
         <a href="index.html" id="username">Hi, User</a>
         <button class="topright" onclick="logOut()">Logout</button>
         <div id="Logo">
-            <font color="red">FHIR</font> Course Selection
+            <font color="red">MISAC</font> Course Selection
         </div>
     </div>
     <div id="Bodyer">
@@ -37,9 +37,10 @@
                     <div class="Header">
                         <div class="Title">Please select your course selection!</div>
                     </div>
-                    <div class="Bodyer">
+                    <div class="Bodyer" style="margin:100px">
                         <table style="border:1px" id="RoleTable">
                             <thead>
+                                <th>☑</th>
                                 <th>No.</th>
                                 <th>Date Time</th>
                                 <th>Course / Seminar</th>
@@ -50,6 +51,7 @@
                             </tbody>
                         </table>
                     </div>
+                    <center><button onclick="registerClicked()">Register</button></center>
                     <div class="Footer">
                         <div class="Tool">
                             <div id="Page">

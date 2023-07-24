@@ -48,7 +48,7 @@
 #List .List-MedicalRecord .Bodyer table tbody tr:hover{background-color:#999; color: #eee; height: 40px;}
 #List .List-MedicalRecord .Bodyer table tbody tr td{text-align: center;}
 #List .List-MedicalRecord table {width: 100%; cursor: pointer;}
-#List .List-MedicalRecord table th {background-color: #ededed;font-weight: bold;height:50px; vertical-align: middle;}
+#List .List-MedicalRecord table th {padding-left: 20px; background-color: #ededed;font-weight: bold;height:50px; vertical-align: middle;}
 #List .List-MedicalRecord table td {padding-left: 20px; vertical-align:middle;}
 
 #List .List-MedicalRecord .Bodyer .L1s{}

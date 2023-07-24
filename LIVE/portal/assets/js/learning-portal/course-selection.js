@@ -36,8 +36,10 @@ $(document).ready(function () {
 
 	}
 });
+let selectedCourses = [];
 
 function listCourses(str) {
+	selectedCourses = [];
 	let obj = JSON.parse(str);
 	var total = obj.entry ? obj.entry.length : 0;
 	if (total > 0) {
@@ -59,22 +61,25 @@ function listCourses(str) {
 			var tr = document.createElement('tr');
 			var temp = [i + 1, dateTime, scheduleName, serviceCategory, practRoleName];
 			var params = (window.location.href).split("?")[1];
-			var createClickHandler =
-				function (entry) {
-					return function () {
-						loginData.schedule.id = scheduleID;
-						loginData.schedule.name = scheduleName;
-						loginData.schedule.serviceCategory = serviceCategory;
-						loginData.schedule.practitionerRoleID = practRoleID;
-						loginData.schedule.practitionerRoleName = practRoleName;
+			// var createClickHandler =
+			// 	function (entry) {
+			// 		return function () {
+			// 			loginData.schedule.id = scheduleID;
+			// 			loginData.schedule.name = scheduleName;
+			// 			loginData.schedule.serviceCategory = serviceCategory;
+			// 			loginData.schedule.practitionerRoleID = practRoleID;
+			// 			loginData.schedule.practitionerRoleName = practRoleName;
 
-						sessionSet("loginAccount", loginData, 30);
-						addNewCourseToList();
-						//window.open('../learning-portal/index.html?' + params, "_self");
-					};
-				};
-			tr.onclick = createClickHandler(entry);
-
+			// 			selectedCourses.push(loginData.schedule);
+			// 			// sessionSet("loginAccount", loginData, 30);
+			// 			// addNewCourseToList();
+			// 			// window.open('../learning-portal/index.html?' + params, "_self");
+			// 		};
+			// 	};
+			// tr.onclick = createClickHandler(entry);
+			var td = document.createElement('td');
+			td.innerHTML = '<input type="checkbox" id="' + scheduleID + '" name="courses">';
+			tr.appendChild(td);
 			for (var i = 0; i < temp.length; i++) {
 				var td = document.createElement('td');
 				td.innerHTML = temp[i];
@@ -86,11 +91,22 @@ function listCourses(str) {
 	document.getElementById("loadingPage").style.display = "none";
 }
 
-function addNewCourseToList(){
+function registerClicked() {
+	$("#global-loader").show();
+	let checkboxes = document.getElementsByName("courses");
+	checkboxes.forEach(element => {
+		scheduleID = element.id;
+		if (document.getElementById(scheduleID).checked) {
+			addNewCourseToList(scheduleID);
+		}
+	});
+}
+
+function addNewCourseToList(scheduleID) {
 	let userInfo = {
 		patientId: loginData.patient.id, //1234
 		personId: loginData.person.id,	//2233
-		scheduleId: loginData.schedule.id //3344
+		scheduleId: scheduleID //3344
 	}
 	postResource(SelectCourseAPI, '', '', 'text/' + FHIRResponseType, 'window.location.href="index.html"', JSON.stringify(userInfo));
 	// loginData.patient.id= loginData.userSelectedRole.roleID;

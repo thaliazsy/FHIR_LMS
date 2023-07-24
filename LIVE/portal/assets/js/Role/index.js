@@ -32,7 +32,21 @@ $(document).ready(function () {
 	else {
 		//Set user name
 		document.getElementById("username").innerHTML = "Hi, " + loginData.person.name;
+
+		if (loginData.userSelectedRole == "") {
+			loginData.roles.forEach(entry => {
+				if (entry.organizationID == "MISAC") {
+					loginData.userSelectedRole = entry;
+					loginData.organization.name = entry.organizationName;
+					loginData.organization.id = entry.organizationID;
+					loginData.patient.id = (entry.roleName == "Patient") ? entry.roleID : "";
+					sessionSet("loginAccount", loginData, 30);
+					window.open('../learning-portal/index.html', "_self");
+				}
+			});
+		}
 		listUserRole(loginData);
+		
 	}
 });
 /*
