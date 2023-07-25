@@ -52,20 +52,20 @@ let field = {
 	code: ["name", "email", "ppassword", "gender", "institution", "jobPosition", "nationality"],
 	placeholder: ["", "", "", "例如： 慈濟大學 / 慈濟醫院", "例如： 學生 / 教授 / 護理人員",],
 	desc: [],
-	isRequired: [1, 1, 1, 0, 1, 1, 1],
+	isRequired: [1, 1, 1, 0, 0, 0, 0],
 	type: ["text", "email", "password", "radio", "text", "text", "text", "text"]
 };
 
 if (web_language == "CH") {
-	field.desc = ["姓名", "Email", "密碼", "就讀機構", "職稱"];
+	field.desc = ["姓名（暱稱）", "Email", "密碼", "就讀機構", "職稱"];
 	siteName = "TCUMI 平台"
 	pageName = "註冊網頁";
 }
 else if (web_language == "EN") {
-	field.desc = ["Name", "Email", "Password", "Gender", "Educational/Working Institution", "Job Position", "Nationality"];
+	field.desc = ["Name (nickname)", "Email", "Password", "Gender", "Educational/Working Institution", "Job Position", "Nationality"];
 	field.placeholder = ["", "", "", "", "e.g. Tzu Chi University", "", ""];
 	siteName = "TCUMI Portal"
-	pageName = "Sign Up";
+	pageName = "Register";
 }
 
 //local variable for store temporary json obj
@@ -93,9 +93,13 @@ function showForm() {
 		temp += '</td><td class="col-02">:&nbsp;';
 
 		if (field.type[i] == "radio")
-			temp += '<input type="radio" id="male" name="gender" value="male" checked><label for="male"> &nbsp;male</label> &nbsp;<input type="radio" id="female" name="gender" value="female"><label for="female"> &nbsp;female</label';
+		{
+			temp += '<input type="radio" id="male" name="gender" value="male" ><label for="male"> &nbsp;male</label> &nbsp;'+
+					'<input type="radio" id="female" name="gender" value="female"><label for="female"> &nbsp;female</label> &nbsp;'+
+					'<input type="radio" id="other" name="gender" value="other" checked><label for="other"> &nbsp;other</label';
+		}
 		else
-			temp += '<input class="signup-field" type="' + field.type[i] + '" id="' + field.code[i] + '" name="' + field.code[i] + '" placeholder="' + field.placeholder[i] + '" ';
+			temp += '<input class="register-field" type="' + field.type[i] + '" id="' + field.code[i] + '" name="' + field.code[i] + '" placeholder="' + field.placeholder[i] + '" ';
 
 		if (field.type[i] == "password")
 			temp += 'onkeyup="SHA256PWD.value = sha256(this.value);" ';
@@ -105,8 +109,8 @@ function showForm() {
 
 		temp += '><br></td></tr>';
 	}
-	temp += '<tr><td colspan="2" align="right"><input id="signup-btn" type="button" value="Submit" onclick="validateData()"></td></tr>';
-	$("#signup-table").html(temp);
+	temp += '<tr><td colspan="2" align="right"><input id="register-btn" type="button" value="Submit" onclick="validateData()"></td></tr>';
+	$("#register-table").html(temp);
 
 	showWebsiteInfo();
 }
@@ -187,9 +191,9 @@ function finalResult(res) {
 	var obj = JSON.parse(res);
 	//2.1.1 Get account information
 	let token = res.getResponseHeader("Authorization");
-	if (!isError(obj.resourceType, message.signUpFail + message.contactPerson)) {
+	if (!isError(obj.resourceType, message.registerFail + message.contactPerson)) {
 		$("#global-loader").hide();
-		alert(message.signUpOK);
+		alert(message.registerOK);
 		window.close();
 	}
 }

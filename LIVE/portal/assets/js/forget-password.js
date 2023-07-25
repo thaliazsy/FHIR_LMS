@@ -8,14 +8,14 @@ let field= {
 	isRequired: [1,1],		
 	//field type e.g. text, number, password
 	type: ["email", "password"],
-	signUpPage: ""
+	registerPage: ""
 };
 
 if(web_language=="CH")
 {
 	field.desc= ["帳號 (Email)", "密碼"];
 	pageName= "登入網頁";
-	field.signUpPage= "報名請點我";
+	field.registerPage= "報名請點我";
 }
 else if(web_language=="EN")
 {
@@ -88,7 +88,7 @@ function showWebsiteInfo()
 	document.title= loginData.schedule.name + " - " + pageName;
 	$("#header").html(loginData.schedule.name + "<br>" + pageName);
 	message.contactPerson= "please contact " + loginData.organization.cpname + "<br>Phone No.：" + loginData.organization.cpphone + "<br>Email：" + loginData.organization.cpemail;
-	$("#cp").html(message.signInFail + message.contactPerson);
+	$("#cp").html(message.loginFail + message.contactPerson);
 }
 
 //Validate data input by user

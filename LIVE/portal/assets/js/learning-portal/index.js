@@ -56,7 +56,7 @@ let getScheduleIndex=0, getMaterialIndex=0;
 	//Step 2. Get all Student's courses which belong to 1 Organization
 	function getAppointmentByPatientID(str){
 		let obj= JSON.parse(str);
-		if (!isError(obj.resourceType, message.signUpFail + message.contactPerson))
+		if (!isError(obj.resourceType, message.registerFail + message.contactPerson))
 		{
 			totalAppt= obj.entry? obj.entry.length: 0;
 			
@@ -87,7 +87,7 @@ let getScheduleIndex=0, getMaterialIndex=0;
 	//Retrieve: Schedule ID
 	function getSlotByID(str){
 		let obj= JSON.parse(str);
-		if (!isError(obj.resourceType, message.signUpFail + message.contactPerson))
+		if (!isError(obj.resourceType, message.registerFail + message.contactPerson))
 		{
 			let slotID= (obj.id) ? obj.id : '';
 			let scheduleID= (obj.schedule) ? obj.schedule.reference.split('/')[1] : '';
@@ -99,7 +99,7 @@ let getScheduleIndex=0, getMaterialIndex=0;
 	function getSchedule(str){
 		getScheduleIndex++;
 		let obj= JSON.parse(str);
-		if (!isError(obj.resourceType, message.signUpFail + message.contactPerson))
+		if (!isError(obj.resourceType, message.registerFail + message.contactPerson))
 		{
 			let scheduleID = (obj.id) ? obj.id : '';
 			let courseName = (obj.specialty) ? obj.specialty[0].coding[0].display : '';
@@ -132,7 +132,7 @@ let getScheduleIndex=0, getMaterialIndex=0;
 	function getMaterialByScheduleID(str){
 		getMaterialIndex++;
 		let obj= JSON.parse(str);
-		if (!isError(obj.resourceType, message.signUpFail + message.contactPerson))
+		if (!isError(obj.resourceType, message.registerFail + message.contactPerson))
 		{
 			if (obj.total == 0)	console.log('無資料');
 			else{
@@ -217,7 +217,7 @@ let getScheduleIndex=0, getMaterialIndex=0;
 
 function finalResult(str){
 	let obj= JSON.parse(str);
-	if (!isError(obj.resourceType, message.signUpFail + message.contactPerson))
+	if (!isError(obj.resourceType, message.registerFail + message.contactPerson))
 	{
 		$("#global-loader").hide();
 		alert(loginData.schedule.name + " course have successfully added to your course list!");

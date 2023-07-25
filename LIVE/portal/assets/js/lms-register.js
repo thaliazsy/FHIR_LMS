@@ -16,7 +16,7 @@ else if (web_language == "EN") {
 	field.desc = ["Name", "Email", "Password", "Gender", "Educational/Working Institution", "Job Position", "Nationality"];
 	field.placeholder = ["", "", "", "", "e.g. Tzu Chi University", "", ""];
 	siteName = "TCUMI Learning Portal"
-	pageName = "Sign Up";
+	pageName = "Register";
 }
 
 // local variable for store temporary json obj
@@ -51,7 +51,7 @@ function showForm() {
 		if (field.type[i] == "radio")
 			temp += '<input type="radio" id="male" name="gender" value="male" checked><label for="male"> &nbsp;male</label> &nbsp;<input type="radio" id="female" name="gender" value="female"><label for="female"> &nbsp;female</label';
 		else
-			temp += '<input class="signup-field" type="' + field.type[i] + '" id="' + field.code[i] + '" name="' + field.code[i] + '" placeholder="' + field.placeholder[i] + '" ';
+			temp += '<input class="register-field" type="' + field.type[i] + '" id="' + field.code[i] + '" name="' + field.code[i] + '" placeholder="' + field.placeholder[i] + '" ';
 
 		if (field.type[i] == "password")
 			temp += 'onkeyup="SHA256PWD.value = sha256(this.value);" ';
@@ -61,8 +61,8 @@ function showForm() {
 
 		temp += '><br></td></tr>';
 	}
-	temp += '<tr><td colspan="2" align="right"><input id="signup-btn" type="button" value="Submit" onclick="validateData()"></td></tr>';
-	$("#signup-table").html(temp);
+	temp += '<tr><td colspan="2" align="right"><input id="register-btn" type="button" value="Submit" onclick="validateData()"></td></tr>';
+	$("#register-table").html(temp);
 
 	showWebsiteInfo();
 }
@@ -142,9 +142,9 @@ function createPerson() {
 // 	var obj = JSON.parse(res.response);
 // 	//2.1.1 Get account information
 // 	let token = res.getResponseHeader("Authorization");
-// 	if (!isError(obj.resourceType, message.signUpFail + message.contactPerson)) {
+// 	if (!isError(obj.resourceType, message.registerFail + message.contactPerson)) {
 // 		$("#global-loader").hide();
-// 		alert(message.signUpOK);
+// 		alert(message.registerOK);
 // 		window.close();
 // 	}
 // }

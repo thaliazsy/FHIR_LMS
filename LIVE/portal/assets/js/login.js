@@ -10,18 +10,18 @@ let field = {
 	desc: [],
 	isRequired: [1, 1],
 	type: ["text", "password"],
-	signUpPage: ""
+	registerPage: ""
 };
 let personstr = '';
 
 if (web_language == "CH") {
 	field.desc = ["帳號 (Email)", "密碼"];	
-	field.signUpPage = "報名請點我";
+	field.registerPage = "註冊請點我";
 	pageName = "登入網頁";
 }
 else if (web_language == "EN") {
 	field.desc = ["Email", "Password"];
-	field.signUpPage = "Click here to sign up";
+	field.registerPage = "Click here to register";
 	pageName = "Login";
 }
 
@@ -56,7 +56,7 @@ function showForm() {
 	}
 	temp += '<tr><td colspan="2" align="right"><input id="btnSubmit" type="button" value="Submit" onclick="validateData()"></td></tr>';
 	$('#mainTable').html(temp);
-	$('#linkToSignUpPage').html(field.signUpPage);
+	$('#linkToRegisterPage').html(field.registerPage);
 
 	showWebsiteInfo();
 }
@@ -102,7 +102,7 @@ function showWebsiteInfo() {
 	document.title = loginData.organization.name + " - " + pageName;
 	$("#header").html(loginData.organization.name + "<br>" + pageName);
 	message.contactPerson = "please contact " + loginData.organization.cpname + "<br>Phone No.：" + loginData.organization.cpphone + "<br>Email：" + loginData.organization.cpemail;
-	$("#cp").html(message.signInFail + message.contactPerson);
+	$("#cp").html(message.loginFail + message.contactPerson);
 }
 /* END PAGE INITIALIZATION */
 

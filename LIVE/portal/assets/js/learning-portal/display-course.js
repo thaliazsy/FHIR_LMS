@@ -87,7 +87,7 @@ function getPatient(str) {
 
 function finalResult(str) {
     let obj = JSON.parse(str);
-    if (!isError(obj.resourceType, message.signUpFail + message.contactPerson)) {
+    if (!isError(obj.resourceType, message.registerFail + message.contactPerson)) {
         //Add patient ID to list
         CPatient.roleName = "Patient";
         CPatient.patientID = loginData.patient.id;

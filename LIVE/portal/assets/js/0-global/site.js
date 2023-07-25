@@ -7,9 +7,9 @@ var pageName='';
 
 let message= {
 	contactPerson: "",
-	signUpFail: "",
-	signUpOK: "",	
-	signInFail: "",
+	registerFail: "",
+	registerOK: "",	
+	loginFail: "",
 	requiredField: "",
 	emailFormatWrong: "",
 	accountExist: "",
@@ -23,9 +23,9 @@ if(web_language=="CH")
 {
 	// message.contactPerson= "請聯絡" + info.universityName + " " + info.universityDept +
 				   // " " + info.cpName + "<br>電話：" + info.cpPhone + "<br>郵件：" + info.cpEmail;
-	message.signUpFail= "註冊失敗!";
-	message.signUpOK= "註冊成功";	//, 需等1-2分鐘才可以登入唷！";
-	message.signInFail= "無法登入或忘記密碼";
+	message.registerFail= "註冊失敗!";
+	message.registerOK= "註冊成功";	//, 需等1-2分鐘才可以登入唷！";
+	message.loginFail= "無法登入或忘記密碼";
 	message.requiredField= "表單未填寫完畢";
 	message.emailFormatWrong= "Email 格式錯誤";
 	message.accountExist= "該帳號已註冊過!";
@@ -37,9 +37,9 @@ if(web_language=="CH")
 else if(web_language=="EN")
 {
 	message.contactPerson='';
-	message.signUpFail= "Registration failed!";
-	message.signUpOK= "Registration completed!"; //, please wait 1-2 minutes for sign in！";
-	message.signInFail= "Sign in failed or forget password, ";
+	message.registerFail= "Registration failed!";
+	message.registerOK= "Registration completed!"; //, please wait 1-2 minutes for login！";
+	message.loginFail= "Login failed or forget password, ";
 	message.requiredField= "Required field must not be empty";
 	message.emailFormatWrong= "Wrong email format";
 	message.accountExist= "This email has been registered!";
