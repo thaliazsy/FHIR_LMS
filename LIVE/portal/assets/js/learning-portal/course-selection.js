@@ -36,6 +36,25 @@ $(document).ready(function () {
 
 	}
 });
+
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function () {
+	modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function (event) {
+	if (event.target == modal) {
+		modal.style.display = "none";
+	}
+}
+
 let selectedCourses = [];
 
 function listCourses(str) {
@@ -45,21 +64,50 @@ function listCourses(str) {
 	if (total > 0) {
 		obj.entry.map((entry, i) => {
 
+			let startDate = (entry.resource.planningHorizon.start) ? entry.resource.planningHorizon.start.split("T")[0] : '';
+			let endDate = (entry.resource.planningHorizon.end) ? entry.resource.planningHorizon.end.split("T")[0] : '';
+
+
+			let date = (startDate == endDate) ? startDate : startDate + "~" + endDate;
+			let startTime = (entry.resource.planningHorizon.start) ? entry.resource.planningHorizon.start.split("T")[1].slice(0, 5) : '';
+			let endTime = (entry.resource.planningHorizon.end) ? entry.resource.planningHorizon.end.split("T")[1].slice(0, 5) : '';
+			let time = startTime + "~" + endTime;
+			let dateTime = date + "<br>" + time;
+
 			let scheduleName = (entry.resource.name) ? entry.resource.name : '';
 			let scheduleID = (entry.resource.id) ? entry.resource.id : '';
 			let practRoleID = (entry.resource.actor[0].reference) ? entry.resource.actor[0].reference : '';
 			let practRoleName = (entry.resource.actor[0].display) ? entry.resource.actor[0].display : '';
 			let serviceCategory = (entry.resource.serviceCategory[0].coding[0].display) ? entry.resource.serviceCategory[0].coding[0].display : '';
-			let startDate = (entry.resource.planningHorizon.start) ? entry.resource.planningHorizon.start.split("T")[0] : '';
-			let endDate = (entry.resource.planningHorizon.end) ? entry.resource.planningHorizon.end.split("T")[0] : '';
-			let date = (startDate == endDate) ? startDate : startDate + "~" + endDate;
-			let startTime = (entry.resource.planningHorizon.start) ? entry.resource.planningHorizon.start.split("T")[1].slice(0, -4) : '';
-			let endTime = (entry.resource.planningHorizon.end) ? entry.resource.planningHorizon.end.split("T")[1].slice(0, -4) : '';
-			let time = startTime + "~" + endTime;
-			dateTime = date + "<br>" + time;
+
+			let comment = (entry.resource.comment) ? entry.resource.comment : '';
+			let location = "", posterUrl = "";
+			if (comment != "") {
+				var lines = comment.split("\n");
+				lines.forEach(line => {
+					if (line.split(": ")[0] == "Location") {
+						location = line.split(": ")[1];
+					}
+					else if (line.split(": ")[0] == "Poster") {
+						posterUrl = document.createElement("input");
+						posterUrl.type = "button";
+						posterUrl.style = "background-image:url(../assets/img/poster.png);background-size: 30px 30px;background-position:center;width:25px;height:30px;";
+
+						posterUrl.addEventListener('click', function () {
+							var modal = document.getElementById("myModal");
+							modal.style.display = "block";
+							var modalContent = document.getElementById("modal-content");
+							var image = document.getElementById("modalImg");
+							image.src = line.split(": ")[1];
+						});
+
+						//posterUrl = line.split(": ")[1]
+					}
+				});
+			}
 
 			var tr = document.createElement('tr');
-			var temp = [i + 1, dateTime, scheduleName, serviceCategory, practRoleName];
+			var temp = [i + 1, dateTime, scheduleName, location, practRoleName, serviceCategory, posterUrl];
 			var params = (window.location.href).split("?")[1];
 			// var createClickHandler =
 			// 	function (entry) {
@@ -78,11 +126,25 @@ function listCourses(str) {
 			// 	};
 			// tr.onclick = createClickHandler(entry);
 			var td = document.createElement('td');
-			td.innerHTML = '<input type="checkbox" id="' + scheduleID + '" name="courses">';
+			const todayDate = new Date();
+			let today = new Date();
+			let date1 = new Date(startDate);
+
+			if (today <= date1) {
+				td.innerHTML = '<input type="checkbox" id="' + scheduleID + '" name="courses">';
+				console.log(startDate + " course available");
+			}
+
 			tr.appendChild(td);
 			for (var i = 0; i < temp.length; i++) {
 				var td = document.createElement('td');
-				td.innerHTML = temp[i];
+				if (temp[i] instanceof Element || temp[i] instanceof Document) {
+					td.appendChild(temp[i]);
+				}
+				else {
+
+					td.innerHTML = temp[i];
+				}
 				tr.appendChild(td);
 			}
 			document.getElementById('RoleTable').getElementsByTagName('tbody')[0].appendChild(tr);

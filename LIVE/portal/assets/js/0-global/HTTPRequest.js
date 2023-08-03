@@ -394,6 +394,11 @@ function retValue(obj) {
         //alert('Error!\n' + err);
         return 0;
     }
+    else if(obj.errmsg!=null){
+        alert(obj.errmsg);
+        $("#global-loader").hide();
+        return 0;
+    }
     else {
         //alert('Finished!\nFHIR Resource ID: ' + id);
         return id;
