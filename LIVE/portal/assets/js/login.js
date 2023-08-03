@@ -14,6 +14,7 @@ let field = {
 };
 let personstr = '';
 
+web_language = "CH";
 if (web_language == "CH") {
 	field.desc = ["帳號 (Email)", "密碼"];	
 	field.registerPage = "註冊請點我";
