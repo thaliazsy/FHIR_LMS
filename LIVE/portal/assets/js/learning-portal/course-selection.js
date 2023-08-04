@@ -173,11 +173,40 @@ function addNewCourseToList(scheduleID) {
 		personId: loginData.person.id,	//2233
 		scheduleId: scheduleID //3344
 	}
-	postResource(SelectCourseAPI, '', '', 'text/' + FHIRResponseType, 'window.location.href="index.html"', JSON.stringify(userInfo));
+	postResource(SelectCourseAPI, '', '', 'text/' + FHIRResponseType, 'sendEmail', JSON.stringify(userInfo));
 	// loginData.patient.id= loginData.userSelectedRole.roleID;
 	// var str = getResource(FHIRURL, 'Slot', '?schedule=' + DB.schedule, FHIRResponseType, 'getSlotID');
 	// createAppointment(str); // in create-course.js
 }
+
+function sendEmail() {
+	$("#global-loader").hide();
+	var modalBody = document.getElementById("modal-body");
+	modalBody.innerHTML = "<br><br><center>";
+
+	var h3 = document.createElement("h3");	
+	h3.className = "modal-body";
+	h3.innerHTML = "請確認[信箱]或者[垃圾信箱]有沒有收到報名成功信件，如無收到請聯繫：gue0857@gmail.com，由專人為你服務。";
+	modalBody.appendChild(h3);
+
+	modalBody.innerHTML+= "<br><br>";
+
+	var btn = document.createElement("input");
+	btn.className = "modal-body";
+	btn.type="button";
+	btn.value = "查看我的課程"
+	btn.addEventListener('click', function () {
+		window.location.href = "index.html";
+	});
+	modalBody.appendChild(btn);
+
+	var modal = document.getElementById("myModal");
+	modal.style.display = "block";
+
+	//alert("請確認[信箱]或者[垃圾信箱]有沒有收到報名成功信件，如無收到請聯繫：gue0857@gmail.com，由專人為你服務。");
+}
+
+
 
 function authenticateRole(role) {
 	alert(role);
