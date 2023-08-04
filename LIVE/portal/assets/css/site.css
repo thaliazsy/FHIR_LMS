@@ -287,6 +287,11 @@ small, .small {
     width: 80%; /* Could be more or less, depending on screen size */
     align-items: center;
   }
+
+  .modal-body{
+    display: block;
+    margin: auto;
+  }
   
   /* The Close Button */
   .close {

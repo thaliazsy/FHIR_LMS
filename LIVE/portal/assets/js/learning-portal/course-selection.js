@@ -55,10 +55,7 @@ window.onclick = function (event) {
 	}
 }
 
-let selectedCourses = [];
-
 function listCourses(str) {
-	selectedCourses = [];
 	let obj = JSON.parse(str);
 	var total = obj.entry ? obj.entry.length : 0;
 	if (total > 0) {
@@ -94,11 +91,17 @@ function listCourses(str) {
 						posterUrl.style = "background-image:url(../assets/img/poster.png);background-size: 30px 30px;background-position:center;width:25px;height:30px;";
 
 						posterUrl.addEventListener('click', function () {
+							var modalBody = document.getElementById("modal-body");
+							modalBody.innerHTML = "";
+							var image = document.createElement("img");
+							image.src = line.split(": ")[1];
+							image.className = "modal-body";
+							image.style.height = "70%";
+							
+							modalBody.appendChild(image);
+
 							var modal = document.getElementById("myModal");
 							modal.style.display = "block";
-							var modalContent = document.getElementById("modal-content");
-							var image = document.getElementById("modalImg");
-							image.src = line.split(": ")[1];
 						});
 
 						//posterUrl = line.split(": ")[1]
