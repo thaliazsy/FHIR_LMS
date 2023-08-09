@@ -10,19 +10,20 @@ let field = {
 	desc: [],
 	isRequired: [1, 1],
 	type: ["text", "password"],
-	registerPage: ""
 };
 let personstr = '';
 
 web_language = "CH";
 if (web_language == "CH") {
-	field.desc = ["帳號 (Email)", "密碼"];	
-	field.registerPage = "註冊請點我";
+	field.desc = ["帳號 (Email)", "密碼"];
+	field.register = "註冊";
+	field.login = "登入";
 	pageName = "登入網頁";
 }
 else if (web_language == "EN") {
 	field.desc = ["Email", "Password"];
-	field.registerPage = "Click here to register";
+	field.register = "Register";
+	field.login = "Login";
 	pageName = "Login";
 }
 
@@ -55,9 +56,10 @@ function showForm() {
 
 		temp += '><br></td></tr>';
 	}
-	temp += '<tr><td colspan="2" align="right"><input id="btnSubmit" type="button" value="Submit" onclick="validateData()"></td></tr>';
+	url = "'lms-register.html';";
+	temp += '<tr><td align="right"><input id="btnRegister" type="button" value="' + field.register + '" onclick="window.location.href=' + url + '" /></td>';
+	temp += '<td align="right"><input id="btnLogin" type="button" value="' + field.login + '" onclick="validateData()" /></td></tr>'
 	$('#mainTable').html(temp);
-	$('#linkToRegisterPage').html(field.registerPage);
 
 	showWebsiteInfo();
 }
@@ -114,7 +116,7 @@ function validateData() {
 		$("#global-loader").show();
 		var formData = urlEncodeFormData(document.getElementById('loginForm'));
 		//function getAuthentication(url, FHIRResponseType, RequestData, redirect_uri){
-		getAuthentication(FHIRURLLogin, 'application/x-www-form-urlencoded', formData,'role/index.html');
+		getAuthentication(FHIRURLLogin, 'application/x-www-form-urlencoded', formData, 'role/index.html');
 		//postResource(FHIRURLLogin, '', '', 'application/x-www-form-urlencoded', 'getUserInformation', formData);
 	}
 }

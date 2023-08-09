@@ -356,7 +356,7 @@ function checkRequiredField(fieldArr){
 	if (isEmpty || formatIsWrong){
 		if (isEmpty) alert(message.requiredField);
 		if (formatIsWrong) alert(message.emailFormatWrong);
-		document.getElementById("btnSubmit").disabled = false;
+		document.getElementById("btnLogin").disabled = false;
 		return 0;
 	}
 	return 1;

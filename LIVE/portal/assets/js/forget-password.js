@@ -40,7 +40,7 @@ $(document).ready(function(){
 			
 		temp += '><br></td></tr>';
 	}
-	temp+= '<tr><td colspan="2" align="right"><input id="btnSubmit" type="button" value="Submit" onclick="dataValidation()"></td></tr>';
+	temp+= '<tr><td colspan="2" align="right"><input id="btnLogin" type="button" value="Submit" onclick="dataValidation()"></td></tr>';
 	document.getElementById('mainTable').innerHTML= temp;
 	
 	// Get Organization Information
