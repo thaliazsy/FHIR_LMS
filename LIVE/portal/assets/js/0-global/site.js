@@ -2,7 +2,7 @@
     Public variable area
 */
 var partOfid = '';
-var web_language= "EN";
+var web_language= "CH";
 var pageName='';
 
 let message= {

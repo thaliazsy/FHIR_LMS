@@ -7,8 +7,6 @@ let field = {
 	type: ["text", "email", "password", "radio", "text", "text", "text", "text"]
 };
 
-web_language ="CH";
-
 if (web_language == "CH") {
 	field.desc = ["姓名", "電子郵件", "密碼", "性別", "就讀學校", "職稱", "國籍"];
 	field.placeholder = ["", "", "", "", "慈濟大學", "", ""];

@@ -13,7 +13,6 @@ let field = {
 };
 let personstr = '';
 
-web_language = "CH";
 if (web_language == "CH") {
 	field.desc = ["帳號 (Email)", "密碼"];
 	field.register = "註冊";
@@ -104,7 +103,7 @@ function getSchedule(str) {
 function showWebsiteInfo() {
 	document.title = loginData.organization.name + " - " + pageName;
 	$("#header").html(loginData.organization.name + "<br>" + pageName);
-	message.contactPerson = "please contact " + loginData.organization.cpname + "<br>Phone No.：" + loginData.organization.cpphone + "<br>Email：" + loginData.organization.cpemail;
+	message.contactPerson = "請聯絡 " + loginData.organization.cpname + "<br>Phone No.：" + loginData.organization.cpphone + "<br>Email：" + loginData.organization.cpemail;
 	$("#cp").html(message.loginFail + message.contactPerson);
 }
 /* END PAGE INITIALIZATION */
