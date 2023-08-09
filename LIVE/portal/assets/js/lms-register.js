@@ -3,14 +3,14 @@ let field = {
 	code: ["name", "email", "ppassword", "gender", "institution", "jobPosition", "nationality"],
 	placeholder: ["", "", "", "例如： 慈濟大學 / 慈濟醫院", "例如： 學生 / 教授 / 護理人員",],
 	desc: [],
-	isRequired: [1, 1, 1, 0, 0, 0, 0],
+	isRequired: [1, 1, 1, 0, 1, 0, 0],
 	type: ["text", "email", "password", "radio", "text", "text", "text", "text"]
 };
 
 web_language ="CH";
 
 if (web_language == "CH") {
-	field.desc = ["姓名", "電子郵件", "密碼", "性別", "就讀機構", "職稱", "國籍"];
+	field.desc = ["姓名", "電子郵件", "密碼", "性別", "就讀學校", "職稱", "國籍"];
 	field.placeholder = ["", "", "", "", "慈濟大學", "", ""];
 	siteName = "TCUMI 學習平台"
 	pageName = "註冊網頁";
